@@ -191,6 +191,15 @@
               <div class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"></div>
             </label>
           </div>
+
+          <!-- Hover Pop-out Toggle -->
+          <div class="flex items-center justify-between py-1 border-b border-hairline/50">
+            <span class="font-sans text-xs font-medium text-body">Pop Slices on Hover</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="toggle-hover-pop" checked class="sr-only peer" />
+              <div class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"></div>
+            </label>
+          </div>
         </div>
       </div>
 
@@ -253,9 +262,24 @@
     <div class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl3 flex flex-col items-center gap-6">
       <div class="w-full flex items-center justify-between border-b border-hairline pb-3">
         <span class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider select-none">[ Live Chart Preview ]</span>
-        <div class="flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="font-sans text-[10px] font-medium text-mute">Synced</span>
+        <div class="flex items-center gap-3">
+          <button 
+            id="btn-reset-preview" 
+            class="inline-flex items-center justify-center gap-1 text-[10px] font-sans font-medium text-body hover:text-ink cursor-pointer border border-hairline hover:bg-canvas-soft-2 px-2 py-0.5 rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+            title="Reset chart data and configurations to defaults"
+            type="button"
+          >
+            <!-- Reset Icon -->
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="shrink-0" aria-hidden="true">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38l.56-.56" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Reset</span>
+          </button>
+          <span class="w-[1px] h-3 bg-hairline"></span>
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="font-sans text-[10px] font-medium text-mute">Synced</span>
+          </div>
         </div>
       </div>
 
@@ -418,6 +442,7 @@
   const inputTitle = document.getElementById('chart-title');
   const inputSubtitle = document.getElementById('chart-subtitle');
   const toggle3D = document.getElementById('toggle-3d');
+  const toggleHoverPop = document.getElementById('toggle-hover-pop');
   
   // Dynamic Sliders Groupings
   const sliderDonutHoleGroup = document.getElementById('slider-donut-hole-group');
@@ -464,6 +489,7 @@
   const btnExportPng = document.getElementById('btn-export-png');
   const btnExportSvg = document.getElementById('btn-export-svg');
   const btnCopySvg = document.getElementById('btn-copy-svg');
+  const btnResetPreview = document.getElementById('btn-reset-preview');
 
   // Toast
   const toastNode = document.getElementById('toast-notification');
@@ -510,6 +536,13 @@
     toggle3D.addEventListener('change', (e) => {
       chartConfig.is3D = e.target.checked;
       updateControlVisibility();
+      triggerRender();
+    });
+
+    // Hover cutaway toggle
+    toggleHoverPop.checked = !chartConfig.disableHoverOffset;
+    toggleHoverPop.addEventListener('change', (e) => {
+      chartConfig.disableHoverOffset = !e.target.checked;
       triggerRender();
     });
 
@@ -562,6 +595,9 @@
 
     // Drafts
     btnDraftSave.addEventListener('click', saveDraft);
+
+    // Reset preview
+    btnResetPreview.addEventListener('click', resetChartToDefaults);
 
     // Load URL state or default localStorage state
     loadUrlOrStorageState();
@@ -1106,7 +1142,8 @@
         t: chartConfig.tilt,
         h: chartConfig.height3D,
         ti: chartConfig.title,
-        sub: chartConfig.subtitle
+        sub: chartConfig.subtitle,
+        ho: chartConfig.disableHoverOffset ? 1 : 0
       }
     };
 
@@ -1155,7 +1192,8 @@
             tilt: state.c.t ?? 0.55,
             height3D: state.c.h ?? 30,
             title: state.c.ti ?? '',
-            subtitle: state.c.sub ?? ''
+            subtitle: state.c.sub ?? '',
+            disableHoverOffset: state.c.ho === 1
           };
         }
 
@@ -1187,6 +1225,19 @@
         }));
       } catch (e) {}
     });
+  }
+
+  function resetChartToDefaults() {
+    // 1. Find all slice group elements in the SVG viewport
+    const slices = svgViewport.querySelectorAll('.slice-group');
+    
+    // 2. Dispatch a mouseleave event to restore them to center and hide tooltips
+    slices.forEach((slice) => {
+      const event = new MouseEvent('mouseleave');
+      slice.dispatchEvent(event);
+    });
+
+    showToast('Chart views restored!');
   }
 
   // --- Local drafts history ---
@@ -1277,6 +1328,7 @@
           inputTitle.value = chartConfig.title;
           inputSubtitle.value = chartConfig.subtitle;
           toggle3D.checked = chartConfig.is3D;
+          toggleHoverPop.checked = !chartConfig.disableHoverOffset;
           
           const layoutRadios = document.querySelectorAll('input[name="chart-layout"]');
           layoutRadios.forEach(radio => {

@@ -39,8 +39,8 @@ export function renderChart(svg, data, config) {
   // If 3D, offset center slightly upwards to account for the extrusion height
   const cy = is3D ? (height - height3D) / 2 + 5 : height / 2;
   
-  // Radius: make sure the chart fits within the container (leaving margin for labels/hover)
-  const margin = is3D ? 45 : 30;
+  // Radius: make sure the chart fits within the container, leaving margin for labels & hover
+  const margin = is3D ? 75 : 60;
   const rx = Math.min(cx, cy) - margin;
   const ry = rx * tilt;
 
@@ -123,7 +123,8 @@ export function renderChart(svg, data, config) {
     sliceG.dataset.color = slice.color;
     
     // Calculate translation vector for hover effect
-    const hoverDist = 12;
+    const hoverOffsetEnabled = !config.disableHoverOffset;
+    const hoverDist = hoverOffsetEnabled ? 12 : 0;
     const hx = hoverDist * Math.cos(slice.mid);
     const hy = hoverDist * Math.sin(slice.mid) * tilt;
     sliceG.dataset.hoverTransform = `translate(${hx}px, ${hy}px)`;
@@ -429,6 +430,55 @@ export function renderChart(svg, data, config) {
   function hideTooltip() {
     tooltipGroup.setAttribute('opacity', '0');
   }
+
+  // 5. Draw Static Labels and Pointer Lines (drawn in a separate overlay group on top)
+  const labelGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  labelGroup.setAttribute('class', 'static-labels select-none pointer-events-none');
+  svg.appendChild(labelGroup);
+
+  let currentStartAngle = -Math.PI / 2;
+  validData.forEach((item) => {
+    const sliceAngle = (item.value / total) * 2 * Math.PI;
+    const midAngle = currentStartAngle + sliceAngle / 2;
+    const percent = (item.value / total) * 100;
+
+    // Only draw labels for slices that represent at least 1.5% of the total to prevent cluttered overlaps
+    if (percent >= 1.5) {
+      const pEdge = polarToCartesian(cx, cy, rx, ry, midAngle);
+      
+      // Determine elbow points
+      const extendRadiusX = 20;
+      const extendRadiusY = 16;
+      const pOuter = polarToCartesian(cx, cy, rx + extendRadiusX, ry + extendRadiusY, midAngle);
+      
+      const isRightSide = Math.cos(midAngle) > 0;
+      const lineEndX = pOuter.x + (isRightSide ? 14 : -14);
+
+      // Create polyline pointer line
+      const pointer = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+      pointer.setAttribute('points', `${pEdge.x},${pEdge.y} ${pOuter.x},${pOuter.y} ${lineEndX},${pOuter.y}`);
+      pointer.setAttribute('stroke', '#a1a1a1'); // Hairline strong gray
+      pointer.setAttribute('stroke-width', '1');
+      pointer.setAttribute('fill', 'none');
+      pointer.setAttribute('opacity', '0.55');
+      labelGroup.appendChild(pointer);
+
+      // Label Text element
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', (lineEndX + (isRightSide ? 4 : -4)).toString());
+      text.setAttribute('y', (pOuter.y + 3.5).toString());
+      text.setAttribute('fill', '#4d4d4d'); // Body gray for clean contrast
+      text.setAttribute('font-family', 'var(--font-sans)');
+      text.setAttribute('font-size', '10');
+      text.setAttribute('font-weight', '500');
+      text.setAttribute('text-anchor', isRightSide ? 'start' : 'end');
+      text.textContent = `${item.label}: ${item.value.toLocaleString()} (${percent.toFixed(1)}%)`;
+      
+      labelGroup.appendChild(text);
+    }
+
+    currentStartAngle += sliceAngle;
+  });
 }
 
 function renderEmptyState(svg) {
