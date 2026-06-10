@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #171717;
+  --color-on-primary: #ffffff;
+  --color-ink: #171717;
+  --color-body: #4d4d4d;
+  --color-mute: #888888;
+  --color-hairline: #ebebeb;
+  --color-hairline-strong: #a1a1a1;
+  --color-canvas: #ffffff;
+  --color-canvas-soft: #fafafa;
+  --color-canvas-soft-2: #f5f5f5;
+  --color-link: #0070f3;
+  --color-link-deep: #0761d1;
+  --color-link-bg-soft: #d3e5ff;
+  --color-success: #0070f3;
+  --color-error: #ee0000;
+  --color-error-soft: #f7d4d6;
+  --color-error-deep: #c50000;
+  --color-warning: #f5a623;
+  --color-warning-soft: #ffefcf;
+  --color-warning-deep: #ab570a;
+  --color-violet: #7928ca;
+  --color-violet-soft: #d8ccf1;
+  --color-violet-deep: #4c2889;
+  --color-cyan: #50e3c2;
+  --color-cyan-soft: #aaffec;
+  --color-cyan-deep: #29bc9b;
+  --color-highlight-pink: #ff0080;
+  --color-highlight-magenta: #eb367f;
+
+  --color-gradient-develop-start: #007cf0;
+  --color-gradient-develop-end: #00dfd8;
+  --color-gradient-preview-start: #7928ca;
+  --color-gradient-preview-end: #ff0080;
+  --color-gradient-ship-start: #ff4d4d;
+  --color-gradient-ship-end: #f9cb28;
+
+  --font-sans: "Inter", "Geist", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill-sm: 64px;
+  --radius-pill: 100px;
+}
+
+@layer base {
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-canvas-soft);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+}
+
+/* Custom elevation styles (stacked shadows from DESIGN.md) */
+.shadow-lvl1 {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-lvl2 {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-lvl3 {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05), 0 8px 16px -8px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-lvl4 {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.05), 0 16px 24px -8px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-lvl5 {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 12px 24px rgba(0, 0, 0, 0.05), 0 32px 48px -12px rgba(0, 0, 0, 0.1);
+}
+
+/* Mesh gradient hero background */
+.mesh-gradient-bg {
+  background: radial-gradient(at 10% 20%, rgba(0, 124, 240, 0.08) 0px, transparent 50%),
+              radial-gradient(at 90% 10%, rgba(121, 40, 202, 0.08) 0px, transparent 50%),
+              radial-gradient(at 50% 80%, rgba(255, 77, 77, 0.05) 0px, transparent 50%),
+              radial-gradient(at 80% 90%, rgba(249, 203, 40, 0.05) 0px, transparent 50%);
+}

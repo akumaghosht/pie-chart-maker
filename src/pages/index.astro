@@ -1,11 +1,149 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import ChartMaker from '../components/ChartMaker.astro';
 ---
 
 <Layout>
-	<Welcome />
+  <!-- Hero Atmospheric Backdrop & Mesh Band -->
+  <section class="relative w-full mesh-gradient-bg border-b border-hairline py-16 md:py-24 overflow-hidden">
+    <!-- Concentrated Top Atmospheric mesh gradient spotlight -->
+    <div class="absolute -top-[20%] left-[30%] w-[50%] h-[350px] bg-radial from-color-link/5 via-color-violet/5 to-transparent blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-[1200px] mx-auto px-6 text-center flex flex-col items-center gap-4 relative z-10">
+      <!-- Section Eyebrow Monospace Badge -->
+      <span class="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold text-body bg-canvas px-3 py-1 rounded-full border border-hairline shadow-lvl1 uppercase tracking-wider select-none">
+        <span class="w-1.5 h-1.5 rounded-full bg-color-link"></span> Introducing Version 1.0
+      </span>
+      
+      <!-- Period-terminated sentence case heading with negative tracking -->
+      <h2 class="font-sans text-[36px] md:text-[56px] font-semibold tracking-[-2px] text-ink leading-[1.05] max-w-[800px] mt-2 text-balance">
+        A compute-grade chart editor built for the modern web.
+      </h2>
+      
+      <p class="font-sans text-[16px] md:text-[18px] text-body leading-relaxed max-w-[640px] mt-2">
+        Instantly transform manual inputs, pasted logs, or uploaded spreadsheets into vector-sharp 2D and 3D charts. No accounts. No server-side tracking.
+      </p>
+
+      <div class="flex items-center gap-3 mt-4">
+        <a href="#editor-workspace" class="inline-flex items-center justify-center h-10 px-5 bg-primary text-on-primary text-xs font-sans font-medium rounded-pill hover:bg-primary/90 transition-colors shadow-lvl2 focus-visible:outline-2 focus-visible:outline-primary" role="button">
+          Open Workspace
+        </a>
+        <a href="#how-to-use" class="inline-flex items-center justify-center h-10 px-5 bg-canvas text-body border border-hairline text-xs font-sans font-medium rounded-pill hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary" role="button">
+          Read Guide
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Editor Workspace -->
+  <section id="editor-workspace" class="w-full bg-canvas-soft border-b border-hairline py-4">
+    <ChartMaker />
+  </section>
+
+  <!-- Features & Architecture Grid (Vercel-style 3-up cards) -->
+  <section class="w-full bg-canvas border-b border-hairline py-16 md:py-24">
+    <div class="max-w-[1200px] mx-auto px-6">
+      <div class="text-center md:text-left mb-16 max-w-[500px]">
+        <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">Engine details</span>
+        <h3 class="font-sans text-[28px] md:text-[36px] font-semibold tracking-[-1px] text-ink mt-2 text-balance">
+          Engineered for performance.
+        </h3>
+        <p class="font-sans text-sm text-body leading-relaxed mt-2">
+          Say goodbye to heavy corporate chart frameworks. We run on-canvas calculations with modern vector SVGs to maximize page speeds.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature Card 1 -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong transition-all duration-300 flex flex-col gap-4">
+          <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
+            <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Real-Time Canvas Calculations</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              Every coordinate is calculated on the client side using pure JavaScript. Sliders and text edits update the drawing path with sub-millisecond redraw latency.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature Card 2 -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong transition-all duration-300 flex flex-col gap-4">
+          <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
+            <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">100% Client-Side Privacy</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              Your data never touches a server. All file parsing, CSV extractions, and PDF/PNG downloads are handled directly inside your browser sandbox.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature Card 3 -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong transition-all duration-300 flex flex-col gap-4">
+          <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
+            <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Decentralized Hash Sharing</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              Generate links containing the complete encoded state of your chart. No databases, no storage costs, just instant and fully editable share links.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Documentation / Help Section -->
+  <section id="how-to-use" class="w-full bg-canvas-soft-2 border-b border-hairline py-16 md:py-24">
+    <div class="max-w-[800px] mx-auto px-6">
+      <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">Documentation</span>
+      <h3 class="font-sans text-[28px] md:text-[36px] font-semibold tracking-[-1px] text-ink mt-2 mb-8 text-balance">
+        How to input your data.
+      </h3>
+
+      <div class="flex flex-col gap-10">
+        <!-- Step 1 -->
+        <div class="flex gap-4 md:gap-6 items-start">
+          <span class="font-mono text-xs text-mute font-semibold px-2 py-1 bg-canvas border border-hairline rounded-sm shadow-lvl1 shrink-0">01</span>
+          <div>
+            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Manual Data Entry</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              Use the default <strong>Manual Entry</strong> tab to construct your chart slice-by-slice. Enter the name of the category, key in the numerical values, and select a color using the color-box colorpicker. Hit <em>Add Slice Field</em> to append new segments. The default colors are pre-allocated from our Vercel color theme.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flex gap-4 md:gap-6 items-start">
+          <span class="font-mono text-xs text-mute font-semibold px-2 py-1 bg-canvas border border-hairline rounded-sm shadow-lvl1 shrink-0">02</span>
+          <div>
+            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Pasting Raw Logs or Text</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              Copy raw statistics, log dumps, or markdown tables and paste them into the <strong>Paste Text</strong> tab. Our regex extractor dynamically identifies columns separated by commas, tabs, spaces, or colons. Slices will be loaded with colors assigned automatically from the palette.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flex gap-4 md:gap-6 items-start">
+          <span class="font-mono text-xs text-mute font-semibold px-2 py-1 bg-canvas border border-hairline rounded-sm shadow-lvl1 shrink-0">03</span>
+          <div>
+            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Importing CSV & XLSX Sheets</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              Drag-and-drop or select spreadsheets containing large datasets inside the <strong>File Upload</strong> tab. CSV rows are parsed instantly. Excel spreadsheets (.xlsx, .xls) trigger the dynamic loading of SheetJS, parsing your sheets locally with full compatibility.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
