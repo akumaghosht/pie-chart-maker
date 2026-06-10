@@ -30,17 +30,41 @@ export function renderChart(svg, data, config) {
   const tilt = is3D ? Math.max(0.2, Math.min(0.9, config.tilt ?? 0.55)) : 1.0;
   const height3D = is3D ? Math.max(0, Math.min(100, config.height3D ?? 30)) : 0;
   
-  // Size & Center
-  const rect = svg.getBoundingClientRect();
-  const width = rect.width || 450;
-  const height = rect.height || 350;
+  // Size & Center (Fixed landscape coordinates for responsive SVG scaling with built-in legend)
+  const width = 520;
+  const height = 360;
   
-  const cx = width / 2;
+  const cx = 260;
+
+  // Dynamically calculate the space needed for the bottom legend
+  const rowSpacing = validData.length > 10 ? 16 : 22;
+  
+  // Estimate total legend width to determine wrapping rows count
+  let currentWordWidth = 0;
+  let legendRowsCount = 1;
+  validData.forEach((item) => {
+    const itemWidth = 28 + item.label.length * 6.5;
+    if (currentWordWidth + itemWidth > width - 40 && currentWordWidth > 0) {
+      legendRowsCount++;
+      currentWordWidth = itemWidth;
+    } else {
+      currentWordWidth += itemWidth;
+    }
+  });
+
+  const legendAreaHeight = 15 + legendRowsCount * rowSpacing;
+  const availableChartHeight = height - legendAreaHeight;
+
   // If 3D, offset center slightly upwards to account for the extrusion height
-  const cy = is3D ? (height - height3D) / 2 + 5 : height / 2;
+  const cy = is3D ? (availableChartHeight - height3D) / 2 + 5 : availableChartHeight / 2;
   
   // Radius: make sure the chart fits within the container, leaving margin for labels & hover
-  const margin = is3D ? 75 : 60;
+  const margin = is3D ? 60 : 50;
+  const extendRadiusX = 12;
+  const extendRadiusY = 10;
+  const elbowLength = 8;
+  const fontSize = '9.5';
+
   const rx = Math.min(cx, cy) - margin;
   const ry = rx * tilt;
 
@@ -67,8 +91,12 @@ export function renderChart(svg, data, config) {
     const endAngle = startAngle + sliceAngle;
     const percent = (item.value / total) * 100;
 
-    // Subdivide if slice is too big (max 120 deg per subsegment)
-    const maxSubAngle = 120 * (Math.PI / 180);
+    // Mid angle of the entire original slice (used for unified hover offset direction)
+    const originalMidAngle = startAngle + sliceAngle / 2;
+
+    // Subdivide if slice is too big (max 120 deg per subsegment in 3D to prevent painter's algorithm bugs)
+    // In 2D, we only subdivide when close to 360 deg to prevent SVG arc rendering issues
+    const maxSubAngle = is3D ? 120 * (Math.PI / 180) : 350 * (Math.PI / 180);
     const subSegmentsCount = Math.ceil(sliceAngle / maxSubAngle);
     
     for (let s = 0; s < subSegmentsCount; s++) {
@@ -84,6 +112,7 @@ export function renderChart(svg, data, config) {
         start: subStart,
         end: subEnd,
         mid: subMid,
+        originalMidAngle: originalMidAngle,
         originalIndex: originalIndex,
         isFirstSub: s === 0,
         isLastSub: s === subSegmentsCount - 1
@@ -113,20 +142,21 @@ export function renderChart(svg, data, config) {
   const sliceNodes = [];
 
   // 3. Draw Slices
-  renderSlices.forEach((slice) => {
+  renderSlices.forEach((slice, renderIndex) => {
     const sliceG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     sliceG.setAttribute('class', 'slice-group cursor-pointer transition-transform duration-200 ease-out');
     sliceG.dataset.index = slice.originalIndex;
+    sliceG.dataset.renderIndex = renderIndex;
     sliceG.dataset.label = slice.label;
     sliceG.dataset.value = slice.value.toLocaleString();
     sliceG.dataset.percent = slice.percent.toFixed(1);
     sliceG.dataset.color = slice.color;
     
-    // Calculate translation vector for hover effect
+    // Calculate translation vector for hover effect (using original slice mid-angle so all segments translate together)
     const hoverOffsetEnabled = !config.disableHoverOffset;
     const hoverDist = hoverOffsetEnabled ? 12 : 0;
-    const hx = hoverDist * Math.cos(slice.mid);
-    const hy = hoverDist * Math.sin(slice.mid) * tilt;
+    const hx = hoverDist * Math.cos(slice.originalMidAngle);
+    const hy = hoverDist * Math.sin(slice.originalMidAngle) * tilt;
     sliceG.dataset.hoverTransform = `translate(${hx}px, ${hy}px)`;
 
     const pStart = polarToCartesian(cx, cy, rx, ry, slice.start);
@@ -320,16 +350,9 @@ export function renderChart(svg, data, config) {
 
       // Re-apply painter's sorting order to avoid depth bugs if elements were reordered in DOM
       if (is3D) {
-        sliceNodes.sort((a, b) => Math.sin(a.dataset.index) - Math.sin(b.dataset.index)); // simple sort check
-        // Re-append in original sorted order
-        renderSlices.forEach((slice) => {
-          sliceNodes.forEach((subNode) => {
-            const isMatch = subNode.dataset.index == slice.originalIndex && 
-                            Math.abs(parseFloat(subNode.dataset.percent) - slice.percent) < 0.05; 
-            if (isMatch) {
-              chartGroup.appendChild(subNode);
-            }
-          });
+        sliceNodes.sort((a, b) => parseInt(a.dataset.renderIndex) - parseInt(b.dataset.renderIndex));
+        sliceNodes.forEach((node) => {
+          chartGroup.appendChild(node);
         });
       }
     });
@@ -436,8 +459,39 @@ export function renderChart(svg, data, config) {
   labelGroup.setAttribute('class', 'static-labels select-none pointer-events-none');
   svg.appendChild(labelGroup);
 
+  // Helper to dynamically truncate text to fit in SVG
+  function truncateTextToWidth(textElement, label, percent, maxWidth) {
+    const percentText = ` (${percent.toFixed(1)}%)`;
+    const percentTextSolo = `${percent.toFixed(1)}%`;
+    
+    // 1. Try full text: "Label (XX.X%)"
+    textElement.textContent = label + percentText;
+    if (textElement.getComputedTextLength() <= maxWidth) {
+      return;
+    }
+
+    // 2. Try truncated label with percentage: "Lab... (XX.X%)"
+    let tempLabel = label;
+    while (tempLabel.length > 0) {
+      tempLabel = tempLabel.slice(0, -1);
+      textElement.textContent = tempLabel + '...' + percentText;
+      if (textElement.getComputedTextLength() <= maxWidth) {
+        return;
+      }
+    }
+
+    // 3. Try just the percentage: "XX.X%"
+    textElement.textContent = percentTextSolo;
+    if (textElement.getComputedTextLength() <= maxWidth) {
+      return;
+    }
+
+    // 4. Hide if nothing fits
+    textElement.textContent = '';
+  }
+
   let currentStartAngle = -Math.PI / 2;
-  validData.forEach((item) => {
+  validData.forEach((item, index) => {
     const sliceAngle = (item.value / total) * 2 * Math.PI;
     const midAngle = currentStartAngle + sliceAngle / 2;
     const percent = (item.value / total) * 100;
@@ -446,13 +500,11 @@ export function renderChart(svg, data, config) {
     if (percent >= 1.5) {
       const pEdge = polarToCartesian(cx, cy, rx, ry, midAngle);
       
-      // Determine elbow points
-      const extendRadiusX = 20;
-      const extendRadiusY = 16;
+      // Determine elbow points using dynamic parameters
       const pOuter = polarToCartesian(cx, cy, rx + extendRadiusX, ry + extendRadiusY, midAngle);
       
       const isRightSide = Math.cos(midAngle) > 0;
-      const lineEndX = pOuter.x + (isRightSide ? 14 : -14);
+      const lineEndX = pOuter.x + (isRightSide ? elbowLength : -elbowLength);
 
       // Create polyline pointer line
       const pointer = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
@@ -469,15 +521,94 @@ export function renderChart(svg, data, config) {
       text.setAttribute('y', (pOuter.y + 3.5).toString());
       text.setAttribute('fill', '#4d4d4d'); // Body gray for clean contrast
       text.setAttribute('font-family', 'var(--font-sans)');
-      text.setAttribute('font-size', '10');
+      text.setAttribute('font-size', fontSize);
       text.setAttribute('font-weight', '500');
       text.setAttribute('text-anchor', isRightSide ? 'start' : 'end');
-      text.textContent = `${item.label}: ${item.value.toLocaleString()} (${percent.toFixed(1)}%)`;
       
       labelGroup.appendChild(text);
+
+      // Dynamically calculate maximum allowed text width (leaving safe 8px boundary)
+      const maxWidth = isRightSide ? (width - 8 - (lineEndX + 4)) : (lineEndX - 4 - 8);
+      truncateTextToWidth(text, item.label, percent, maxWidth);
+
+      // Hide pointer line if the text is completely hidden
+      if (text.textContent === '') {
+        pointer.setAttribute('display', 'none');
+      }
     }
 
     currentStartAngle += sliceAngle;
+  });
+
+  // 6. Draw Legend at the Bottom horizontally centered (without headers or numbering)
+  const legendGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  legendGroup.setAttribute('class', 'svg-legend select-none');
+  svg.appendChild(legendGroup);
+
+  // Calculate widths of legend items to center them
+  const itemsData = validData.map((item) => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('r', '4');
+    dot.setAttribute('fill', item.color);
+    g.appendChild(dot);
+    
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('font-family', 'Inter, system-ui, -apple-system, sans-serif');
+    text.setAttribute('font-size', '10.5');
+    text.setAttribute('font-weight', '500');
+    text.setAttribute('fill', '#4d4d4d');
+    text.textContent = item.label;
+    g.appendChild(text);
+    
+    legendGroup.appendChild(g);
+    
+    // Measure text length (with dynamic fallback if client rect is unavailable)
+    let textLen = text.getComputedTextLength();
+    if (textLen === 0) {
+      textLen = item.label.length * 6.5;
+    }
+    
+    // Total width: dot gap (8) + dot diameter (8) + text spacing (12) + text width + item spacing (18)
+    const itemWidth = 28 + textLen;
+    
+    return { g, dot, text, width: itemWidth };
+  });
+
+  // Arrange items horizontally, wrap to a new line if they exceed width
+  const maxLegendWidth = width - 40; // 480px
+  const rows = [[]];
+  
+  itemsData.forEach((item) => {
+    const currentRow = rows[rows.length - 1];
+    const rowWidth = currentRow.reduce((sum, i) => sum + i.width, 0);
+    
+    if (rowWidth + item.width > maxLegendWidth && currentRow.length > 0) {
+      rows.push([item]);
+    } else {
+      currentRow.push(item);
+    }
+  });
+
+  // Position elements vertically centered within the bottom legend area
+  const rowHeight = rowSpacing;
+  const startY = height - legendAreaHeight + 20;
+  
+  rows.forEach((row, rowIndex) => {
+    const rowY = startY + rowIndex * rowHeight;
+    const totalRowWidth = row.reduce((sum, i) => sum + i.width, 0) - 18; // subtract last item spacing
+    const rowStartX = (width - totalRowWidth) / 2;
+    
+    let xOffset = rowStartX;
+    row.forEach((item) => {
+      item.g.setAttribute('transform', `translate(${xOffset}, ${rowY})`);
+      item.dot.setAttribute('cx', '4');
+      item.dot.setAttribute('cy', '-3');
+      item.text.setAttribute('x', '14');
+      item.text.setAttribute('y', '0');
+      xOffset += item.width;
+    });
   });
 }
 

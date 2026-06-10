@@ -290,7 +290,7 @@
       </div>
 
       <!-- SVG Drawing viewport wrapper -->
-      <div class="w-full aspect-square max-w-[380px] bg-canvas-soft border border-hairline rounded-sm flex items-center justify-center relative overflow-hidden">
+      <div class="w-full aspect-[13/9] max-w-[480px] bg-canvas-soft border border-hairline rounded-sm flex items-center justify-center relative overflow-hidden">
         <svg id="chart-viewport" class="w-full h-full select-none" xmlns="http://www.w3.org/2000/svg">
           <!-- Content will be drawn dynamically by Javascript -->
         </svg>
@@ -1298,7 +1298,7 @@
         row.innerHTML = `
           <button 
             type="button" 
-            class="text-left font-sans text-xs text-body hover:text-ink truncate max-w-[150px] font-medium cursor-pointer"
+            class="load-draft-btn text-left font-sans text-xs text-body hover:text-ink truncate max-w-[150px] font-medium cursor-pointer"
             title="Load draft: ${draft.name}"
           >
             ${draft.name}
@@ -1307,7 +1307,7 @@
             <span class="font-mono text-[9px] text-mute">${draft.date}</span>
             <button 
               type="button" 
-              class="w-6 h-6 inline-flex items-center justify-center text-mute hover:text-error-deep rounded-sm hover:bg-error-soft/30 transition-colors cursor-pointer"
+              class="delete-draft-btn w-6 h-6 inline-flex items-center justify-center text-mute hover:text-error-deep rounded-sm hover:bg-error-soft/30 transition-colors cursor-pointer"
               aria-label="Delete draft ${draft.name}"
             >
               <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1317,12 +1317,13 @@
           </div>
         `;
 
-        const loadBtn = row.querySelector('button');
-        const deleteBtn = row.querySelector('div button');
+        const loadBtn = row.querySelector('.load-draft-btn');
+        const deleteBtn = row.querySelector('.delete-draft-btn');
 
         loadBtn.addEventListener('click', () => {
-          chartData = draft.data;
-          chartConfig = draft.config;
+          // Deep clone the draft data & config to prevent reference sharing bugs
+          chartData = JSON.parse(JSON.stringify(draft.data));
+          chartConfig = JSON.parse(JSON.stringify(draft.config));
           
           // Sync inputs
           inputTitle.value = chartConfig.title;
