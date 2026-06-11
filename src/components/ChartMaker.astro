@@ -1,48 +1,66 @@
 ---
 // ChartMaker.astro - The core application interface for the Pie Chart Maker
 ---
-<div class="max-w-[1240px] mx-auto px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+<div
+  class="max-w-[1240px] mx-auto px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+>
   <!-- Left Column: Inputs & Controls (7 Cols on desktop) -->
   <div class="lg:col-span-7 flex flex-col gap-6">
     <!-- Main Title Card -->
-    <div class="bg-canvas p-6 md:p-8 rounded-md border border-hairline shadow-lvl2 relative overflow-hidden">
+    <div
+      class="bg-canvas p-6 md:p-8 rounded-md border border-hairline shadow-lvl2 relative overflow-hidden"
+    >
       <!-- Background subtle gradient accent in Vercel style -->
-      <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-gradient-develop-start to-gradient-develop-end"></div>
-      <h1 class="font-sans text-[28px] md:text-[36px] font-semibold tracking-tight text-ink leading-tight mb-2 text-balance">
+      <div
+        class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-gradient-develop-start to-gradient-develop-end"
+      >
+      </div>
+      <h1
+        class="font-sans text-[28px] md:text-[36px] font-semibold tracking-tight text-ink leading-tight mb-2 text-balance"
+      >
         Create beautiful pie charts.
       </h1>
       <p class="font-sans text-[14px] text-body leading-relaxed max-w-[500px]">
-        Generate high-resolution vector charts dynamically. Enter data manually, paste raw text, or drop a spreadsheet. Completely private, fully customizable, and ad-free.
+        Generate high-resolution vector charts dynamically. Enter data manually,
+        paste raw text, or drop a spreadsheet. Completely private, fully
+        customizable, and ad-free.
       </p>
     </div>
 
     <!-- Data Input Mode Panel -->
-    <div class="bg-canvas rounded-md border border-hairline shadow-lvl2 overflow-hidden">
+    <div
+      class="bg-canvas rounded-md border border-hairline shadow-lvl2 overflow-hidden"
+    >
       <!-- Tab Header -->
-      <div class="flex border-b border-hairline bg-canvas-soft-2 px-2 pt-2 gap-1" role="tablist" aria-label="Data Input Sources">
-        <button 
-          id="tab-manual" 
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] hover:text-ink transition-colors cursor-pointer select-none text-ink bg-canvas border-hairline! active-tab" 
-          role="tab" 
-          aria-selected="true" 
+      <div
+        class="flex border-b border-hairline bg-canvas-soft-2 px-2 pt-2 gap-1"
+        role="tablist"
+        aria-label="Data Input Sources"
+      >
+        <button
+          id="tab-manual"
+          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] hover:text-ink transition-colors cursor-pointer select-none text-ink bg-canvas border-hairline! active-tab"
+          role="tab"
+          aria-selected="true"
           aria-controls="panel-manual"
         >
           [ Manual Entry ]
         </button>
-        <button 
-          id="tab-paste" 
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none" 
-          role="tab" 
-          aria-selected="false" 
+        <button
+          id="tab-paste"
+          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none"
+          role="tab"
+          aria-selected="false"
           aria-controls="panel-paste"
         >
           [ Paste Text ]
         </button>
-        <button 
-          id="tab-upload" 
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none" 
-          role="tab" 
-          aria-selected="false" 
+        <button
+          id="tab-upload"
+          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none"
+          role="tab"
+          aria-selected="false"
           aria-controls="panel-upload"
         >
           [ CSV / XLSX File ]
@@ -52,19 +70,26 @@
       <!-- Tab Panels -->
       <div class="p-6">
         <!-- Manual Tab Panel -->
-        <div id="panel-manual" class="flex flex-col gap-4" role="tabpanel" aria-labelledby="tab-manual">
+        <div
+          id="panel-manual"
+          class="flex flex-col gap-4"
+          role="tabpanel"
+          aria-labelledby="tab-manual"
+        >
           <div class="flex items-center justify-between">
-            <h2 class="font-sans text-sm font-semibold text-ink">Data Fields</h2>
+            <h2 class="font-sans text-sm font-semibold text-ink">
+              Data Fields
+            </h2>
             <div class="flex gap-2">
-              <button 
-                id="btn-sort-val" 
+              <button
+                id="btn-sort-val"
                 class="inline-flex items-center justify-center h-7 px-2.5 bg-canvas border border-hairline rounded-sm text-xs font-sans text-body hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
                 title="Sort slices by value descending"
               >
                 Sort by Value
               </button>
-              <button 
-                id="btn-clear-all" 
+              <button
+                id="btn-clear-all"
                 class="inline-flex items-center justify-center h-7 px-2.5 bg-canvas border border-error-soft text-error rounded-sm text-xs font-sans hover:bg-error-soft/30 hover:text-error-deep transition-colors focus-visible:outline-2 focus-visible:outline-error cursor-pointer"
               >
                 Clear All
@@ -73,12 +98,15 @@
           </div>
 
           <!-- Dynamic manual input rows container -->
-          <div id="manual-rows-container" class="flex flex-col gap-2 max-h-[360px] overflow-y-auto pr-1">
+          <div
+            id="manual-rows-container"
+            class="flex flex-col gap-2 max-h-[360px] overflow-y-auto pr-1"
+          >
             <!-- Dynamic rows will be inserted here by JS -->
           </div>
 
-          <button 
-            id="btn-add-row" 
+          <button
+            id="btn-add-row"
             class="w-full inline-flex items-center justify-center h-9 border border-dashed border-hairline-strong rounded-sm text-xs font-sans font-medium text-body hover:bg-canvas-soft hover:text-ink hover:border-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer mt-2"
           >
             + Add Slice Field
@@ -86,21 +114,32 @@
         </div>
 
         <!-- Paste Text Tab Panel -->
-        <div id="panel-paste" class="hidden flex flex-col gap-4" role="tabpanel" aria-labelledby="tab-paste">
-          <label for="paste-textarea" class="font-sans text-xs font-medium text-body">
-            Paste raw text data (one item per line, separated by commas, tabs, spaces, or colons):
+        <div
+          id="panel-paste"
+          class="hidden flex flex-col gap-4"
+          role="tabpanel"
+          aria-labelledby="tab-paste"
+        >
+          <label
+            for="paste-textarea"
+            class="font-sans text-xs font-medium text-body"
+          >
+            Paste raw text data (one item per line, separated by commas, tabs,
+            spaces, or colons):
           </label>
-          <textarea 
-            id="paste-textarea" 
-            rows="6" 
+          <textarea
+            id="paste-textarea"
+            rows="6"
             class="w-full font-mono text-xs p-3 border border-hairline rounded-sm focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors"
-            placeholder="Apples, 45&#10;Bananas: 80&#10;Cherries 120&#10;Oranges	25"
+            placeholder="Apples, 45
+Bananas: 80
+Cherries 120
+Oranges	25"
             spellcheck="false"
-            autocomplete="off"
-          ></textarea>
+            autocomplete="off"></textarea>
           <div class="flex gap-3 justify-end">
-            <button 
-              id="btn-parse-text" 
+            <button
+              id="btn-parse-text"
               class="inline-flex items-center justify-center h-8 px-4 bg-primary text-on-primary rounded-sm text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
             >
               Extract & Update Slices
@@ -109,56 +148,96 @@
         </div>
 
         <!-- Upload File Tab Panel -->
-        <div id="panel-upload" class="hidden flex flex-col gap-4" role="tabpanel" aria-labelledby="tab-upload">
-          <div 
-            id="dropzone" 
+        <div
+          id="panel-upload"
+          class="hidden flex flex-col gap-4"
+          role="tabpanel"
+          aria-labelledby="tab-upload"
+        >
+          <div
+            id="dropzone"
             class="w-full border-2 border-dashed border-hairline hover:border-hairline-strong rounded-md p-8 text-center bg-canvas-soft-2 cursor-pointer transition-colors flex flex-col items-center justify-center gap-3"
             aria-label="File upload drag and drop area"
           >
-            <svg class="text-mute w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5h10.5a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0017.25 4.5H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25z"></path>
+            <svg
+              class="text-mute w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5h10.5a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0017.25 4.5H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25z"
+              ></path>
             </svg>
             <div class="flex flex-col gap-1">
-              <span class="font-sans text-xs font-medium text-ink">Drag & drop your CSV or XLSX file here</span>
-              <span class="font-sans text-[11px] text-mute">or click to browse your computer</span>
+              <span class="font-sans text-xs font-medium text-ink"
+                >Drag & drop your CSV or XLSX file here</span
+              >
+              <span class="font-sans text-[11px] text-mute"
+                >or click to browse your computer</span
+              >
             </div>
-            <input 
-              id="file-input" 
-              type="file" 
-              accept=".csv, .xlsx, .xls" 
-              class="hidden" 
+            <input
+              id="file-input"
+              type="file"
+              accept=".csv, .xlsx, .xls"
+              class="hidden"
             />
           </div>
-          <div id="file-error" class="hidden font-sans text-xs text-error-deep bg-error-soft px-3 py-2 rounded-sm border border-error-soft/50"></div>
+          <div
+            id="file-error"
+            class="hidden font-sans text-xs text-error-deep bg-error-soft px-3 py-2 rounded-sm border border-error-soft/50"
+          >
+          </div>
           <div class="font-sans text-[11px] text-mute leading-relaxed">
-            Format: Column 1 should contain slice names, and Column 2 should contain values. First row will be ignored if it contains header text.
+            Format: Column 1 should contain slice names, and Column 2 should
+            contain values. First row will be ignored if it contains header
+            text.
           </div>
         </div>
       </div>
     </div>
 
     <!-- Chart Customization Panel -->
-    <div class="bg-canvas p-6 md:p-8 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-6">
-      <h2 class="font-sans text-sm font-semibold text-ink border-b border-hairline pb-3">Chart Configurations</h2>
+    <div
+      class="bg-canvas p-6 md:p-8 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-6"
+    >
+      <h2
+        class="font-sans text-sm font-semibold text-ink border-b border-hairline pb-3"
+      >
+        Chart Configurations
+      </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Series Configuration -->
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
-            <label for="chart-title" class="font-sans text-xs font-medium text-body">Chart Title</label>
-            <input 
-              id="chart-title" 
-              type="text" 
+            <label
+              for="chart-title"
+              class="font-sans text-xs font-medium text-body">Chart Title</label
+            >
+            <input
+              id="chart-title"
+              type="text"
               class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors"
               placeholder="e.g. Sales Breakdown 2026…"
               autocomplete="off"
             />
           </div>
           <div class="flex flex-col gap-1.5">
-            <label for="chart-subtitle" class="font-sans text-xs font-medium text-body">Chart Subtitle</label>
-            <input 
-              id="chart-subtitle" 
-              type="text" 
+            <label
+              for="chart-subtitle"
+              class="font-sans text-xs font-medium text-body"
+              >Chart Subtitle</label
+            >
+            <input
+              id="chart-subtitle"
+              type="text"
               class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors"
               placeholder="e.g. Total Revenue by Department…"
               autocomplete="off"
@@ -170,86 +249,146 @@
         <div class="flex flex-col gap-4">
           <!-- Chart Type Toggle -->
           <div class="flex flex-col gap-2">
-            <span class="font-sans text-xs font-medium text-body">Chart Layout</span>
+            <span class="font-sans text-xs font-medium text-body"
+              >Chart Layout</span
+            >
             <div class="flex gap-2">
-              <label class="flex-1 inline-flex items-center justify-center h-8 px-4 rounded-sm border border-hairline-strong bg-canvas text-ink text-xs font-sans font-medium cursor-pointer select-none text-center shadow-lvl1 transition-all has-checked:bg-primary has-checked:text-on-primary has-checked:border-primary">
-                <input type="radio" name="chart-layout" value="pie" checked class="sr-only" />
+              <label
+                class="flex-1 inline-flex items-center justify-center h-8 px-4 rounded-sm border border-hairline-strong bg-canvas text-ink text-xs font-sans font-medium cursor-pointer select-none text-center shadow-lvl1 transition-all has-checked:bg-primary has-checked:text-on-primary has-checked:border-primary"
+              >
+                <input
+                  type="radio"
+                  name="chart-layout"
+                  value="pie"
+                  checked
+                  class="sr-only"
+                />
                 Pie Chart
               </label>
-              <label class="flex-1 inline-flex items-center justify-center h-8 px-4 rounded-sm border border-hairline bg-canvas text-body hover:text-ink text-xs font-sans font-medium cursor-pointer select-none text-center hover:bg-canvas-soft transition-all has-checked:bg-primary has-checked:text-on-primary has-checked:border-primary">
-                <input type="radio" name="chart-layout" value="donut" class="sr-only" />
+              <label
+                class="flex-1 inline-flex items-center justify-center h-8 px-4 rounded-sm border border-hairline bg-canvas text-body hover:text-ink text-xs font-sans font-medium cursor-pointer select-none text-center hover:bg-canvas-soft transition-all has-checked:bg-primary has-checked:text-on-primary has-checked:border-primary"
+              >
+                <input
+                  type="radio"
+                  name="chart-layout"
+                  value="donut"
+                  class="sr-only"
+                />
                 Donut Chart
               </label>
             </div>
           </div>
 
           <!-- 3D Toggle -->
-          <div class="flex items-center justify-between py-1 border-b border-hairline/50">
-            <span class="font-sans text-xs font-medium text-body">3D Isometric View</span>
+          <div
+            class="flex items-center justify-between py-1 border-b border-hairline/50"
+          >
+            <span class="font-sans text-xs font-medium text-body"
+              >3D Isometric View</span
+            >
             <label class="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" id="toggle-3d" class="sr-only peer" />
-              <div class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"></div>
+              <div
+                class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"
+              >
+              </div>
             </label>
           </div>
 
           <!-- Hover Pop-out Toggle -->
-          <div class="flex items-center justify-between py-1 border-b border-hairline/50">
-            <span class="font-sans text-xs font-medium text-body">Pop Slices on Hover</span>
+          <div
+            class="flex items-center justify-between py-1 border-b border-hairline/50"
+          >
+            <span class="font-sans text-xs font-medium text-body"
+              >Pop Slices on Hover</span
+            >
             <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="toggle-hover-pop" checked class="sr-only peer" />
-              <div class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"></div>
+              <input
+                type="checkbox"
+                id="toggle-hover-pop"
+                checked
+                class="sr-only peer"
+              />
+              <div
+                class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"
+              >
+              </div>
             </label>
           </div>
         </div>
       </div>
 
       <!-- Advanced Sliders (Tilt & Hole size) -->
-      <div id="sliders-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-hairline/50">
+      <div
+        id="sliders-container"
+        class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-hairline/50"
+      >
         <!-- Donut Hole radius slider -->
         <div id="slider-donut-hole-group" class="hidden flex flex-col gap-2">
           <div class="flex justify-between items-center">
-            <label for="input-donut-hole" class="font-sans text-xs font-medium text-body">Donut Hole Size</label>
-            <span id="donut-hole-val" class="font-mono text-xs text-mute font-medium">50%</span>
+            <label
+              for="input-donut-hole"
+              class="font-sans text-xs font-medium text-body"
+              >Donut Hole Size</label
+            >
+            <span
+              id="donut-hole-val"
+              class="font-mono text-xs text-mute font-medium">50%</span
+            >
           </div>
-          <input 
-            id="input-donut-hole" 
-            type="range" 
-            min="20" 
-            max="80" 
-            value="50" 
-            class="w-full accent-primary h-1 bg-canvas-soft-2 rounded-lg cursor-pointer" 
+          <input
+            id="input-donut-hole"
+            type="range"
+            min="20"
+            max="80"
+            value="50"
+            class="w-full accent-primary h-1 bg-canvas-soft-2 rounded-lg cursor-pointer"
           />
         </div>
 
         <!-- 3D Tilt Slider -->
         <div id="slider-3d-tilt-group" class="hidden flex flex-col gap-2">
           <div class="flex justify-between items-center">
-            <label for="input-3d-tilt" class="font-sans text-xs font-medium text-body">3D Tilt Angle</label>
-            <span id="3d-tilt-val" class="font-mono text-xs text-mute font-medium">55%</span>
+            <label
+              for="input-3d-tilt"
+              class="font-sans text-xs font-medium text-body"
+              >3D Tilt Angle</label
+            >
+            <span
+              id="3d-tilt-val"
+              class="font-mono text-xs text-mute font-medium">55%</span
+            >
           </div>
-          <input 
-            id="input-3d-tilt" 
-            type="range" 
-            min="20" 
-            max="90" 
-            value="55" 
-            class="w-full accent-primary h-1 bg-canvas-soft-2 rounded-lg cursor-pointer" 
+          <input
+            id="input-3d-tilt"
+            type="range"
+            min="20"
+            max="90"
+            value="55"
+            class="w-full accent-primary h-1 bg-canvas-soft-2 rounded-lg cursor-pointer"
           />
         </div>
 
         <!-- 3D Height Slider -->
         <div id="slider-3d-height-group" class="hidden flex flex-col gap-2">
           <div class="flex justify-between items-center">
-            <label for="input-3d-height" class="font-sans text-xs font-medium text-body">3D Extrusion Thickness</label>
-            <span id="3d-height-val" class="font-mono text-xs text-mute font-medium">30px</span>
+            <label
+              for="input-3d-height"
+              class="font-sans text-xs font-medium text-body"
+              >3D Extrusion Thickness</label
+            >
+            <span
+              id="3d-height-val"
+              class="font-mono text-xs text-mute font-medium">30px</span
+            >
           </div>
-          <input 
-            id="input-3d-height" 
-            type="range" 
-            min="10" 
-            max="70" 
-            value="30" 
-            class="w-full accent-primary h-1 bg-canvas-soft-2 rounded-lg cursor-pointer" 
+          <input
+            id="input-3d-height"
+            type="range"
+            min="10"
+            max="70"
+            value="30"
+            class="w-full accent-primary h-1 bg-canvas-soft-2 rounded-lg cursor-pointer"
           />
         </div>
       </div>
@@ -259,39 +398,78 @@
   <!-- Right Column: Sticky Preview & Export Panel (5 Cols on desktop) -->
   <div class="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-20">
     <!-- Chart Preview Card -->
-    <div class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl3 flex flex-col items-center gap-6">
-      <div class="w-full flex items-center justify-between border-b border-hairline pb-3">
-        <span class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider select-none">[ Live Chart Preview ]</span>
+    <div
+      class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl3 flex flex-col items-center gap-6"
+    >
+      <div
+        class="w-full flex items-center justify-between border-b border-hairline pb-3"
+      >
+        <span
+          class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider select-none"
+          >[ Live Chart Preview ]</span
+        >
         <div class="flex items-center gap-3">
-          <button 
-            id="btn-reset-preview" 
+          <button
+            id="btn-reset-preview"
             class="inline-flex items-center justify-center gap-1 text-[10px] font-sans font-medium text-body hover:text-ink cursor-pointer border border-hairline hover:bg-canvas-soft-2 px-2 py-0.5 rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-primary"
             title="Reset chart data and configurations to defaults"
             type="button"
           >
             <!-- Reset Icon -->
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="shrink-0" aria-hidden="true">
-              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38l.56-.56" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              class="shrink-0"
+              aria-hidden="true"
+            >
+              <path
+                d="M21.5 2v6h-6M21.34 15.57a10 10 0 11-.57-8.38l.56-.56"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
             </svg>
             <span>Reset</span>
           </button>
           <span class="w-[1px] h-3 bg-hairline"></span>
           <div class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="font-sans text-[10px] font-medium text-mute">Synced</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+            ></span>
+            <span class="font-sans text-[10px] font-medium text-mute"
+              >Synced</span
+            >
           </div>
         </div>
       </div>
 
       <!-- Title / Subtitle Headers drawn dynamically -->
-      <div id="preview-headers" class="text-center w-full min-h-[48px] flex flex-col justify-center">
-        <h3 id="preview-title" class="font-sans font-semibold text-lg text-ink tracking-tight break-words"></h3>
-        <p id="preview-subtitle" class="font-sans text-xs text-body break-words mt-0.5"></p>
+      <div
+        id="preview-headers"
+        class="text-center w-full min-h-[48px] flex flex-col justify-center"
+      >
+        <h3
+          id="preview-title"
+          class="font-sans font-semibold text-lg text-ink tracking-tight break-words"
+        >
+        </h3>
+        <p
+          id="preview-subtitle"
+          class="font-sans text-xs text-body break-words mt-0.5"
+        >
+        </p>
       </div>
 
       <!-- SVG Drawing viewport wrapper -->
-      <div class="w-full aspect-[13/9] max-w-[480px] bg-canvas-soft border border-hairline rounded-sm flex items-center justify-center relative overflow-hidden">
-        <svg id="chart-viewport" class="w-full h-full select-none" xmlns="http://www.w3.org/2000/svg">
+      <div
+        class="w-full aspect-[13/9] max-w-[480px] bg-canvas-soft border border-hairline rounded-sm flex items-center justify-center relative overflow-hidden"
+      >
+        <svg
+          id="chart-viewport"
+          class="w-full h-full select-none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <!-- Content will be drawn dynamically by Javascript -->
         </svg>
       </div>
@@ -299,21 +477,21 @@
       <!-- Action Panel Buttons -->
       <div class="w-full flex flex-col gap-2 pt-2 border-t border-hairline">
         <div class="flex gap-2">
-          <button 
-            id="btn-export-png" 
+          <button
+            id="btn-export-png"
             class="flex-1 inline-flex items-center justify-center h-9 bg-primary text-on-primary rounded-pill text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shadow-lvl1"
           >
             Download PNG
           </button>
-          <button 
-            id="btn-export-svg" 
+          <button
+            id="btn-export-svg"
             class="flex-1 inline-flex items-center justify-center h-9 bg-canvas text-ink border border-hairline rounded-pill text-xs font-sans font-medium hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
           >
             Download SVG
           </button>
         </div>
-        <button 
-          id="btn-copy-svg" 
+        <button
+          id="btn-copy-svg"
           class="w-full inline-flex items-center justify-center h-8 bg-canvas text-body border border-hairline rounded-sm text-xs font-sans hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
         >
           Copy SVG to Clipboard
@@ -322,32 +500,48 @@
     </div>
 
     <!-- Vercel Legend Grid -->
-    <div class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-3">
-      <span class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider border-b border-hairline pb-2 select-none">[ Slices Distribution ]</span>
-      <div id="chart-legend" class="grid grid-cols-1 gap-1.5 max-h-[220px] overflow-y-auto pr-1">
+    <div
+      class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-3"
+    >
+      <span
+        class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider border-b border-hairline pb-2 select-none"
+        >[ Slices Distribution ]</span
+      >
+      <div
+        id="chart-legend"
+        class="grid grid-cols-1 gap-1.5 max-h-[220px] overflow-y-auto pr-1"
+      >
         <!-- Legend rows generated dynamically -->
       </div>
       <div class="text-right border-t border-hairline pt-2">
-        <span class="font-sans text-[11px] text-mute">Total Value: <span id="legend-total-val" class="font-mono font-medium text-body">0</span></span>
+        <span class="font-sans text-[11px] text-mute"
+          >Total Value: <span
+            id="legend-total-val"
+            class="font-mono font-medium text-body">0</span
+          ></span
+        >
       </div>
     </div>
 
     <!-- Decentralized Sharing Card -->
-    <div class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-4">
+    <div
+      class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-4"
+    >
       <h3 class="font-sans text-xs font-semibold text-ink">Share Chart</h3>
       <p class="font-sans text-[11px] text-body leading-relaxed">
-        Copies a link containing your chart state. Anyone opening this link can view and edit the data instantly.
+        Copies a link containing your chart state. Anyone opening this link can
+        view and edit the data instantly.
       </p>
       <div class="flex gap-2">
-        <input 
-          id="share-link-input" 
-          type="text" 
-          readonly 
-          class="flex-1 h-8 px-2.5 border border-hairline rounded-sm font-mono text-[11px] text-mute bg-canvas-soft-2 focus:outline-none" 
-          value="Generate share link..." 
+        <input
+          id="share-link-input"
+          type="text"
+          readonly
+          class="flex-1 h-8 px-2.5 border border-hairline rounded-sm font-mono text-[11px] text-mute bg-canvas-soft-2 focus:outline-none"
+          value="Generate share link..."
         />
-        <button 
-          id="btn-share-copy" 
+        <button
+          id="btn-share-copy"
           class="inline-flex items-center justify-center h-8 px-3 bg-primary text-on-primary rounded-sm text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
         >
           Copy Link
@@ -356,26 +550,34 @@
     </div>
 
     <!-- Local Drafts History Card -->
-    <div class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-4">
+    <div
+      class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-4"
+    >
       <div class="flex items-center justify-between">
         <h3 class="font-sans text-xs font-semibold text-ink">Saved Drafts</h3>
-        <span class="font-sans text-[10px] text-mute font-medium px-2 py-0.5 bg-canvas-soft-2 border border-hairline rounded-sm">Local Storage</span>
+        <span
+          class="font-sans text-[10px] text-mute font-medium px-2 py-0.5 bg-canvas-soft-2 border border-hairline rounded-sm"
+          >Local Storage</span
+        >
       </div>
       <div class="flex gap-2">
-        <input 
-          id="draft-name-input" 
-          type="text" 
-          class="flex-1 h-8 px-2.5 border border-hairline rounded-sm font-sans text-xs bg-canvas-soft-2 focus:bg-canvas focus:outline-none focus:border-hairline-strong transition-colors" 
-          placeholder="Draft name…" 
+        <input
+          id="draft-name-input"
+          type="text"
+          class="flex-1 h-8 px-2.5 border border-hairline rounded-sm font-sans text-xs bg-canvas-soft-2 focus:bg-canvas focus:outline-none focus:border-hairline-strong transition-colors"
+          placeholder="Draft name…"
         />
-        <button 
-          id="btn-draft-save" 
+        <button
+          id="btn-draft-save"
           class="inline-flex items-center justify-center h-8 px-3 bg-canvas border border-hairline rounded-sm text-xs font-sans text-body hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
         >
           Save Draft
         </button>
       </div>
-      <div id="drafts-list" class="flex flex-col gap-1.5 max-h-[140px] overflow-y-auto pr-1">
+      <div
+        id="drafts-list"
+        class="flex flex-col gap-1.5 max-h-[140px] overflow-y-auto pr-1"
+      >
         <!-- Draft items list -->
       </div>
     </div>
@@ -383,30 +585,32 @@
 </div>
 
 <!-- Simple Toast Notification Node -->
-<div 
-  id="toast-notification" 
+<div
+  id="toast-notification"
   class="fixed bottom-6 right-6 z-50 bg-primary text-on-primary px-4 py-3 rounded-md shadow-lvl4 border border-hairline-strong/10 translate-y-12 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2"
   role="alert"
   aria-live="polite"
 >
-  <span id="toast-message" class="font-sans text-xs font-medium">Link copied to clipboard</span>
+  <span id="toast-message" class="font-sans text-xs font-medium"
+    >Link copied to clipboard</span
+  >
 </div>
 
 <script>
-  import { renderChart } from './chart-renderer.js';
+  import { renderChart } from "./chart-renderer.js";
 
   // --- Dynamic Default Color Palette ---
   const DEFAULT_PALETTE = [
-    '#0070f3', // Vercel blue
-    '#7928ca', // Violet
-    '#ff0080', // Pink
-    '#50e3c2', // Mint/Cyan
-    '#f5a623', // Warning Amber
-    '#ff4d4d', // Coral Red
-    '#29bc9b', // Cyan Deep
-    '#00dfd8', // Teal
-    '#4c2889', // Violet Deep
-    '#eb367f'  // Magenta
+    "#0070f3", // Vercel blue
+    "#7928ca", // Violet
+    "#ff0080", // Pink
+    "#50e3c2", // Mint/Cyan
+    "#f5a623", // Warning Amber
+    "#ff4d4d", // Coral Red
+    "#29bc9b", // Cyan Deep
+    "#00dfd8", // Teal
+    "#4c2889", // Violet Deep
+    "#eb367f", // Magenta
   ];
 
   function getColor(index) {
@@ -415,10 +619,10 @@
 
   // --- State Variables ---
   let chartData = [
-    { label: 'Marketing', value: 120, color: getColor(0) },
-    { label: 'Development', value: 340, color: getColor(1) },
-    { label: 'Operations', value: 90, color: getColor(2) },
-    { label: 'Customer Success', value: 210, color: getColor(3) }
+    { label: "Marketing", value: 120, color: getColor(0) },
+    { label: "Development", value: 340, color: getColor(1) },
+    { label: "Operations", value: 90, color: getColor(2) },
+    { label: "Customer Success", value: 210, color: getColor(3) },
   ];
 
   let chartConfig = {
@@ -427,105 +631,121 @@
     is3D: false,
     tilt: 0.55,
     height3D: 30,
-    title: 'Resource Allocation',
-    subtitle: 'Annual Expense Distribution'
+    title: "Resource Allocation",
+    subtitle: "Annual Expense Distribution",
   };
 
   // --- DOM Elements ---
-  const svgViewport = document.getElementById('chart-viewport');
-  
+  const svgViewport = document.getElementById("chart-viewport");
+
   // Headers
-  const previewTitle = document.getElementById('preview-title');
-  const previewSubtitle = document.getElementById('preview-subtitle');
-  
+  const previewTitle = document.getElementById("preview-title");
+  const previewSubtitle = document.getElementById("preview-subtitle");
+
   // Inputs
-  const inputTitle = document.getElementById('chart-title');
-  const inputSubtitle = document.getElementById('chart-subtitle');
-  const toggle3D = document.getElementById('toggle-3d');
-  const toggleHoverPop = document.getElementById('toggle-hover-pop');
-  
+  const inputTitle = document.getElementById("chart-title");
+  const inputSubtitle = document.getElementById("chart-subtitle");
+  const toggle3D = document.getElementById("toggle-3d");
+  const toggleHoverPop = document.getElementById("toggle-hover-pop");
+
   // Dynamic Sliders Groupings
-  const sliderDonutHoleGroup = document.getElementById('slider-donut-hole-group');
-  const slider3dTiltGroup = document.getElementById('slider-3d-tilt-group');
-  const slider3dHeightGroup = document.getElementById('slider-3d-height-group');
-  
+  const sliderDonutHoleGroup = document.getElementById(
+    "slider-donut-hole-group",
+  );
+  const slider3dTiltGroup = document.getElementById("slider-3d-tilt-group");
+  const slider3dHeightGroup = document.getElementById("slider-3d-height-group");
+
   // Sliders Values
-  const inputDonutHole = document.getElementById('input-donut-hole');
-  const input3dTilt = document.getElementById('input-3d-tilt');
-  const input3dHeight = document.getElementById('input-3d-height');
-  const donutHoleVal = document.getElementById('donut-hole-val');
-  const tiltVal = document.getElementById('3d-tilt-val');
-  const heightVal = document.getElementById('3d-height-val');
+  const inputDonutHole = document.getElementById("input-donut-hole");
+  const input3dTilt = document.getElementById("input-3d-tilt");
+  const input3dHeight = document.getElementById("input-3d-height");
+  const donutHoleVal = document.getElementById("donut-hole-val");
+  const tiltVal = document.getElementById("3d-tilt-val");
+  const heightVal = document.getElementById("3d-height-val");
 
   // Manual list
-  const manualRowsContainer = document.getElementById('manual-rows-container');
-  const btnAddRow = document.getElementById('btn-add-row');
-  const btnClearAll = document.getElementById('btn-clear-all');
-  const btnSortVal = document.getElementById('btn-sort-val');
+  const manualRowsContainer = document.getElementById("manual-rows-container");
+  const btnAddRow = document.getElementById("btn-add-row");
+  const btnClearAll = document.getElementById("btn-clear-all");
+  const btnSortVal = document.getElementById("btn-sort-val");
 
   // Legend
-  const chartLegend = document.getElementById('chart-legend');
-  const legendTotalVal = document.getElementById('legend-total-val');
+  const chartLegend = document.getElementById("chart-legend");
+  const legendTotalVal = document.getElementById("legend-total-val");
 
   // Textarea paste
-  const textareaPaste = document.getElementById('paste-textarea');
-  const btnParseText = document.getElementById('btn-parse-text');
+  const textareaPaste = document.getElementById("paste-textarea");
+  const btnParseText = document.getElementById("btn-parse-text");
 
   // File Upload
-  const dropzone = document.getElementById('dropzone');
-  const fileInput = document.getElementById('file-input');
-  const fileError = document.getElementById('file-error');
+  const dropzone = document.getElementById("dropzone");
+  const fileInput = document.getElementById("file-input");
+  const fileError = document.getElementById("file-error");
 
   // Sharing
-  const shareLinkInput = document.getElementById('share-link-input');
-  const btnShareCopy = document.getElementById('btn-share-copy');
+  const shareLinkInput = document.getElementById("share-link-input");
+  const btnShareCopy = document.getElementById("btn-share-copy");
 
   // Drafts
-  const draftNameInput = document.getElementById('draft-name-input');
-  const btnDraftSave = document.getElementById('btn-draft-save');
-  const draftsList = document.getElementById('drafts-list');
+  const draftNameInput = document.getElementById("draft-name-input");
+  const btnDraftSave = document.getElementById("btn-draft-save");
+  const draftsList = document.getElementById("drafts-list");
 
   // Exports
-  const btnExportPng = document.getElementById('btn-export-png');
-  const btnExportSvg = document.getElementById('btn-export-svg');
-  const btnCopySvg = document.getElementById('btn-copy-svg');
-  const btnResetPreview = document.getElementById('btn-reset-preview');
+  const btnExportPng = document.getElementById("btn-export-png");
+  const btnExportSvg = document.getElementById("btn-export-svg");
+  const btnCopySvg = document.getElementById("btn-copy-svg");
+  const btnResetPreview = document.getElementById("btn-reset-preview");
 
   // Toast
-  const toastNode = document.getElementById('toast-notification');
-  const toastMsg = document.getElementById('toast-message');
+  const toastNode = document.getElementById("toast-notification");
+  const toastMsg = document.getElementById("toast-message");
 
   // Tab buttons and panels
   const tabs = {
-    manual: { btn: document.getElementById('tab-manual'), panel: document.getElementById('panel-manual') },
-    paste: { btn: document.getElementById('tab-paste'), panel: document.getElementById('panel-paste') },
-    upload: { btn: document.getElementById('tab-upload'), panel: document.getElementById('panel-upload') }
+    manual: {
+      btn: document.getElementById("tab-manual"),
+      panel: document.getElementById("panel-manual"),
+    },
+    paste: {
+      btn: document.getElementById("tab-paste"),
+      panel: document.getElementById("panel-paste"),
+    },
+    upload: {
+      btn: document.getElementById("tab-upload"),
+      panel: document.getElementById("panel-upload"),
+    },
   };
 
   // --- Initializing Functions ---
-  
+
   function init() {
     // 1. Hook up tabs
-    Object.keys(tabs).forEach(key => {
-      tabs[key].btn.addEventListener('click', () => switchTab(key));
+    Object.keys(tabs).forEach((key) => {
+      tabs[key].btn.addEventListener("click", () => switchTab(key));
     });
 
     // 2. Load configurations into Inputs
     inputTitle.value = chartConfig.title;
     inputSubtitle.value = chartConfig.subtitle;
-    
+
     // Layout Radios
-    const layoutRadios = document.querySelectorAll('input[name="chart-layout"]');
-    layoutRadios.forEach(radio => {
+    const layoutRadios = document.querySelectorAll(
+      'input[name="chart-layout"]',
+    );
+    layoutRadios.forEach((radio) => {
       // Set checked state
-      if ((radio.value === 'donut' && chartConfig.isDonut) || (radio.value === 'pie' && !chartConfig.isDonut)) {
+      if (
+        (radio.value === "donut" && chartConfig.isDonut) ||
+        (radio.value === "pie" && !chartConfig.isDonut)
+      ) {
         radio.checked = true;
         updateCheckedStyle(radio);
       }
       // Add event listener
-      radio.addEventListener('change', (e) => {
-        chartConfig.isDonut = (e.target.value === 'donut');
-        layoutRadios.forEach(r => updateCheckedStyle(r));
+      radio.addEventListener("change", (e) => {
+        chartConfig.isDonut = e.target.value === "donut";
+        layoutRadios.forEach((r) => updateCheckedStyle(r));
         updateControlVisibility();
         triggerRender();
       });
@@ -533,7 +753,7 @@
 
     // 3D toggle
     toggle3D.checked = chartConfig.is3D;
-    toggle3D.addEventListener('change', (e) => {
+    toggle3D.addEventListener("change", (e) => {
       chartConfig.is3D = e.target.checked;
       updateControlVisibility();
       triggerRender();
@@ -541,63 +761,63 @@
 
     // Hover cutaway toggle
     toggleHoverPop.checked = !chartConfig.disableHoverOffset;
-    toggleHoverPop.addEventListener('change', (e) => {
+    toggleHoverPop.addEventListener("change", (e) => {
       chartConfig.disableHoverOffset = !e.target.checked;
       triggerRender();
     });
 
     // Inputs listeners
-    inputTitle.addEventListener('input', (e) => {
+    inputTitle.addEventListener("input", (e) => {
       chartConfig.title = e.target.value;
       updateHeaders();
     });
 
-    inputSubtitle.addEventListener('input', (e) => {
+    inputSubtitle.addEventListener("input", (e) => {
       chartConfig.subtitle = e.target.value;
       updateHeaders();
     });
 
     // Sliders
-    inputDonutHole.addEventListener('input', (e) => {
+    inputDonutHole.addEventListener("input", (e) => {
       chartConfig.donutHoleRadius = parseFloat(e.target.value) / 100;
       donutHoleVal.textContent = `${e.target.value}%`;
       triggerRender();
     });
 
-    input3dTilt.addEventListener('input', (e) => {
+    input3dTilt.addEventListener("input", (e) => {
       chartConfig.tilt = parseFloat(e.target.value) / 100;
       tiltVal.textContent = `${e.target.value}%`;
       triggerRender();
     });
 
-    input3dHeight.addEventListener('input', (e) => {
+    input3dHeight.addEventListener("input", (e) => {
       chartConfig.height3D = parseInt(e.target.value);
       heightVal.textContent = `${e.target.value}px`;
       triggerRender();
     });
 
     // Button controls
-    btnAddRow.addEventListener('click', addNewRow);
-    btnClearAll.addEventListener('click', clearAllRows);
-    btnSortVal.addEventListener('click', sortSlicesByValue);
+    btnAddRow.addEventListener("click", addNewRow);
+    btnClearAll.addEventListener("click", clearAllRows);
+    btnSortVal.addEventListener("click", sortSlicesByValue);
 
     // Paste parse
-    btnParseText.addEventListener('click', parseRawText);
+    btnParseText.addEventListener("click", parseRawText);
 
     // File Drag-n-Drop
     setupFileDropzone();
 
     // Sharing & Exports
-    btnShareCopy.addEventListener('click', copyShareLink);
-    btnExportPng.addEventListener('click', downloadPng);
-    btnExportSvg.addEventListener('click', downloadSvg);
-    btnCopySvg.addEventListener('click', copySvgToClipboard);
+    btnShareCopy.addEventListener("click", copyShareLink);
+    btnExportPng.addEventListener("click", downloadPng);
+    btnExportSvg.addEventListener("click", downloadSvg);
+    btnCopySvg.addEventListener("click", copySvgToClipboard);
 
     // Drafts
-    btnDraftSave.addEventListener('click', saveDraft);
+    btnDraftSave.addEventListener("click", saveDraft);
 
     // Reset preview
-    btnResetPreview.addEventListener('click', resetChartToDefaults);
+    btnResetPreview.addEventListener("click", resetChartToDefaults);
 
     // Load URL state or default localStorage state
     loadUrlOrStorageState();
@@ -613,10 +833,10 @@
 
   function triggerRender() {
     if (!svgViewport) return;
-    
+
     // Render the SVG graph
     renderChart(svgViewport, chartData, chartConfig);
-    
+
     // Update headers and side legend lists
     updateHeaders();
     syncLegendUI();
@@ -626,57 +846,85 @@
   function updateHeaders() {
     previewTitle.textContent = chartConfig.title;
     previewSubtitle.textContent = chartConfig.subtitle;
-    
+
     if (!chartConfig.title) {
-      previewTitle.textContent = 'Pie Chart Maker';
-      previewTitle.classList.add('text-mute/50');
+      previewTitle.textContent = "Pie Chart Maker";
+      previewTitle.classList.add("text-mute/50");
     } else {
-      previewTitle.classList.remove('text-mute/50');
+      previewTitle.classList.remove("text-mute/50");
     }
   }
 
   function updateControlVisibility() {
     // Toggle Donut Slider visibility
     if (chartConfig.isDonut) {
-      sliderDonutHoleGroup.classList.remove('hidden');
+      sliderDonutHoleGroup.classList.remove("hidden");
     } else {
-      sliderDonutHoleGroup.classList.add('hidden');
+      sliderDonutHoleGroup.classList.add("hidden");
     }
 
     // Toggle 3D options visibility
     if (chartConfig.is3D) {
-      slider3dTiltGroup.classList.remove('hidden');
-      slider3dHeightGroup.classList.remove('hidden');
+      slider3dTiltGroup.classList.remove("hidden");
+      slider3dHeightGroup.classList.remove("hidden");
     } else {
-      slider3dTiltGroup.classList.add('hidden');
-      slider3dHeightGroup.classList.add('hidden');
+      slider3dTiltGroup.classList.add("hidden");
+      slider3dHeightGroup.classList.add("hidden");
     }
   }
 
   function updateCheckedStyle(radio) {
     const parentLabel = radio.parentElement;
     if (radio.checked) {
-      parentLabel.classList.remove('border-hairline', 'text-body', 'hover:bg-canvas-soft');
-      parentLabel.classList.add('border-hairline-strong', 'bg-canvas', 'text-ink', 'shadow-lvl1');
+      parentLabel.classList.remove(
+        "border-hairline",
+        "text-body",
+        "hover:bg-canvas-soft",
+      );
+      parentLabel.classList.add(
+        "border-hairline-strong",
+        "bg-canvas",
+        "text-ink",
+        "shadow-lvl1",
+      );
     } else {
-      parentLabel.classList.remove('border-hairline-strong', 'bg-canvas', 'text-ink', 'shadow-lvl1');
-      parentLabel.classList.add('border-hairline', 'text-body', 'hover:bg-canvas-soft');
+      parentLabel.classList.remove(
+        "border-hairline-strong",
+        "bg-canvas",
+        "text-ink",
+        "shadow-lvl1",
+      );
+      parentLabel.classList.add(
+        "border-hairline",
+        "text-body",
+        "hover:bg-canvas-soft",
+      );
     }
   }
 
   // --- Tab Management ---
 
   function switchTab(activeKey) {
-    Object.keys(tabs).forEach(key => {
+    Object.keys(tabs).forEach((key) => {
       const { btn, panel } = tabs[key];
       if (key === activeKey) {
-        btn.classList.add('bg-canvas', 'border-hairline!', 'text-ink', 'active-tab');
-        btn.setAttribute('aria-selected', 'true');
-        panel.classList.remove('hidden');
+        btn.classList.add(
+          "bg-canvas",
+          "border-hairline!",
+          "text-ink",
+          "active-tab",
+        );
+        btn.setAttribute("aria-selected", "true");
+        panel.classList.remove("hidden");
       } else {
-        btn.classList.remove('bg-canvas', 'border-hairline!', 'text-ink', 'active-tab');
-        btn.setAttribute('aria-selected', 'false');
-        panel.classList.add('hidden');
+        btn.classList.remove(
+          "bg-canvas",
+          "border-hairline!",
+          "text-ink",
+          "active-tab",
+        );
+        btn.setAttribute("aria-selected", "false");
+        panel.classList.add("hidden");
       }
     });
   }
@@ -684,11 +932,12 @@
   // --- Manual Editor Operations ---
 
   function syncManualRowsUI() {
-    manualRowsContainer.innerHTML = '';
-    
+    manualRowsContainer.innerHTML = "";
+
     chartData.forEach((row, index) => {
-      const rowDiv = document.createElement('div');
-      rowDiv.className = 'flex items-center gap-2 border border-hairline rounded-sm p-1.5 bg-canvas-soft hover:bg-canvas hover:border-hairline-strong transition-colors';
+      const rowDiv = document.createElement("div");
+      rowDiv.className =
+        "flex items-center gap-2 border border-hairline rounded-sm p-1.5 bg-canvas-soft hover:bg-canvas hover:border-hairline-strong transition-colors";
       rowDiv.dataset.index = index;
 
       rowDiv.innerHTML = `
@@ -726,7 +975,7 @@
         <button 
           type="button"
           class="w-8 h-8 inline-flex items-center justify-center text-mute hover:text-error-deep rounded-sm hover:bg-error-soft/30 transition-colors focus-visible:outline-2 focus-visible:outline-error cursor-pointer shrink-0"
-          aria-label="Delete slice ${row.label || (index + 1)}"
+          aria-label="Delete slice ${row.label || index + 1}"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M1.5 3.5h11M11.5 3.5v9a1 1 0 01-1 1h-7a1 1 0 01-1-1v-9m2 0V2a1 1 0 011-1h3a1 1 0 011 1v1.5M5.5 6.5v4M8.5 6.5v4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -739,27 +988,27 @@
       const colorDisplay = colorInput.nextElementSibling;
       const labelInput = rowDiv.querySelector('input[type="text"]');
       const valInput = rowDiv.querySelector('input[type="number"]');
-      const deleteBtn = rowDiv.querySelector('button');
+      const deleteBtn = rowDiv.querySelector("button");
 
-      colorInput.addEventListener('input', (e) => {
+      colorInput.addEventListener("input", (e) => {
         const val = e.target.value;
         colorDisplay.style.backgroundColor = val;
         chartData[index].color = val;
         triggerRender();
       });
 
-      labelInput.addEventListener('input', (e) => {
+      labelInput.addEventListener("input", (e) => {
         chartData[index].label = e.target.value;
         triggerRender();
       });
 
-      valInput.addEventListener('input', (e) => {
+      valInput.addEventListener("input", (e) => {
         const val = parseFloat(e.target.value);
         chartData[index].value = isNaN(val) ? 0 : val;
         triggerRender();
       });
 
-      deleteBtn.addEventListener('click', () => {
+      deleteBtn.addEventListener("click", () => {
         chartData.splice(index, 1);
         syncManualRowsUI();
         triggerRender();
@@ -774,11 +1023,11 @@
     chartData.push({
       label: `Slice ${chartData.length + 1}`,
       value: 100,
-      color: defaultColor
+      color: defaultColor,
     });
     syncManualRowsUI();
     triggerRender();
-    
+
     // Scroll dynamic panel to bottom
     setTimeout(() => {
       manualRowsContainer.scrollTop = manualRowsContainer.scrollHeight;
@@ -800,9 +1049,11 @@
   // --- Dynamic Legend Construction ---
 
   function syncLegendUI() {
-    chartLegend.innerHTML = '';
-    
-    const validData = chartData.filter(d => d && typeof d.value === 'number' && d.value > 0);
+    chartLegend.innerHTML = "";
+
+    const validData = chartData.filter(
+      (d) => d && typeof d.value === "number" && d.value > 0,
+    );
     const total = validData.reduce((sum, d) => sum + d.value, 0);
     legendTotalVal.textContent = total.toLocaleString();
 
@@ -817,15 +1068,16 @@
 
     validData.forEach((row) => {
       const percent = total > 0 ? (row.value / total) * 100 : 0;
-      
-      const rowDiv = document.createElement('div');
-      rowDiv.className = 'legend-item flex items-center justify-between py-1.5 px-2.5 rounded-sm border border-transparent font-sans text-xs hover:bg-canvas-soft-2 hover:border-hairline transition-all';
+
+      const rowDiv = document.createElement("div");
+      rowDiv.className =
+        "legend-item flex items-center justify-between py-1.5 px-2.5 rounded-sm border border-transparent font-sans text-xs hover:bg-canvas-soft-2 hover:border-hairline transition-all";
       rowDiv.dataset.index = chartData.indexOf(row);
 
       rowDiv.innerHTML = `
         <div class="flex items-center gap-2 min-w-0">
           <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${row.color}"></span>
-          <span class="font-medium text-ink truncate">${row.label || 'Untitled'}</span>
+          <span class="font-medium text-ink truncate">${row.label || "Untitled"}</span>
         </div>
         <div class="flex items-center gap-4 shrink-0 font-mono text-mute">
           <span>${row.value.toLocaleString()}</span>
@@ -842,18 +1094,18 @@
     const val = textareaPaste.value.trim();
     if (!val) return;
 
-    const lines = val.split('\n');
+    const lines = val.split("\n");
     const parsed = [];
 
     lines.forEach((line) => {
       // Clean lines and split by delimiters (comma, tab, colon, or space-separated)
       let parts = [];
-      if (line.includes(',')) {
-        parts = line.split(',');
-      } else if (line.includes('\t')) {
-        parts = line.split('\t');
-      } else if (line.includes(':')) {
-        parts = line.split(':');
+      if (line.includes(",")) {
+        parts = line.split(",");
+      } else if (line.includes("\t")) {
+        parts = line.split("\t");
+      } else if (line.includes(":")) {
+        parts = line.split(":");
       } else {
         // Find last space followed by a number
         const match = line.match(/(.+)\s+(\d+(\.\d+)?)\s*$/);
@@ -881,38 +1133,46 @@
       chartData = parsed.map((item, index) => ({
         label: item.label,
         value: item.value,
-        color: getColor(index)
+        color: getColor(index),
       }));
 
       syncManualRowsUI();
       triggerRender();
-      switchTab('manual');
-      textareaPaste.value = '';
-      showToast('Data extracted successfully!');
+      switchTab("manual");
+      textareaPaste.value = "";
+      showToast("Data extracted successfully!");
     } else {
-      showToast('Could not extract any data. Check formatting!');
+      showToast("Could not extract any data. Check formatting!");
     }
   }
 
   // --- File Drag & Drop Setup ---
 
   function setupFileDropzone() {
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropzone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        dropzone.classList.remove('bg-canvas-soft-2');
-        dropzone.classList.add('bg-canvas-soft-2', 'border-hairline-strong');
-      }, false);
+    ["dragenter", "dragover"].forEach((eventName) => {
+      dropzone.addEventListener(
+        eventName,
+        (e) => {
+          e.preventDefault();
+          dropzone.classList.remove("bg-canvas-soft-2");
+          dropzone.classList.add("bg-canvas-soft-2", "border-hairline-strong");
+        },
+        false,
+      );
     });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropzone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        dropzone.classList.remove('border-hairline-strong');
-      }, false);
+    ["dragleave", "drop"].forEach((eventName) => {
+      dropzone.addEventListener(
+        eventName,
+        (e) => {
+          e.preventDefault();
+          dropzone.classList.remove("border-hairline-strong");
+        },
+        false,
+      );
     });
 
-    dropzone.addEventListener('drop', (e) => {
+    dropzone.addEventListener("drop", (e) => {
       const dt = e.dataTransfer;
       const files = dt.files;
       if (files.length > 0) {
@@ -920,11 +1180,11 @@
       }
     });
 
-    dropzone.addEventListener('click', () => {
+    dropzone.addEventListener("click", () => {
       fileInput.click();
     });
 
-    fileInput.addEventListener('change', (e) => {
+    fileInput.addEventListener("change", (e) => {
       if (e.target.files.length > 0) {
         handleImportFile(e.target.files[0]);
       }
@@ -932,52 +1192,53 @@
   }
 
   async function handleImportFile(file) {
-    fileError.classList.add('hidden');
+    fileError.classList.add("hidden");
     const name = file.name.toLowerCase();
 
-    if (name.endsWith('.csv')) {
+    if (name.endsWith(".csv")) {
       const reader = new FileReader();
       reader.onload = (e) => {
         parseCSVText(e.target.result);
       };
       reader.readAsText(file);
-    } else if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+    } else if (name.endsWith(".xlsx") || name.endsWith(".xls")) {
       // Dynamic load SheetJS and parse
-      showToast('Loading spreadsheet parser…');
+      showToast("Loading spreadsheet parser…");
       try {
         const parsed = await parseXLSX(file);
         if (parsed && parsed.length > 0) {
           chartData = parsed.map((item, index) => ({
             label: item.label,
             value: item.value,
-            color: getColor(index)
+            color: getColor(index),
           }));
           syncManualRowsUI();
           triggerRender();
-          switchTab('manual');
-          showToast('Import completed!');
+          switchTab("manual");
+          showToast("Import completed!");
         } else {
-          throw new Error('No valid columns found');
+          throw new Error("No valid columns found");
         }
       } catch (err) {
         console.error(err);
-        fileError.textContent = `Error parsing XLSX: ${err.message || 'File format unsupported'}`;
-        fileError.classList.remove('hidden');
+        fileError.textContent = `Error parsing XLSX: ${err.message || "File format unsupported"}`;
+        fileError.classList.remove("hidden");
       }
     } else {
-      fileError.textContent = 'Unsupported file format! Upload a .csv or .xlsx file.';
-      fileError.classList.remove('hidden');
+      fileError.textContent =
+        "Unsupported file format! Upload a .csv or .xlsx file.";
+      fileError.classList.remove("hidden");
     }
   }
 
   function parseCSVText(text) {
-    const lines = text.split('\n');
+    const lines = text.split("\n");
     const parsed = [];
-    
+
     lines.forEach((line) => {
       const row = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); // smart comma-split handling quotes
       if (row.length >= 2) {
-        const label = row[0].replace(/"/g, '').trim();
+        const label = row[0].replace(/"/g, "").trim();
         const val = parseFloat(row[1].trim());
         if (!isNaN(val) && label) {
           parsed.push({ label, value: val });
@@ -989,24 +1250,26 @@
       chartData = parsed.map((item, index) => ({
         label: item.label,
         value: item.value,
-        color: getColor(index)
+        color: getColor(index),
       }));
       syncManualRowsUI();
       triggerRender();
-      switchTab('manual');
-      showToast('CSV imported!');
+      switchTab("manual");
+      showToast("CSV imported!");
     } else {
-      fileError.textContent = 'No columns detected. Make sure Column 1 is Name and Column 2 is Number.';
-      fileError.classList.remove('hidden');
+      fileError.textContent =
+        "No columns detected. Make sure Column 1 is Name and Column 2 is Number.";
+      fileError.classList.remove("hidden");
     }
   }
 
   async function parseXLSX(file) {
-    if (typeof window.XLSX === 'undefined') {
+    if (typeof window.XLSX === "undefined") {
       // Dynamically load CDN script
       await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+        const script = document.createElement("script");
+        script.src =
+          "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
         script.onload = resolve;
         script.onerror = reject;
         document.head.appendChild(script);
@@ -1018,17 +1281,19 @@
       reader.onload = (e) => {
         try {
           const data = new Uint8Array(e.target.result);
-          const workbook = window.XLSX.read(data, { type: 'array' });
+          const workbook = window.XLSX.read(data, { type: "array" });
           const firstSheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[firstSheetName];
-          const json = window.XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-          
+          const json = window.XLSX.utils.sheet_to_json(worksheet, {
+            header: 1,
+          });
+
           const parsedData = [];
           json.forEach((row) => {
             if (row.length >= 2) {
-              const label = String(row[0]).replace(/"/g, '').trim();
+              const label = String(row[0]).replace(/"/g, "").trim();
               const val = parseFloat(row[1]);
-              if (!isNaN(val) && label !== '') {
+              if (!isNaN(val) && label !== "") {
                 parsedData.push({ label, value: val });
               }
             }
@@ -1049,72 +1314,78 @@
     try {
       const serializer = new XMLSerializer();
       const svgString = serializer.serializeToString(svgViewport);
-      
-      const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+
+      const blob = new Blob([svgString], {
+        type: "image/svg+xml;charset=utf-8",
+      });
       const url = URL.createObjectURL(blob);
-      
-      const a = document.createElement('a');
+
+      const a = document.createElement("a");
       a.href = url;
-      a.download = `${chartConfig.title || 'pie-chart'}.svg`;
+      a.download = `${chartConfig.title || "pie-chart"}.svg`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      
-      showToast('SVG download triggered!');
-    } catch(err) {
+
+      showToast("SVG download triggered!");
+    } catch (err) {
       console.error(err);
-      showToast('Failed to export SVG.');
+      showToast("Failed to export SVG.");
     }
   }
 
   function downloadPng() {
     try {
-      showToast('Rendering PNG…');
+      showToast("Rendering PNG…");
       const serializer = new XMLSerializer();
       const svgString = serializer.serializeToString(svgViewport);
-      
-      const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+
+      const blob = new Blob([svgString], {
+        type: "image/svg+xml;charset=utf-8",
+      });
       const url = URL.createObjectURL(blob);
-      
+
       const img = new Image();
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         const bbox = svgViewport.getBoundingClientRect();
-        
+
         // Use crisp multipliers
         const scale = 2;
-        canvas.width = (svgViewport.viewBox.baseVal.width || bbox.width) * scale;
-        canvas.height = (svgViewport.viewBox.baseVal.height || bbox.height) * scale;
-        
-        const ctx = canvas.getContext('2d');
+        canvas.width =
+          (svgViewport.viewBox.baseVal.width || bbox.width) * scale;
+        canvas.height =
+          (svgViewport.viewBox.baseVal.height || bbox.height) * scale;
+
+        const ctx = canvas.getContext("2d");
         ctx.scale(scale, scale);
-        
+
         // Draw clean white backdrop
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+
         // Draw SVG image
         ctx.drawImage(img, 0, 0);
-        
+
         // Export data
-        const pngURL = canvas.toDataURL('image/png');
-        
-        const a = document.createElement('a');
+        const pngURL = canvas.toDataURL("image/png");
+
+        const a = document.createElement("a");
         a.href = pngURL;
-        a.download = `${chartConfig.title || 'pie-chart'}.png`;
+        a.download = `${chartConfig.title || "pie-chart"}.png`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        
+
         URL.revokeObjectURL(url);
-        showToast('PNG downloaded!');
+        showToast("PNG downloaded!");
       };
-      
+
       img.src = url;
     } catch (err) {
       console.error(err);
-      showToast('PNG render failed.');
+      showToast("PNG render failed.");
     }
   }
 
@@ -1123,10 +1394,10 @@
       const serializer = new XMLSerializer();
       const svgString = serializer.serializeToString(svgViewport);
       await navigator.clipboard.writeText(svgString);
-      showToast('SVG code copied to clipboard!');
+      showToast("SVG code copied to clipboard!");
     } catch (err) {
       console.error(err);
-      showToast('Failed to copy to clipboard.');
+      showToast("Failed to copy to clipboard.");
     }
   }
 
@@ -1134,7 +1405,7 @@
 
   function generateShareLink() {
     const payload = {
-      d: chartData.map(row => ({ l: row.label, v: row.value, c: row.color })),
+      d: chartData.map((row) => ({ l: row.label, v: row.value, c: row.color })),
       c: {
         d: chartConfig.isDonut ? 1 : 0,
         hr: chartConfig.donutHoleRadius,
@@ -1143,16 +1414,18 @@
         h: chartConfig.height3D,
         ti: chartConfig.title,
         sub: chartConfig.subtitle,
-        ho: chartConfig.disableHoverOffset ? 1 : 0
-      }
+        ho: chartConfig.disableHoverOffset ? 1 : 0,
+      },
     };
 
     try {
-      const base64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+      const base64 = btoa(
+        unescape(encodeURIComponent(JSON.stringify(payload))),
+      );
       const shareUrl = `${location.protocol}//${location.host}${location.pathname}#state=${base64}`;
       shareLinkInput.value = shareUrl;
-    } catch(e) {
-      console.error('Failed to encode share link', e);
+    } catch (e) {
+      console.error("Failed to encode share link", e);
     }
   }
 
@@ -1161,26 +1434,26 @@
     shareLinkInput.setSelectionRange(0, 99999);
     try {
       navigator.clipboard.writeText(shareLinkInput.value);
-      showToast('Share link copied to clipboard!');
+      showToast("Share link copied to clipboard!");
     } catch (err) {
-      showToast('Failed to copy link.');
+      showToast("Failed to copy link.");
     }
   }
 
   function loadUrlOrStorageState() {
     // Check hash first
     const hash = location.hash;
-    if (hash && hash.startsWith('#state=')) {
+    if (hash && hash.startsWith("#state=")) {
       try {
         const payloadBase64 = hash.substring(7);
         const jsonStr = decodeURIComponent(escape(atob(payloadBase64)));
         const state = JSON.parse(jsonStr);
-        
+
         if (state.d && Array.isArray(state.d)) {
-          chartData = state.d.map(item => ({
+          chartData = state.d.map((item) => ({
             label: item.l,
             value: item.v,
-            color: item.c
+            color: item.c,
           }));
         }
 
@@ -1191,23 +1464,23 @@
             is3D: state.c.i3d === 1,
             tilt: state.c.t ?? 0.55,
             height3D: state.c.h ?? 30,
-            title: state.c.ti ?? '',
-            subtitle: state.c.sub ?? '',
-            disableHoverOffset: state.c.ho === 1
+            title: state.c.ti ?? "",
+            subtitle: state.c.sub ?? "",
+            disableHoverOffset: state.c.ho === 1,
           };
         }
 
         // Clean up hash in location bar to keep it tidy
         history.replaceState(null, "", location.pathname);
-        showToast('Shared chart loaded!');
+        showToast("Shared chart loaded!");
       } catch (err) {
-        console.error('Failed to parse URL hash state', err);
-        showToast('Failed to parse shared link.');
+        console.error("Failed to parse URL hash state", err);
+        showToast("Failed to parse shared link.");
       }
     } else {
       // Fallback: load last draft from localStorage
       try {
-        const lastSession = localStorage.getItem('pie_chart_last_session');
+        const lastSession = localStorage.getItem("pie_chart_last_session");
         if (lastSession) {
           const parsed = JSON.parse(lastSession);
           chartData = parsed.data;
@@ -1217,27 +1490,30 @@
     }
 
     // Auto save last state before unloading page
-    window.addEventListener('beforeunload', () => {
+    window.addEventListener("beforeunload", () => {
       try {
-        localStorage.setItem('pie_chart_last_session', JSON.stringify({
-          data: chartData,
-          config: chartConfig
-        }));
+        localStorage.setItem(
+          "pie_chart_last_session",
+          JSON.stringify({
+            data: chartData,
+            config: chartConfig,
+          }),
+        );
       } catch (e) {}
     });
   }
 
   function resetChartToDefaults() {
     // 1. Find all slice group elements in the SVG viewport
-    const slices = svgViewport.querySelectorAll('.slice-group');
-    
+    const slices = svgViewport.querySelectorAll(".slice-group");
+
     // 2. Dispatch a mouseleave event to restore them to center and hide tooltips
     slices.forEach((slice) => {
-      const event = new MouseEvent('mouseleave');
+      const event = new MouseEvent("mouseleave");
       slice.dispatchEvent(event);
     });
 
-    showToast('Chart views restored!');
+    showToast("Chart views restored!");
   }
 
   // --- Local drafts history ---
@@ -1245,21 +1521,23 @@
   function saveDraft() {
     const name = draftNameInput.value.trim();
     if (!name) {
-      showToast('Please enter a draft name');
+      showToast("Please enter a draft name");
       return;
     }
 
     try {
-      const draftsStr = localStorage.getItem('pie_chart_drafts') || '[]';
+      const draftsStr = localStorage.getItem("pie_chart_drafts") || "[]";
       const drafts = JSON.parse(draftsStr);
-      
+
       // Check duplicate
-      const existIndex = drafts.findIndex(d => d.name.toLowerCase() === name.toLowerCase());
+      const existIndex = drafts.findIndex(
+        (d) => d.name.toLowerCase() === name.toLowerCase(),
+      );
       const draftObj = {
         name: name,
         date: new Date().toLocaleDateString(),
         data: chartData,
-        config: chartConfig
+        config: chartConfig,
       };
 
       if (existIndex >= 0) {
@@ -1268,20 +1546,20 @@
         drafts.push(draftObj);
       }
 
-      localStorage.setItem('pie_chart_drafts', JSON.stringify(drafts));
-      draftNameInput.value = '';
+      localStorage.setItem("pie_chart_drafts", JSON.stringify(drafts));
+      draftNameInput.value = "";
       loadDraftsHistory();
       showToast(`Draft "${name}" saved!`);
-    } catch(err) {
+    } catch (err) {
       console.error(err);
-      showToast('Failed to save draft.');
+      showToast("Failed to save draft.");
     }
   }
 
   function loadDraftsHistory() {
-    draftsList.innerHTML = '';
+    draftsList.innerHTML = "";
     try {
-      const draftsStr = localStorage.getItem('pie_chart_drafts') || '[]';
+      const draftsStr = localStorage.getItem("pie_chart_drafts") || "[]";
       const drafts = JSON.parse(draftsStr);
 
       if (drafts.length === 0) {
@@ -1292,9 +1570,10 @@
       }
 
       drafts.forEach((draft, idx) => {
-        const row = document.createElement('div');
-        row.className = 'flex items-center justify-between border border-hairline bg-canvas-soft-2 p-1.5 rounded-sm hover:bg-canvas transition-colors';
-        
+        const row = document.createElement("div");
+        row.className =
+          "flex items-center justify-between border border-hairline bg-canvas-soft-2 p-1.5 rounded-sm hover:bg-canvas transition-colors";
+
         row.innerHTML = `
           <button 
             type="button" 
@@ -1317,27 +1596,33 @@
           </div>
         `;
 
-        const loadBtn = row.querySelector('.load-draft-btn');
-        const deleteBtn = row.querySelector('.delete-draft-btn');
+        const loadBtn = row.querySelector(".load-draft-btn");
+        const deleteBtn = row.querySelector(".delete-draft-btn");
 
-        loadBtn.addEventListener('click', () => {
+        loadBtn.addEventListener("click", () => {
           // Deep clone the draft data & config to prevent reference sharing bugs
           chartData = JSON.parse(JSON.stringify(draft.data));
           chartConfig = JSON.parse(JSON.stringify(draft.config));
-          
+
           // Sync inputs
           inputTitle.value = chartConfig.title;
           inputSubtitle.value = chartConfig.subtitle;
           toggle3D.checked = chartConfig.is3D;
           toggleHoverPop.checked = !chartConfig.disableHoverOffset;
-          
-          const layoutRadios = document.querySelectorAll('input[name="chart-layout"]');
-          layoutRadios.forEach(radio => {
-            radio.checked = (radio.value === 'donut' && chartConfig.isDonut) || (radio.value === 'pie' && !chartConfig.isDonut);
+
+          const layoutRadios = document.querySelectorAll(
+            'input[name="chart-layout"]',
+          );
+          layoutRadios.forEach((radio) => {
+            radio.checked =
+              (radio.value === "donut" && chartConfig.isDonut) ||
+              (radio.value === "pie" && !chartConfig.isDonut);
             updateCheckedStyle(radio);
           });
 
-          inputDonutHole.value = Math.round(chartConfig.donutHoleRadius * 100).toString();
+          inputDonutHole.value = Math.round(
+            chartConfig.donutHoleRadius * 100,
+          ).toString();
           donutHoleVal.textContent = `${inputDonutHole.value}%`;
 
           input3dTilt.value = Math.round(chartConfig.tilt * 100).toString();
@@ -1352,16 +1637,16 @@
           showToast(`Loaded draft: "${draft.name}"`);
         });
 
-        deleteBtn.addEventListener('click', () => {
+        deleteBtn.addEventListener("click", () => {
           drafts.splice(idx, 1);
-          localStorage.setItem('pie_chart_drafts', JSON.stringify(drafts));
+          localStorage.setItem("pie_chart_drafts", JSON.stringify(drafts));
           loadDraftsHistory();
-          showToast('Draft deleted.');
+          showToast("Draft deleted.");
         });
 
         draftsList.appendChild(row);
       });
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     }
   }
@@ -1371,14 +1656,14 @@
   function showToast(msg) {
     clearTimeout(toastTimeout);
     toastMsg.textContent = msg;
-    
+
     // Animate in
-    toastNode.classList.remove('translate-y-12', 'opacity-0');
-    toastNode.classList.add('translate-y-0', 'opacity-100');
-    
+    toastNode.classList.remove("translate-y-12", "opacity-0");
+    toastNode.classList.add("translate-y-0", "opacity-100");
+
     toastTimeout = setTimeout(() => {
-      toastNode.classList.remove('translate-y-0', 'opacity-100');
-      toastNode.classList.add('translate-y-12', 'opacity-0');
+      toastNode.classList.remove("translate-y-0", "opacity-100");
+      toastNode.classList.add("translate-y-12", "opacity-0");
     }, 2500);
   }
 
@@ -1388,19 +1673,19 @@
 
 <style>
   /* Range Slider styling overrides for clean Vercel look */
-  input[type=range] {
+  input[type="range"] {
     -webkit-appearance: none;
     background: #ebebeb;
     border-radius: 9999px;
   }
-  input[type=range]:focus {
+  input[type="range"]:focus {
     outline: none;
   }
-  input[type=range]::-webkit-slider-runnable-track {
+  input[type="range"]::-webkit-slider-runnable-track {
     height: 4px;
     border-radius: 9999px;
   }
-  input[type=range]::-webkit-slider-thumb {
+  input[type="range"]::-webkit-slider-thumb {
     height: 14px;
     width: 14px;
     border-radius: 9999px;
@@ -1412,10 +1697,10 @@
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
     transition: transform 0.1s ease;
   }
-  input[type=range]::-webkit-slider-thumb:hover {
+  input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.15);
   }
-  input[type=range]::-moz-range-thumb {
+  input[type="range"]::-moz-range-thumb {
     height: 14px;
     width: 14px;
     border-radius: 9999px;
@@ -1425,7 +1710,7 @@
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
     transition: transform 0.1s ease;
   }
-  input[type=range]::-moz-range-thumb:hover {
+  input[type="range"]::-moz-range-thumb:hover {
     transform: scale(1.15);
   }
 

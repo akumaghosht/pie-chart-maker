@@ -307,59 +307,90 @@ export function renderChart(svg, data, config) {
   // 4. Interactive Event Observers (Hover Translate & Tooltip)
   let activeIndex = -1;
 
+  // Build a lookup: originalIndex -> array of sub-nodes
+  const nodesByIndex = {};
   sliceNodes.forEach((node) => {
-    node.addEventListener('mouseenter', (e) => {
-      const index = node.dataset.index;
-      activeIndex = index;
-      
-      // Select all sub-slices sharing the same originalIndex to translate them together
-      sliceNodes.forEach((subNode) => {
-        if (subNode.dataset.index === index) {
-          subNode.style.transform = subNode.dataset.hoverTransform;
-          // Bring to front by moving node to end of DOM parent
-          chartGroup.appendChild(subNode);
-        }
-      });
+    const idx = node.dataset.index;
+    if (!nodesByIndex[idx]) nodesByIndex[idx] = [];
+    nodesByIndex[idx].push(node);
+  });
 
-      // Highlight corresponding element in the external legend if it exists
-      const legendItem = document.querySelector(`.legend-item[data-index="${index}"]`);
-      if (legendItem) {
-        legendItem.classList.add('bg-canvas-soft-2', 'border-hairline-strong');
+  function activateSlice(index, e) {
+    if (activeIndex === index) return; // already active, nothing to do
+    activeIndex = index;
+
+    // Translate all sub-segments outward together
+    sliceNodes.forEach((subNode) => {
+      if (subNode.dataset.index === index) {
+        subNode.style.transform = subNode.dataset.hoverTransform;
+        // Bring to front by moving node to end of DOM parent
+        chartGroup.appendChild(subNode);
       }
-
-      showTooltip(e, node.dataset.label, node.dataset.value, node.dataset.percent, node.dataset.color);
     });
 
-    node.addEventListener('mouseleave', () => {
-      const index = node.dataset.index;
-      
-      // Reset translation for all subsegments
-      sliceNodes.forEach((subNode) => {
-        if (subNode.dataset.index === index) {
-          subNode.style.transform = 'none';
-        }
-      });
+    // Highlight corresponding element in the external legend if it exists
+    const legendItem = document.querySelector(`.legend-item[data-index="${index}"]`);
+    if (legendItem) {
+      legendItem.classList.add('bg-canvas-soft-2', 'border-hairline-strong');
+    }
 
-      const legendItem = document.querySelector(`.legend-item[data-index="${index}"]`);
-      if (legendItem) {
-        legendItem.classList.remove('bg-canvas-soft-2', 'border-hairline-strong');
+    showTooltip(e, sliceNodes.find(n => n.dataset.index === index).dataset.label,
+      sliceNodes.find(n => n.dataset.index === index).dataset.value,
+      sliceNodes.find(n => n.dataset.index === index).dataset.percent,
+      sliceNodes.find(n => n.dataset.index === index).dataset.color);
+  }
+
+  function deactivateSlice() {
+    if (activeIndex === -1) return; // nothing active
+    const index = activeIndex;
+    activeIndex = -1;
+
+    // Reset translation for all subsegments
+    sliceNodes.forEach((subNode) => {
+      if (subNode.dataset.index === index) {
+        subNode.style.transform = 'none';
       }
+    });
 
-      hideTooltip();
-      activeIndex = -1;
+    const legendItem = document.querySelector(`.legend-item[data-index="${index}"]`);
+    if (legendItem) {
+      legendItem.classList.remove('bg-canvas-soft-2', 'border-hairline-strong');
+    }
 
-      // Re-apply painter's sorting order to avoid depth bugs if elements were reordered in DOM
-      if (is3D) {
-        sliceNodes.sort((a, b) => parseInt(a.dataset.renderIndex) - parseInt(b.dataset.renderIndex));
-        sliceNodes.forEach((node) => {
-          chartGroup.appendChild(node);
-        });
+    hideTooltip();
+
+    // Re-apply painter's sorting order to avoid depth bugs (3D)
+    if (is3D) {
+      sliceNodes.sort((a, b) => parseInt(a.dataset.renderIndex) - parseInt(b.dataset.renderIndex));
+      sliceNodes.forEach((n) => chartGroup.appendChild(n));
+    }
+  }
+
+  sliceNodes.forEach((node) => {
+    node.addEventListener('mouseenter', (e) => {
+      activateSlice(node.dataset.index, e);
+    });
+
+    node.addEventListener('mouseleave', (e) => {
+      // Only deactivate if the cursor is moving to an element that is NOT
+      // a sub-segment of the same logical slice. This prevents flicker when
+      // the cursor moves between sub-segments of the same slice.
+      const related = e.relatedTarget;
+      const sameSliceNodes = nodesByIndex[node.dataset.index] || [];
+      const isStillInSameSlice = related && sameSliceNodes.some(n => n === related || n.contains(related));
+      if (!isStillInSameSlice) {
+        deactivateSlice();
       }
     });
 
     node.addEventListener('mousemove', (e) => {
       updateTooltipPosition(e);
     });
+  });
+
+  // Safety net: if the cursor leaves the entire SVG element, always hide
+  svg.addEventListener('mouseleave', () => {
+    deactivateSlice();
   });
 
   // Tooltip UI Drawing Functions
