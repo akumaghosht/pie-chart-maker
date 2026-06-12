@@ -1,26 +1,28 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-primary: #171717;
-  --color-on-primary: #ffffff;
-  --color-ink: #171717;
-  --color-body: #4d4d4d;
-  --color-mute: #888888;
-  --color-hairline: #ebebeb;
-  --color-hairline-strong: #a1a1a1;
-  --color-canvas: #ffffff;
-  --color-canvas-soft: #fafafa;
-  --color-canvas-soft-2: #f5f5f5;
-  --color-link: #0070f3;
-  --color-link-deep: #0761d1;
-  --color-link-bg-soft: #d3e5ff;
-  --color-success: #0070f3;
-  --color-error: #ee0000;
-  --color-error-soft: #f7d4d6;
-  --color-error-deep: #c50000;
-  --color-warning: #f5a623;
-  --color-warning-soft: #ffefcf;
-  --color-warning-deep: #ab570a;
+  --color-primary: var(--cl-primary);
+  --color-on-primary: var(--cl-on-primary);
+  --color-ink: var(--cl-ink);
+  --color-body: var(--cl-body);
+  --color-mute: var(--cl-mute);
+  --color-hairline: var(--cl-hairline);
+  --color-hairline-strong: var(--cl-hairline-strong);
+  --color-canvas: var(--cl-canvas);
+  --color-canvas-soft: var(--cl-canvas-soft);
+  --color-canvas-soft-2: var(--cl-canvas-soft-2);
+  --color-link: var(--cl-link);
+  --color-link-deep: var(--cl-link-deep);
+  --color-link-bg-soft: var(--cl-link-bg-soft);
+  --color-success: var(--cl-success);
+  --color-error: var(--cl-error);
+  --color-error-soft: var(--cl-error-soft);
+  --color-error-deep: var(--cl-error-deep);
+  --color-warning: var(--cl-warning);
+  --color-warning-soft: var(--cl-warning-soft);
+  --color-warning-deep: var(--cl-warning-deep);
   --color-violet: #7928ca;
   --color-violet-soft: #d8ccf1;
   --color-violet-deep: #4c2889;
@@ -49,6 +51,53 @@
   --radius-pill: 100px;
 }
 
+:root {
+  --cl-primary: #171717;
+  --cl-on-primary: #ffffff;
+  --cl-ink: #171717;
+  --cl-body: #4d4d4d;
+  --cl-mute: #888888;
+  --cl-hairline: #ebebeb;
+  --cl-hairline-strong: #a1a1a1;
+  --cl-canvas: #ffffff;
+  --cl-canvas-soft: #fafafa;
+  --cl-canvas-soft-2: #f5f5f5;
+  --cl-link: #0070f3;
+  --cl-link-deep: #0761d1;
+  --cl-link-bg-soft: #d3e5ff;
+  --cl-success: #0070f3;
+  --cl-error: #ee0000;
+  --cl-error-soft: #f7d4d6;
+  --cl-error-deep: #c50000;
+  --cl-warning: #f5a623;
+  --cl-warning-soft: #ffefcf;
+  --cl-warning-deep: #ab570a;
+}
+
+.dark {
+  --cl-primary: #ededed;
+  --cl-on-primary: #171717;
+  --cl-ink: #ededed;
+  --cl-body: #888888;
+  --cl-mute: #666666;
+  --cl-hairline: #232323;
+  --cl-hairline-strong: #333333;
+  --cl-canvas: #0a0a0a;
+  --cl-canvas-soft: #111111;
+  --cl-canvas-soft-2: #1a1a1a;
+  --cl-link: #3291ff;
+  --cl-link-deep: #0070f3;
+  --cl-link-bg-soft: #1a2744;
+  --cl-success: #3291ff;
+  --cl-error: #ff4d4d;
+  --cl-error-soft: #2d1517;
+  --cl-error-deep: #ff4d4d;
+  --cl-warning: #f5a623;
+  --cl-warning-soft: #2d2410;
+  --cl-warning-deep: #f5a623;
+  color-scheme: dark;
+}
+
 @layer base {
   html, body {
     margin: 0;
@@ -59,33 +108,47 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s, color 0.3s;
   }
 
   ::selection {
-    background-color: var(--color-primary);
-    color: var(--color-on-primary);
+    background-color: var(--cl-primary);
+    color: var(--cl-on-primary);
   }
 }
 
 /* Custom elevation styles (stacked shadows from DESIGN.md) */
 .shadow-lvl1 {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 1px var(--cl-hairline);
+  transition: box-shadow 0.3s;
 }
 
 .shadow-lvl2 {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 1px var(--cl-hairline), 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s;
 }
 
 .shadow-lvl3 {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.05), 0 8px 16px -8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 1px var(--cl-hairline), 0 2px 4px rgba(0, 0, 0, 0.05), 0 8px 16px -8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s;
 }
 
 .shadow-lvl4 {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.05), 0 16px 24px -8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 1px var(--cl-hairline), 0 4px 8px rgba(0, 0, 0, 0.05), 0 16px 24px -8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s;
 }
 
 .shadow-lvl5 {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 12px 24px rgba(0, 0, 0, 0.05), 0 32px 48px -12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px var(--cl-hairline), 0 12px 24px rgba(0, 0, 0, 0.05), 0 32px 48px -12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.dark .shadow-lvl1,
+.dark .shadow-lvl2,
+.dark .shadow-lvl3,
+.dark .shadow-lvl4,
+.dark .shadow-lvl5 {
+  box-shadow: 0 0 0 1px var(--cl-hairline);
 }
 
 /* Mesh gradient hero background */
@@ -94,4 +157,11 @@
               radial-gradient(at 90% 10%, rgba(121, 40, 202, 0.08) 0px, transparent 50%),
               radial-gradient(at 50% 80%, rgba(255, 77, 77, 0.05) 0px, transparent 50%),
               radial-gradient(at 80% 90%, rgba(249, 203, 40, 0.05) 0px, transparent 50%);
+}
+
+.dark .mesh-gradient-bg {
+  background: radial-gradient(at 10% 20%, rgba(0, 124, 240, 0.15) 0px, transparent 50%),
+              radial-gradient(at 90% 10%, rgba(121, 40, 202, 0.15) 0px, transparent 50%),
+              radial-gradient(at 50% 80%, rgba(255, 77, 77, 0.1) 0px, transparent 50%),
+              radial-gradient(at 80% 90%, rgba(249, 203, 40, 0.1) 0px, transparent 50%);
 }

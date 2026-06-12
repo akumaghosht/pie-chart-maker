@@ -6,7 +6,21 @@
  * @param {Array<{label: string, value: number, color: string}>} data - The dataset.
  * @param {Object} config - Configuration options.
  */
+function getCSSVar(el, name) {
+  return getComputedStyle(el).getPropertyValue(name).trim() || "#171717";
+}
+
 export function renderChart(svg, data, config) {
+  // Read CSS custom properties for dark mode compatibility
+  const inkColor = getCSSVar(svg, "--cl-ink");
+  const bodyColor = getCSSVar(svg, "--cl-body");
+  const muteColor = getCSSVar(svg, "--cl-mute");
+  const hairlineColor = getCSSVar(svg, "--cl-hairline");
+  const hairlineStrong = getCSSVar(svg, "--cl-hairline-strong");
+  const canvasColor = getCSSVar(svg, "--cl-canvas");
+  const primaryColor = getCSSVar(svg, "--cl-primary");
+  const onPrimaryColor = getCSSVar(svg, "--cl-on-primary");
+
   // Clear existing content
   while (svg.firstChild) {
     svg.removeChild(svg.firstChild);
@@ -53,10 +67,20 @@ export function renderChart(svg, data, config) {
   });
 
   const legendAreaHeight = 15 + legendRowsCount * rowSpacing;
-  const availableChartHeight = height - legendAreaHeight;
+  
+  // Calculate top offset dynamically for SVG Title & Subtitle
+  let topOffset = 10;
+  if (config.title) {
+    topOffset += 24;
+  }
+  if (config.subtitle) {
+    topOffset += 16;
+  }
+
+  const availableChartHeight = height - legendAreaHeight - topOffset;
 
   // If 3D, offset center slightly upwards to account for the extrusion height
-  const cy = is3D ? (availableChartHeight - height3D) / 2 + 5 : availableChartHeight / 2;
+  const cy = topOffset + (is3D ? (availableChartHeight - height3D) / 2 + 5 : availableChartHeight / 2);
   
   // Radius: make sure the chart fits within the container, leaving margin for labels & hover
   const margin = is3D ? 60 : 50;
@@ -70,6 +94,78 @@ export function renderChart(svg, data, config) {
 
   // Setup SVG attributes
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+  // 0. Create defs block for fonts and background gradients
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  svg.appendChild(defs);
+
+  // Dynamic Google Font loading inside SVG for standalone exports
+  if (config.fontFamily && config.fontFamily !== 'Inter' && config.fontFamily !== 'Geist' && config.fontFamily !== 'system-ui') {
+    const fontStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+    fontStyle.textContent = `@import url('https://fonts.googleapis.com/css2?family=${config.fontFamily.replace(/\s+/g, '+')}:wght@400;500;600;700&display=swap');`;
+    defs.appendChild(fontStyle);
+  }
+
+  // Draw background rect
+  const bg = config.backgroundColor;
+  if (bg && bg.includes('linear-gradient')) {
+    const matches = bg.match(/#[0-9a-fA-F]{3,8}/g);
+    if (matches && matches.length >= 2) {
+      const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+      grad.setAttribute('id', 'chart-bg-gradient');
+      grad.setAttribute('x1', '0%');
+      grad.setAttribute('y1', '0%');
+      grad.setAttribute('x2', '100%');
+      grad.setAttribute('y2', '100%');
+      
+      matches.forEach((color, i) => {
+        const stop = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        const offset = i === 0 ? '0%' : i === matches.length - 1 ? '100%' : `${(i / (matches.length - 1)) * 100}%`;
+        stop.setAttribute('offset', offset);
+        stop.setAttribute('stop-color', color);
+        grad.appendChild(stop);
+      });
+      defs.appendChild(grad);
+      
+      const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      bgRect.setAttribute('width', '100%');
+      bgRect.setAttribute('height', '100%');
+      bgRect.setAttribute('fill', 'url(#chart-bg-gradient)');
+      svg.appendChild(bgRect);
+    }
+  } else if (bg && bg !== 'transparent') {
+    const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    bgRect.setAttribute('width', '100%');
+    bgRect.setAttribute('height', '100%');
+    bgRect.setAttribute('fill', bg);
+    svg.appendChild(bgRect);
+  }
+
+  // Render Title & Subtitle inside SVG for exports & unified WYSIWYG
+  if (config.title) {
+    const titleText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    titleText.setAttribute('x', '260');
+    titleText.setAttribute('y', '25');
+    titleText.setAttribute('text-anchor', 'middle');
+    titleText.setAttribute('fill', config.titleColor || inkColor);
+    titleText.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
+    titleText.setAttribute('font-size', '15');
+    titleText.setAttribute('font-weight', '600');
+    titleText.textContent = config.title;
+    svg.appendChild(titleText);
+  }
+  if (config.subtitle) {
+    const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    subText.setAttribute('x', '260');
+    subText.setAttribute('y', config.title ? '41' : '25');
+    subText.setAttribute('text-anchor', 'middle');
+    subText.setAttribute('fill', config.subtitleColor || muteColor);
+    subText.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
+    subText.setAttribute('font-size', '10.5');
+    subText.setAttribute('font-weight', '400');
+    subText.textContent = config.subtitle;
+    svg.appendChild(subText);
+  }
   
   // Light angle for 3D shading (top-left light source: -135 degrees)
   const lightAngle = -135 * (Math.PI / 180);
@@ -408,7 +504,7 @@ export function renderChart(svg, data, config) {
     // Background Rect
     tooltipRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     tooltipRect.setAttribute('rx', '4');
-    tooltipRect.setAttribute('fill', '#171717'); // Stark Vercel ink background
+    tooltipRect.setAttribute('fill', primaryColor);
     tooltipRect.setAttribute('filter', 'drop-shadow(0px 4px 8px rgba(0,0,0,0.15))');
     
     // Color Dot
@@ -422,8 +518,8 @@ export function renderChart(svg, data, config) {
     tooltipTextName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     tooltipTextName.setAttribute('x', '24');
     tooltipTextName.setAttribute('y', '22');
-    tooltipTextName.setAttribute('fill', '#ffffff');
-    tooltipTextName.setAttribute('font-family', 'var(--font-sans)');
+    tooltipTextName.setAttribute('fill', onPrimaryColor);
+    tooltipTextName.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
     tooltipTextName.setAttribute('font-weight', '500');
     tooltipTextName.setAttribute('font-size', '12');
     tooltipTextName.textContent = label;
@@ -432,8 +528,8 @@ export function renderChart(svg, data, config) {
     tooltipTextVal = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     tooltipTextVal.setAttribute('x', '24');
     tooltipTextVal.setAttribute('y', '38');
-    tooltipTextVal.setAttribute('fill', '#a1a1a1');
-    tooltipTextVal.setAttribute('font-family', 'var(--font-sans)');
+    tooltipTextVal.setAttribute('fill', hairlineStrong);
+    tooltipTextVal.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
     tooltipTextVal.setAttribute('font-size', '11');
     tooltipTextVal.textContent = `${value} (${percent}%)`;
 
@@ -490,31 +586,60 @@ export function renderChart(svg, data, config) {
   labelGroup.setAttribute('class', 'static-labels select-none pointer-events-none');
   svg.appendChild(labelGroup);
 
+  // Helper to format text according to chosen labelMode
+  function formatLabelText(label, value, percent, mode) {
+    switch (mode) {
+      case 'label-percent':
+        return `${label} (${percent.toFixed(1)}%)`;
+      case 'label-value':
+        return `${label} (${value.toLocaleString()})`;
+      case 'label':
+        return label;
+      case 'value':
+        return value.toLocaleString();
+      case 'percent':
+        return `${percent.toFixed(1)}%`;
+      case 'none':
+      default:
+        return '';
+    }
+  }
+
   // Helper to dynamically truncate text to fit in SVG
-  function truncateTextToWidth(textElement, label, percent, maxWidth) {
-    const percentText = ` (${percent.toFixed(1)}%)`;
-    const percentTextSolo = `${percent.toFixed(1)}%`;
-    
-    // 1. Try full text: "Label (XX.X%)"
-    textElement.textContent = label + percentText;
+  function truncateTextToWidth(textElement, label, value, percent, maxWidth, mode) {
+    if (mode === 'none') {
+      textElement.textContent = '';
+      return;
+    }
+
+    // 1. Try full text
+    const fullText = formatLabelText(label, value, percent, mode);
+    textElement.textContent = fullText;
     if (textElement.getComputedTextLength() <= maxWidth) {
       return;
     }
 
-    // 2. Try truncated label with percentage: "Lab... (XX.X%)"
-    let tempLabel = label;
-    while (tempLabel.length > 0) {
-      tempLabel = tempLabel.slice(0, -1);
-      textElement.textContent = tempLabel + '...' + percentText;
-      if (textElement.getComputedTextLength() <= maxWidth) {
-        return;
+    // 2. Try truncated label with suffix if mode contains label
+    if (mode === 'label-percent' || mode === 'label-value' || mode === 'label') {
+      let tempLabel = label;
+      const suffix = mode === 'label-percent' ? ` (${percent.toFixed(1)}%)` : mode === 'label-value' ? ` (${value.toLocaleString()})` : '';
+      
+      while (tempLabel.length > 0) {
+        tempLabel = tempLabel.slice(0, -1);
+        textElement.textContent = tempLabel + '...' + suffix;
+        if (textElement.getComputedTextLength() <= maxWidth) {
+          return;
+        }
       }
-    }
-
-    // 3. Try just the percentage: "XX.X%"
-    textElement.textContent = percentTextSolo;
-    if (textElement.getComputedTextLength() <= maxWidth) {
-      return;
+      
+      // Fallback: if label + suffix doesn't fit, try just value or percent
+      if (mode === 'label-percent') {
+        textElement.textContent = `${percent.toFixed(1)}%`;
+        if (textElement.getComputedTextLength() <= maxWidth) return;
+      } else if (mode === 'label-value') {
+        textElement.textContent = value.toLocaleString();
+        if (textElement.getComputedTextLength() <= maxWidth) return;
+      }
     }
 
     // 4. Hide if nothing fits
@@ -522,54 +647,58 @@ export function renderChart(svg, data, config) {
   }
 
   let currentStartAngle = -Math.PI / 2;
-  validData.forEach((item, index) => {
-    const sliceAngle = (item.value / total) * 2 * Math.PI;
-    const midAngle = currentStartAngle + sliceAngle / 2;
-    const percent = (item.value / total) * 100;
+  const labelMode = config.labelMode || 'label-percent';
 
-    // Only draw labels for slices that represent at least 1.5% of the total to prevent cluttered overlaps
-    if (percent >= 1.5) {
-      const pEdge = polarToCartesian(cx, cy, rx, ry, midAngle);
-      
-      // Determine elbow points using dynamic parameters
-      const pOuter = polarToCartesian(cx, cy, rx + extendRadiusX, ry + extendRadiusY, midAngle);
-      
-      const isRightSide = Math.cos(midAngle) > 0;
-      const lineEndX = pOuter.x + (isRightSide ? elbowLength : -elbowLength);
+  if (labelMode !== 'none') {
+    validData.forEach((item, index) => {
+      const sliceAngle = (item.value / total) * 2 * Math.PI;
+      const midAngle = currentStartAngle + sliceAngle / 2;
+      const percent = (item.value / total) * 100;
 
-      // Create polyline pointer line
-      const pointer = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-      pointer.setAttribute('points', `${pEdge.x},${pEdge.y} ${pOuter.x},${pOuter.y} ${lineEndX},${pOuter.y}`);
-      pointer.setAttribute('stroke', '#a1a1a1'); // Hairline strong gray
-      pointer.setAttribute('stroke-width', '1');
-      pointer.setAttribute('fill', 'none');
-      pointer.setAttribute('opacity', '0.55');
-      labelGroup.appendChild(pointer);
+      // Only draw labels for slices that represent at least 1.5% of the total to prevent cluttered overlaps
+      if (percent >= 1.5) {
+        const pEdge = polarToCartesian(cx, cy, rx, ry, midAngle);
+        
+        // Determine elbow points using dynamic parameters
+        const pOuter = polarToCartesian(cx, cy, rx + extendRadiusX, ry + extendRadiusY, midAngle);
+        
+        const isRightSide = Math.cos(midAngle) > 0;
+        const lineEndX = pOuter.x + (isRightSide ? elbowLength : -elbowLength);
 
-      // Label Text element
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('x', (lineEndX + (isRightSide ? 4 : -4)).toString());
-      text.setAttribute('y', (pOuter.y + 3.5).toString());
-      text.setAttribute('fill', '#4d4d4d'); // Body gray for clean contrast
-      text.setAttribute('font-family', 'var(--font-sans)');
-      text.setAttribute('font-size', fontSize);
-      text.setAttribute('font-weight', '500');
-      text.setAttribute('text-anchor', isRightSide ? 'start' : 'end');
-      
-      labelGroup.appendChild(text);
+        // Create polyline pointer line
+        const pointer = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        pointer.setAttribute('points', `${pEdge.x},${pEdge.y} ${pOuter.x},${pOuter.y} ${lineEndX},${pOuter.y}`);
+        pointer.setAttribute('stroke', hairlineStrong);
+        pointer.setAttribute('stroke-width', '1');
+        pointer.setAttribute('fill', 'none');
+        pointer.setAttribute('opacity', '0.55');
+        labelGroup.appendChild(pointer);
 
-      // Dynamically calculate maximum allowed text width (leaving safe 8px boundary)
-      const maxWidth = isRightSide ? (width - 8 - (lineEndX + 4)) : (lineEndX - 4 - 8);
-      truncateTextToWidth(text, item.label, percent, maxWidth);
+        // Label Text element
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', (lineEndX + (isRightSide ? 4 : -4)).toString());
+        text.setAttribute('y', (pOuter.y + 3.5).toString());
+        text.setAttribute('fill', config.labelColor || bodyColor);
+        text.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
+        text.setAttribute('font-size', fontSize);
+        text.setAttribute('font-weight', '500');
+        text.setAttribute('text-anchor', isRightSide ? 'start' : 'end');
+        
+        labelGroup.appendChild(text);
 
-      // Hide pointer line if the text is completely hidden
-      if (text.textContent === '') {
-        pointer.setAttribute('display', 'none');
+        // Dynamically calculate maximum allowed text width (leaving safe 8px boundary)
+        const maxWidth = isRightSide ? (width - 8 - (lineEndX + 4)) : (lineEndX - 4 - 8);
+        truncateTextToWidth(text, item.label, item.value, percent, maxWidth, labelMode);
+
+        // Hide pointer line if the text is completely hidden
+        if (text.textContent === '') {
+          pointer.setAttribute('display', 'none');
+        }
       }
-    }
 
-    currentStartAngle += sliceAngle;
-  });
+      currentStartAngle += sliceAngle;
+    });
+  }
 
   // 6. Draw Legend at the Bottom horizontally centered (without headers or numbering)
   const legendGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -586,10 +715,10 @@ export function renderChart(svg, data, config) {
     g.appendChild(dot);
     
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('font-family', 'Inter, system-ui, -apple-system, sans-serif');
+    text.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
     text.setAttribute('font-size', '10.5');
     text.setAttribute('font-weight', '500');
-    text.setAttribute('fill', '#4d4d4d');
+    text.setAttribute('fill', config.labelColor || bodyColor);
     text.textContent = item.label;
     g.appendChild(text);
     
@@ -644,6 +773,10 @@ export function renderChart(svg, data, config) {
 }
 
 function renderEmptyState(svg) {
+  const inkColor = getCSSVar(svg, "--cl-ink");
+  const muteColor = getCSSVar(svg, "--cl-mute");
+  const hairlineColor = getCSSVar(svg, "--cl-hairline");
+
   svg.setAttribute('viewBox', '0 0 400 300');
   
   const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -654,7 +787,7 @@ function renderEmptyState(svg) {
   const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   circle.setAttribute('r', '75');
   circle.setAttribute('fill', 'none');
-  circle.setAttribute('stroke', '#ebebeb');
+  circle.setAttribute('stroke', hairlineColor);
   circle.setAttribute('stroke-width', '2');
   circle.setAttribute('stroke-dasharray', '5,5');
   g.appendChild(circle);
@@ -662,8 +795,8 @@ function renderEmptyState(svg) {
   // Caption text
   const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
   text.setAttribute('y', '5');
-  text.setAttribute('fill', '#888888');
-  text.setAttribute('font-family', 'var(--font-sans)');
+  text.setAttribute('fill', muteColor);
+  text.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
   text.setAttribute('font-size', '12');
   text.textContent = 'Enter data fields to render chart…';
   g.appendChild(text);

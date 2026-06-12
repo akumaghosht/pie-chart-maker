@@ -25,6 +25,9 @@ const {
 		<meta name="description" content={description} />
 		<meta name="author" content="piechartmakerfree.com" />
 		
+		<!-- Theme Color -->
+		<meta name="theme-color" id="theme-color" content="#fafafa" />
+		
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://piechartmakerfree.com" />
@@ -35,6 +38,23 @@ const {
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
+
+		<!-- Prevent flash of wrong theme -->
+		<script>
+			(function() {
+				const key = "pie_chart_theme";
+				var stored = (function(){try{return localStorage.getItem(key);}catch(e){return null;}})();
+				var theme;
+				if (stored === "dark" || stored === "light") {
+					theme = stored;
+				} else {
+					theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+				}
+				if (theme === "dark") {
+					document.documentElement.classList.add("dark");
+				}
+			})();
+		</script>
 
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -93,7 +113,25 @@ const {
 			</div>
 			
 			<!-- Right Side: Links & CTAs -->
-			<div class="flex items-center gap-4">
+			<div class="flex items-center gap-2">
+				<!-- Dark Mode Toggle -->
+				<button
+					id="theme-toggle"
+					type="button"
+					class="w-8 h-8 inline-flex items-center justify-center rounded-md text-body hover:text-ink hover:bg-canvas-soft-2 transition-all focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+					aria-label="Toggle dark mode"
+					title="Toggle dark mode"
+				>
+					<!-- Sun icon (shown in dark mode) -->
+					<svg id="icon-sun" class="hidden w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+					</svg>
+					<!-- Moon icon (shown in light mode) -->
+					<svg id="icon-moon" class="block w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+					</svg>
+				</button>
+
 				<!-- How It Works Link -->
 				<a href="#how-to-use" class="text-body hover:text-ink text-xs font-sans font-medium px-2.5 py-1.5 rounded-md hover:bg-canvas-soft-2 transition-all focus-visible:outline-2 focus-visible:outline-primary">
 					How it works
@@ -156,5 +194,57 @@ const {
 				</div>
 			</div>
 		</footer>
+		<!-- Dark Mode Script -->
+		<script>
+			const storageKey = "pie_chart_theme";
+			const htmlEl = document.documentElement;
+			const toggleBtn = document.getElementById("theme-toggle");
+			const iconSun = document.getElementById("icon-sun");
+			const iconMoon = document.getElementById("icon-moon");
+			const themeColorMeta = document.getElementById("theme-color");
+
+			function getPreferredTheme() {
+				const stored = localStorage.getItem(storageKey);
+				if (stored === "dark" || stored === "light") return stored;
+				return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+			}
+
+			function applyTheme(theme) {
+				const isDark = theme === "dark";
+				htmlEl.classList.toggle("dark", isDark);
+				if (iconSun) iconSun.classList.toggle("hidden", !isDark);
+				if (iconMoon) iconMoon.classList.toggle("hidden", isDark);
+				if (themeColorMeta) {
+					themeColorMeta.content = isDark ? "#111111" : "#fafafa";
+				}
+			}
+
+			function setTheme(theme) {
+				applyTheme(theme);
+				try {
+					localStorage.setItem(storageKey, theme);
+				} catch (e) {}
+			}
+
+			function toggleTheme() {
+				const current = htmlEl.classList.contains("dark") ? "dark" : "light";
+				setTheme(current === "dark" ? "light" : "dark");
+			}
+
+			// Apply initial theme
+			applyTheme(getPreferredTheme());
+
+			// Listen for toggle
+			if (toggleBtn) {
+				toggleBtn.addEventListener("click", toggleTheme);
+			}
+
+			// Listen for system preference changes (only if no stored preference)
+			window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+				if (!localStorage.getItem(storageKey)) {
+					applyTheme(e.matches ? "dark" : "light");
+				}
+			});
+		</script>
 	</body>
 </html>

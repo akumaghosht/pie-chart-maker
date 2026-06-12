@@ -392,6 +392,115 @@ Oranges	25"
           />
         </div>
       </div>
+
+      <!-- Typography & Styling Options -->
+      <div class="pt-6 border-t border-hairline/50 flex flex-col gap-6">
+        <h3 class="font-sans text-xs font-semibold text-ink">Style & Typography</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Left styling column -->
+          <div class="flex flex-col gap-4">
+            <!-- Font Family -->
+            <div class="flex flex-col gap-1.5">
+              <label for="font-family" class="font-sans text-xs font-medium text-body">Chart Font Family</label>
+              <select id="font-family" class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors cursor-pointer">
+                <option value="Inter">Inter (Sans-Serif)</option>
+                <option value="Geist">Geist (Modern Sans)</option>
+                <option value="Outfit">Outfit (Premium Sans)</option>
+                <option value="Playfair Display">Playfair Display (Elegant Serif)</option>
+                <option value="Lora">Lora (Classic Serif)</option>
+                <option value="JetBrains Mono">JetBrains Mono (Monospace)</option>
+              </select>
+            </div>
+
+            <!-- Label Mode -->
+            <div class="flex flex-col gap-1.5">
+              <label for="label-mode" class="font-sans text-xs font-medium text-body">Label Mode</label>
+              <select id="label-mode" class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors cursor-pointer">
+                <option value="label-percent">Name + Percentage (e.g. Marketing (15.5%))</option>
+                <option value="label-value">Name + Value (e.g. Marketing (120))</option>
+                <option value="label">Name Only (e.g. Marketing)</option>
+                <option value="value">Value Only (e.g. 120)</option>
+                <option value="percent">Percentage Only (e.g. 15.5%)</option>
+                <option value="none">None (Hide Labels)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Right styling column: Color options -->
+          <div class="flex flex-col gap-4">
+            <!-- Text Colors Grid -->
+            <div class="flex flex-col gap-2">
+              <span class="font-sans text-xs font-medium text-body">Text Colors</span>
+              <div class="grid grid-cols-3 gap-2">
+                <!-- Title Color -->
+                <div class="flex flex-col gap-1">
+                  <span class="font-sans text-[10px] text-mute">Title</span>
+                  <div class="flex items-center gap-1">
+                    <div class="relative w-7 h-7 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
+                      <input type="color" id="color-title" class="absolute opacity-0 w-full h-full cursor-pointer" value="#171717" />
+                      <div id="color-title-preview" class="w-full h-full" style="background-color: #171717"></div>
+                    </div>
+                    <input type="text" id="color-title-hex" class="w-full h-7 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#171717" />
+                  </div>
+                </div>
+                <!-- Subtitle Color -->
+                <div class="flex flex-col gap-1">
+                  <span class="font-sans text-[10px] text-mute">Subtitle</span>
+                  <div class="flex items-center gap-1">
+                    <div class="relative w-7 h-7 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
+                      <input type="color" id="color-subtitle" class="absolute opacity-0 w-full h-full cursor-pointer" value="#666666" />
+                      <div id="color-subtitle-preview" class="w-full h-full" style="background-color: #666666"></div>
+                    </div>
+                    <input type="text" id="color-subtitle-hex" class="w-full h-7 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#666666" />
+                  </div>
+                </div>
+                <!-- Label Color -->
+                <div class="flex flex-col gap-1">
+                  <span class="font-sans text-[10px] text-mute">Labels</span>
+                  <div class="flex items-center gap-1">
+                    <div class="relative w-7 h-7 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
+                      <input type="color" id="color-label" class="absolute opacity-0 w-full h-full cursor-pointer" value="#171717" />
+                      <div id="color-label-preview" class="w-full h-full" style="background-color: #171717"></div>
+                    </div>
+                    <input type="text" id="color-label-hex" class="w-full h-7 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#171717" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Viewport Background -->
+            <div class="flex flex-col gap-2">
+              <span class="font-sans text-xs font-medium text-body">Chart Background</span>
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- Preset circles -->
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 flex items-center justify-center text-[10px] text-mute" data-bg="transparent" title="Transparent" style="background-color: transparent;">
+                  ∅
+                </button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-white" data-bg="#ffffff" title="Solid White"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-neutral-50" data-bg="#fafafa" title="Soft Gray"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-neutral-900" data-bg="#0a0a0a" title="Deep Dark"></button>
+                
+                <!-- Sleek gradients presets -->
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #fdfbf7 0%, #eee5d3 100%)" title="Warm Mesh" style="background: linear-gradient(135deg, #fdfbf7 0%, #eee5d3 100%);"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)" title="Ice Teal" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)" title="Sunset" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)" title="Dawn" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);"></button>
+                
+                <!-- Custom Picker -->
+                <div class="relative w-6 h-6 rounded-md border border-hairline cursor-pointer overflow-hidden flex items-center justify-center shrink-0 shadow-lvl1 hover:scale-105 transition-transform border-dashed border-hairline-strong bg-canvas-soft hover:bg-canvas" title="Custom Solid Color">
+                  <input type="color" id="color-bg" class="absolute opacity-0 w-full h-full cursor-pointer" value="#ffffff" />
+                  <div id="color-bg-preview" class="w-full h-full flex items-center justify-center" style="background-color: #ffffff">
+                    <svg id="color-bg-plus-icon" class="text-mute transition-opacity duration-150" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </div>
+                </div>
+                <input type="text" id="color-bg-hex" class="w-20 h-6 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="transparent" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -444,10 +553,10 @@ Oranges	25"
         </div>
       </div>
 
-      <!-- Title / Subtitle Headers drawn dynamically -->
+      <!-- Title / Subtitle Headers drawn dynamically inside SVG now (hidden in HTML) -->
       <div
         id="preview-headers"
-        class="text-center w-full min-h-[48px] flex flex-col justify-center"
+        class="hidden text-center w-full min-h-[48px] flex flex-col justify-center"
       >
         <h3
           id="preview-title"
@@ -489,13 +598,21 @@ Oranges	25"
           >
             Download SVG
           </button>
+          <button
+            id="btn-export-pdf"
+            class="flex-1 inline-flex items-center justify-center h-9 bg-canvas text-ink border border-hairline rounded-pill text-xs font-sans font-medium hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+          >
+            Download PDF
+          </button>
         </div>
-        <button
-          id="btn-copy-svg"
-          class="w-full inline-flex items-center justify-center h-8 bg-canvas text-body border border-hairline rounded-sm text-xs font-sans hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
-        >
-          Copy SVG to Clipboard
-        </button>
+        <div class="flex gap-2">
+          <button
+            id="btn-copy-svg"
+            class="flex-1 inline-flex items-center justify-center h-8 bg-canvas text-body border border-hairline rounded-sm text-xs font-sans hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+          >
+            Copy SVG to Clipboard
+          </button>
+        </div>
       </div>
     </div>
 
@@ -633,6 +750,12 @@ Oranges	25"
     height3D: 30,
     title: "Resource Allocation",
     subtitle: "Annual Expense Distribution",
+    fontFamily: "Inter",
+    titleColor: "#171717",
+    subtitleColor: "#666666",
+    labelColor: "#171717",
+    backgroundColor: "transparent",
+    labelMode: "label-percent",
   };
 
   // --- DOM Elements ---
@@ -694,12 +817,122 @@ Oranges	25"
   // Exports
   const btnExportPng = document.getElementById("btn-export-png");
   const btnExportSvg = document.getElementById("btn-export-svg");
+  const btnExportPdf = document.getElementById("btn-export-pdf");
   const btnCopySvg = document.getElementById("btn-copy-svg");
   const btnResetPreview = document.getElementById("btn-reset-preview");
 
   // Toast
   const toastNode = document.getElementById("toast-notification");
   const toastMsg = document.getElementById("toast-message");
+
+  // Styling inputs
+  const selectFontFamily = document.getElementById("font-family");
+  const selectLabelMode = document.getElementById("label-mode");
+  
+  const inputTitleColor = document.getElementById("color-title");
+  const inputTitleColorHex = document.getElementById("color-title-hex");
+  const previewTitleColor = document.getElementById("color-title-preview");
+
+  const inputSubtitleColor = document.getElementById("color-subtitle");
+  const inputSubtitleColorHex = document.getElementById("color-subtitle-hex");
+  const previewSubtitleColor = document.getElementById("color-subtitle-preview");
+
+  const inputLabelColor = document.getElementById("color-label");
+  const inputLabelColorHex = document.getElementById("color-label-hex");
+  const previewLabelColor = document.getElementById("color-label-preview");
+
+  const inputBgColor = document.getElementById("color-bg");
+  const inputBgColorHex = document.getElementById("color-bg-hex");
+  const previewBgColor = document.getElementById("color-bg-preview");
+  const plusIcon = document.getElementById("color-bg-plus-icon");
+  const presetBgButtons = document.querySelectorAll(".btn-bg-preset");
+
+  function loadGoogleFont(fontName) {
+    if (!fontName) return;
+    if (fontName === "Inter" || fontName === "Geist" || fontName === "JetBrains Mono" || fontName === "system-ui") return;
+    const fontId = `gfont-${fontName.toLowerCase().replace(/\s+/g, '-')}`;
+    if (document.getElementById(fontId)) return;
+    
+    const link = document.createElement('link');
+    link.id = fontId;
+    link.rel = 'stylesheet';
+    link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/\s+/g, '+')}:wght@400;500;600;700&display=swap`;
+    document.head.appendChild(link);
+  }
+
+  function syncUiFromConfig() {
+    // 1. Headers/Text fields
+    inputTitle.value = chartConfig.title || "";
+    inputSubtitle.value = chartConfig.subtitle || "";
+
+    // 2. Layout Radios (Pie vs Donut)
+    const layoutRadios = document.querySelectorAll('input[name="chart-layout"]');
+    layoutRadios.forEach((radio) => {
+      radio.checked =
+        (radio.value === "donut" && chartConfig.isDonut) ||
+        (radio.value === "pie" && !chartConfig.isDonut);
+      updateCheckedStyle(radio);
+    });
+
+    // 3. Toggles
+    toggle3D.checked = !!chartConfig.is3D;
+    toggleHoverPop.checked = !chartConfig.disableHoverOffset;
+
+    // 4. Sliders
+    inputDonutHole.value = Math.round((chartConfig.donutHoleRadius ?? 0.5) * 100).toString();
+    donutHoleVal.textContent = `${inputDonutHole.value}%`;
+
+    input3dTilt.value = Math.round((chartConfig.tilt ?? 0.55) * 100).toString();
+    tiltVal.textContent = `${input3dTilt.value}%`;
+
+    input3dHeight.value = (chartConfig.height3D ?? 30).toString();
+    heightVal.textContent = `${input3dHeight.value}px`;
+
+    // 5. Custom Styling dropdowns
+    selectFontFamily.value = chartConfig.fontFamily || "Inter";
+    loadGoogleFont(chartConfig.fontFamily);
+    selectLabelMode.value = chartConfig.labelMode || "label-percent";
+    
+    // 6. Color Pickers & Hex inputs
+    inputTitleColor.value = chartConfig.titleColor || "#171717";
+    inputTitleColorHex.value = chartConfig.titleColor || "#171717";
+    previewTitleColor.style.backgroundColor = chartConfig.titleColor || "#171717";
+
+    inputSubtitleColor.value = chartConfig.subtitleColor || "#666666";
+    inputSubtitleColorHex.value = chartConfig.subtitleColor || "#666666";
+    previewSubtitleColor.style.backgroundColor = chartConfig.subtitleColor || "#666666";
+
+    inputLabelColor.value = chartConfig.labelColor || "#171717";
+    inputLabelColorHex.value = chartConfig.labelColor || "#171717";
+    previewLabelColor.style.backgroundColor = chartConfig.labelColor || "#171717";
+
+    // 7. Viewport Background Custom picker & presets
+    const bg = chartConfig.backgroundColor || "transparent";
+    inputBgColorHex.value = bg;
+    if (!bg.includes("linear-gradient")) {
+      const solidColor = bg === "transparent" ? "#ffffff" : bg;
+      inputBgColor.value = solidColor;
+      previewBgColor.style.background = solidColor;
+      previewBgColor.style.backgroundColor = solidColor;
+    } else {
+      previewBgColor.style.background = bg;
+    }
+
+    if (plusIcon) {
+      plusIcon.style.opacity = bg === "transparent" ? "1" : "0";
+    }
+
+    presetBgButtons.forEach((btn) => {
+      if (btn.getAttribute("data-bg") === bg) {
+        btn.classList.add("scale-110", "border-hairline-strong");
+      } else {
+        btn.classList.remove("scale-110", "border-hairline-strong");
+      }
+    });
+
+    // 8. Update slider panel visibility based on Donut/3D states
+    updateControlVisibility();
+  }
 
   // Tab buttons and panels
   const tabs = {
@@ -796,6 +1029,140 @@ Oranges	25"
       triggerRender();
     });
 
+    // Custom Font selector
+    selectFontFamily.value = chartConfig.fontFamily;
+    loadGoogleFont(chartConfig.fontFamily);
+    selectFontFamily.addEventListener("change", (e) => {
+      chartConfig.fontFamily = e.target.value;
+      loadGoogleFont(chartConfig.fontFamily);
+      triggerRender();
+    });
+
+    // Label Mode selector
+    selectLabelMode.value = chartConfig.labelMode;
+    selectLabelMode.addEventListener("change", (e) => {
+      chartConfig.labelMode = e.target.value;
+      triggerRender();
+    });
+
+    // Title Color pickers
+    inputTitleColor.value = chartConfig.titleColor;
+    inputTitleColorHex.value = chartConfig.titleColor;
+    previewTitleColor.style.backgroundColor = chartConfig.titleColor;
+
+    inputTitleColor.addEventListener("input", (e) => {
+      const val = e.target.value;
+      inputTitleColorHex.value = val;
+      previewTitleColor.style.backgroundColor = val;
+      chartConfig.titleColor = val;
+      triggerRender();
+    });
+
+    inputTitleColorHex.addEventListener("input", (e) => {
+      let val = e.target.value.trim();
+      if (!val.startsWith("#")) val = "#" + val;
+      if (/^#[0-9a-fA-F]{3,8}$/.test(val)) {
+        inputTitleColor.value = val;
+        previewTitleColor.style.backgroundColor = val;
+        chartConfig.titleColor = val;
+        triggerRender();
+      }
+    });
+
+    // Subtitle Color pickers
+    inputSubtitleColor.value = chartConfig.subtitleColor;
+    inputSubtitleColorHex.value = chartConfig.subtitleColor;
+    previewSubtitleColor.style.backgroundColor = chartConfig.subtitleColor;
+
+    inputSubtitleColor.addEventListener("input", (e) => {
+      const val = e.target.value;
+      inputSubtitleColorHex.value = val;
+      previewSubtitleColor.style.backgroundColor = val;
+      chartConfig.subtitleColor = val;
+      triggerRender();
+    });
+
+    inputSubtitleColorHex.addEventListener("input", (e) => {
+      let val = e.target.value.trim();
+      if (!val.startsWith("#")) val = "#" + val;
+      if (/^#[0-9a-fA-F]{3,8}$/.test(val)) {
+        inputSubtitleColor.value = val;
+        previewSubtitleColor.style.backgroundColor = val;
+        chartConfig.subtitleColor = val;
+        triggerRender();
+      }
+    });
+
+    // Label Color pickers
+    inputLabelColor.value = chartConfig.labelColor;
+    inputLabelColorHex.value = chartConfig.labelColor;
+    previewLabelColor.style.backgroundColor = chartConfig.labelColor;
+
+    inputLabelColor.addEventListener("input", (e) => {
+      const val = e.target.value;
+      inputLabelColorHex.value = val;
+      previewLabelColor.style.backgroundColor = val;
+      chartConfig.labelColor = val;
+      triggerRender();
+    });
+
+    inputLabelColorHex.addEventListener("input", (e) => {
+      let val = e.target.value.trim();
+      if (!val.startsWith("#")) val = "#" + val;
+      if (/^#[0-9a-fA-F]{3,8}$/.test(val)) {
+        inputLabelColor.value = val;
+        previewLabelColor.style.backgroundColor = val;
+        chartConfig.labelColor = val;
+        triggerRender();
+      }
+    });
+
+    // Viewport Background Presets and Custom Color
+    function updateBgState(val) {
+      chartConfig.backgroundColor = val;
+      inputBgColorHex.value = val;
+      
+      if (!val.includes("linear-gradient")) {
+        const solidColor = val === "transparent" ? "#ffffff" : val;
+        inputBgColor.value = solidColor;
+        previewBgColor.style.background = solidColor;
+        previewBgColor.style.backgroundColor = solidColor;
+      } else {
+        previewBgColor.style.background = val;
+      }
+      
+      if (plusIcon) {
+        plusIcon.style.opacity = val === "transparent" ? "1" : "0";
+      }
+      
+      presetBgButtons.forEach((btn) => {
+        if (btn.getAttribute("data-bg") === val) {
+          btn.classList.add("scale-110", "border-hairline-strong");
+        } else {
+          btn.classList.remove("scale-110", "border-hairline-strong");
+        }
+      });
+      
+      triggerRender();
+    }
+
+    presetBgButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        updateBgState(btn.getAttribute("data-bg"));
+      });
+    });
+
+    inputBgColor.addEventListener("input", (e) => {
+      updateBgState(e.target.value);
+    });
+
+    inputBgColorHex.addEventListener("input", (e) => {
+      const val = e.target.value.trim();
+      if (val === "transparent" || val.includes("linear-gradient") || /^#[0-9a-fA-F]{3,8}$/.test(val)) {
+        updateBgState(val);
+      }
+    });
+
     // Button controls
     btnAddRow.addEventListener("click", addNewRow);
     btnClearAll.addEventListener("click", clearAllRows);
@@ -811,6 +1178,7 @@ Oranges	25"
     btnShareCopy.addEventListener("click", copyShareLink);
     btnExportPng.addEventListener("click", downloadPng);
     btnExportSvg.addEventListener("click", downloadSvg);
+    btnExportPdf.addEventListener("click", downloadPdf);
     btnCopySvg.addEventListener("click", copySvgToClipboard);
 
     // Drafts
@@ -1308,16 +1676,81 @@ Oranges	25"
     });
   }
 
-  // --- Exports (SVG & PNG) ---
+  // --- Exports (SVG, PNG, PDF) ---
+
+  function prepareSvgForExport() {
+    const serializer = new XMLSerializer();
+    
+    // Clone the viewport SVG node to modify attributes for export
+    const svgClone = svgViewport.cloneNode(true);
+    
+    // Set explicit width and height attributes matching the viewBox for canvas rendering
+    const vw = svgViewport.viewBox.baseVal.width || 520;
+    const vh = svgViewport.viewBox.baseVal.height || 360;
+    svgClone.setAttribute("width", vw.toString());
+    svgClone.setAttribute("height", vh.toString());
+    
+    let svgString = serializer.serializeToString(svgClone);
+    
+    // CSS variables don't resolve when SVG is used standalone (blob/image),
+    // so replace them with computed values from the inline SVG element.
+    const style = getComputedStyle(svgViewport);
+    const resolveFont = (varName, fallback) => {
+      const val = style.getPropertyValue(varName).trim();
+      if (!val) return fallback;
+      return val.replace(/"([^"]+)"/g, '$1');
+    };
+    svgString = svgString.replace(/var\(--font-sans\)/g, resolveFont("--font-sans", "Inter, system-ui, sans-serif"));
+    
+    // Escape raw ampersands in stylesheets (like Google Fonts URLs) to be XML compliant
+    svgString = svgString.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
+    
+    return svgString;
+  }
+
+  function svgToCanvas(svgString) {
+    return new Promise((resolve, reject) => {
+      // Use data URI instead of blob URL — avoids canvas taint issues
+      // on browsers that treat blob: URLs as cross-origin
+      const encoded = encodeURIComponent(svgString)
+        .replace(/'/g, '%27')
+        .replace(/"/g, '%22');
+      const url = `data:image/svg+xml,${encoded}`;
+
+      const img = new Image();
+      img.onload = () => {
+        const vw = svgViewport.viewBox.baseVal.width || 520;
+        const vh = svgViewport.viewBox.baseVal.height || 360;
+        const scale = 2;
+
+        const canvas = document.createElement("canvas");
+        canvas.width = vw * scale;
+        canvas.height = vh * scale;
+        const ctx = canvas.getContext("2d");
+        ctx.scale(scale, scale);
+
+        const isBgTransparent = chartConfig.backgroundColor === 'transparent';
+        if (!isBgTransparent) {
+          const canvasBg = chartConfig.backgroundColor.includes('linear-gradient') ? '#ffffff' : (chartConfig.backgroundColor || '#ffffff');
+          ctx.fillStyle = canvasBg;
+          ctx.fillRect(0, 0, vw, vh);
+        }
+        ctx.drawImage(img, 0, 0, vw, vh);
+
+        resolve({ canvas, ctx, vw, vh });
+      };
+      img.onerror = (e) => {
+        console.error("svgToCanvas: image load failed", e);
+        reject(new Error("SVG image failed to load"));
+      };
+      img.src = url;
+    });
+  }
 
   function downloadSvg() {
     try {
-      const serializer = new XMLSerializer();
-      const svgString = serializer.serializeToString(svgViewport);
-
-      const blob = new Blob([svgString], {
-        type: "image/svg+xml;charset=utf-8",
-      });
+      const svgString = prepareSvgForExport();
+      const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
       const url = URL.createObjectURL(blob);
 
       const a = document.createElement("a");
@@ -1335,57 +1768,24 @@ Oranges	25"
     }
   }
 
-  function downloadPng() {
+  async function downloadPng() {
     try {
       showToast("Rendering PNG…");
-      const serializer = new XMLSerializer();
-      const svgString = serializer.serializeToString(svgViewport);
+      const svgString = prepareSvgForExport();
+      const { canvas } = await svgToCanvas(svgString);
 
-      const blob = new Blob([svgString], {
-        type: "image/svg+xml;charset=utf-8",
-      });
-      const url = URL.createObjectURL(blob);
+      const pngURL = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = pngURL;
+      a.download = `${chartConfig.title || "pie-chart"}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
 
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const bbox = svgViewport.getBoundingClientRect();
-
-        // Use crisp multipliers
-        const scale = 2;
-        canvas.width =
-          (svgViewport.viewBox.baseVal.width || bbox.width) * scale;
-        canvas.height =
-          (svgViewport.viewBox.baseVal.height || bbox.height) * scale;
-
-        const ctx = canvas.getContext("2d");
-        ctx.scale(scale, scale);
-
-        // Draw clean white backdrop
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw SVG image
-        ctx.drawImage(img, 0, 0);
-
-        // Export data
-        const pngURL = canvas.toDataURL("image/png");
-
-        const a = document.createElement("a");
-        a.href = pngURL;
-        a.download = `${chartConfig.title || "pie-chart"}.png`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        URL.revokeObjectURL(url);
-        showToast("PNG downloaded!");
-      };
-
-      img.src = url;
+      showToast("PNG downloaded!");
     } catch (err) {
-      console.error(err);
-      showToast("PNG render failed.");
+      console.error("PNG export error:", err);
+      showToast("PNG render failed: " + (err.message || "unknown error"));
     }
   }
 
@@ -1398,6 +1798,59 @@ Oranges	25"
     } catch (err) {
       console.error(err);
       showToast("Failed to copy to clipboard.");
+    }
+  }
+
+  async function downloadPdf() {
+    showToast("Generating PDF…");
+    try {
+      // Dynamically load jsPDF from CDN
+      if (typeof window.jspdf === "undefined") {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src = "https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js";
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      }
+
+      const { jsPDF } = window.jspdf;
+      const svgString = prepareSvgForExport();
+      const { canvas, vw, vh } = await svgToCanvas(svgString);
+
+      const imgData = canvas.toDataURL("image/png");
+
+      // Determine best orientation for A4
+      const isLandscape = vw > vh;
+      const pdf = new jsPDF({
+        orientation: isLandscape ? "landscape" : "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const margin = 10;
+
+      let drawWidth = pdfWidth - margin * 2;
+      let drawHeight = drawWidth * (vh / vw);
+
+      if (drawHeight > pdfHeight - margin * 2) {
+        drawHeight = pdfHeight - margin * 2;
+        drawWidth = drawHeight * (vw / vh);
+      }
+
+      const xOffset = (pdfWidth - drawWidth) / 2;
+      const yOffset = (pdfHeight - drawHeight) / 2;
+
+      pdf.addImage(imgData, "PNG", xOffset, yOffset, drawWidth, drawHeight);
+      pdf.save(`${chartConfig.title || "pie-chart"}.pdf`);
+
+      showToast("PDF downloaded!");
+    } catch (err) {
+      console.error("PDF export error:", err);
+      showToast("PDF failed: " + (err.message || "unknown error"));
     }
   }
 
@@ -1415,6 +1868,12 @@ Oranges	25"
         ti: chartConfig.title,
         sub: chartConfig.subtitle,
         ho: chartConfig.disableHoverOffset ? 1 : 0,
+        f: chartConfig.fontFamily,
+        tc: chartConfig.titleColor,
+        sc: chartConfig.subtitleColor,
+        lc: chartConfig.labelColor,
+        bg: chartConfig.backgroundColor,
+        lm: chartConfig.labelMode,
       },
     };
 
@@ -1467,7 +1926,16 @@ Oranges	25"
             title: state.c.ti ?? "",
             subtitle: state.c.sub ?? "",
             disableHoverOffset: state.c.ho === 1,
+            fontFamily: state.c.f ?? "Inter",
+            titleColor: state.c.tc ?? "#171717",
+            subtitleColor: state.c.sc ?? "#666666",
+            labelColor: state.c.lc ?? "#171717",
+            backgroundColor: state.c.bg ?? "transparent",
+            labelMode: state.c.lm ?? "label-percent",
           };
+
+          // Sync UI controls with the URL state
+          syncUiFromConfig();
         }
 
         // Clean up hash in location bar to keep it tidy
@@ -1485,6 +1953,24 @@ Oranges	25"
           const parsed = JSON.parse(lastSession);
           chartData = parsed.data;
           chartConfig = parsed.config;
+          
+          // Apply safe defaults for older/corrupted configs
+          chartConfig.isDonut = !!chartConfig.isDonut;
+          chartConfig.donutHoleRadius = chartConfig.donutHoleRadius ?? 0.5;
+          chartConfig.is3D = !!chartConfig.is3D;
+          chartConfig.tilt = chartConfig.tilt ?? 0.55;
+          chartConfig.height3D = chartConfig.height3D ?? 30;
+          chartConfig.title = chartConfig.title ?? "";
+          chartConfig.subtitle = chartConfig.subtitle ?? "";
+          chartConfig.disableHoverOffset = !!chartConfig.disableHoverOffset;
+          chartConfig.fontFamily = chartConfig.fontFamily ?? "Inter";
+          chartConfig.titleColor = chartConfig.titleColor ?? "#171717";
+          chartConfig.subtitleColor = chartConfig.subtitleColor ?? "#666666";
+          chartConfig.labelColor = chartConfig.labelColor ?? "#171717";
+          chartConfig.backgroundColor = chartConfig.backgroundColor ?? "transparent";
+          chartConfig.labelMode = chartConfig.labelMode ?? "label-percent";
+          
+          syncUiFromConfig();
         }
       } catch (e) {}
     }
@@ -1604,34 +2090,23 @@ Oranges	25"
           chartData = JSON.parse(JSON.stringify(draft.data));
           chartConfig = JSON.parse(JSON.stringify(draft.config));
 
-          // Sync inputs
-          inputTitle.value = chartConfig.title;
-          inputSubtitle.value = chartConfig.subtitle;
-          toggle3D.checked = chartConfig.is3D;
-          toggleHoverPop.checked = !chartConfig.disableHoverOffset;
+          // Apply safe defaults for older/corrupted configs
+          chartConfig.isDonut = !!chartConfig.isDonut;
+          chartConfig.donutHoleRadius = chartConfig.donutHoleRadius ?? 0.5;
+          chartConfig.is3D = !!chartConfig.is3D;
+          chartConfig.tilt = chartConfig.tilt ?? 0.55;
+          chartConfig.height3D = chartConfig.height3D ?? 30;
+          chartConfig.title = chartConfig.title ?? "";
+          chartConfig.subtitle = chartConfig.subtitle ?? "";
+          chartConfig.disableHoverOffset = !!chartConfig.disableHoverOffset;
+          chartConfig.fontFamily = chartConfig.fontFamily ?? "Inter";
+          chartConfig.titleColor = chartConfig.titleColor ?? "#171717";
+          chartConfig.subtitleColor = chartConfig.subtitleColor ?? "#666666";
+          chartConfig.labelColor = chartConfig.labelColor ?? "#171717";
+          chartConfig.backgroundColor = chartConfig.backgroundColor ?? "transparent";
+          chartConfig.labelMode = chartConfig.labelMode ?? "label-percent";
 
-          const layoutRadios = document.querySelectorAll(
-            'input[name="chart-layout"]',
-          );
-          layoutRadios.forEach((radio) => {
-            radio.checked =
-              (radio.value === "donut" && chartConfig.isDonut) ||
-              (radio.value === "pie" && !chartConfig.isDonut);
-            updateCheckedStyle(radio);
-          });
-
-          inputDonutHole.value = Math.round(
-            chartConfig.donutHoleRadius * 100,
-          ).toString();
-          donutHoleVal.textContent = `${inputDonutHole.value}%`;
-
-          input3dTilt.value = Math.round(chartConfig.tilt * 100).toString();
-          tiltVal.textContent = `${input3dTilt.value}%`;
-
-          input3dHeight.value = chartConfig.height3D.toString();
-          heightVal.textContent = `${input3dHeight.value}px`;
-
-          updateControlVisibility();
+          syncUiFromConfig();
           syncManualRowsUI();
           triggerRender();
           showToast(`Loaded draft: "${draft.name}"`);
@@ -1675,8 +2150,9 @@ Oranges	25"
   /* Range Slider styling overrides for clean Vercel look */
   input[type="range"] {
     -webkit-appearance: none;
-    background: #ebebeb;
+    background: var(--cl-hairline);
     border-radius: 9999px;
+    transition: background 0.3s;
   }
   input[type="range"]:focus {
     outline: none;
@@ -1689,13 +2165,13 @@ Oranges	25"
     height: 14px;
     width: 14px;
     border-radius: 9999px;
-    background: #171717;
+    background: var(--cl-primary);
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -5px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
-    transition: transform 0.1s ease;
+    transition: transform 0.1s ease, background 0.3s;
   }
   input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.15);
@@ -1704,11 +2180,11 @@ Oranges	25"
     height: 14px;
     width: 14px;
     border-radius: 9999px;
-    background: #171717;
+    background: var(--cl-primary);
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
-    transition: transform 0.1s ease;
+    transition: transform 0.1s ease, background 0.3s;
   }
   input[type="range"]::-moz-range-thumb:hover {
     transform: scale(1.15);
@@ -1716,8 +2192,8 @@ Oranges	25"
 
   /* Custom styling for inputs */
   .has-checked\:bg-primary:has(input:checked) {
-    background-color: var(--color-primary);
-    color: var(--color-on-primary);
-    border-color: var(--color-primary);
+    background-color: var(--cl-primary);
+    color: var(--cl-on-primary);
+    border-color: var(--cl-primary);
   }
 </style>
