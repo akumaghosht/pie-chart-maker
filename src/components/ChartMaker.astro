@@ -6,7 +6,7 @@
   class="max-w-[1240px] mx-auto px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
 >
   <!-- Left Column: Inputs & Controls (7 Cols on desktop) -->
-  <div class="lg:col-span-7 flex flex-col gap-6">
+  <div class="lg:col-span-7 flex flex-col gap-6 order-2 lg:order-1">
     <!-- Main Title Card -->
     <div
       class="bg-canvas p-6 md:p-8 rounded-md border border-hairline shadow-lvl2 relative overflow-hidden"
@@ -34,13 +34,13 @@
     >
       <!-- Tab Header -->
       <div
-        class="flex border-b border-hairline bg-canvas-soft-2 px-2 pt-2 gap-1"
+        class="flex border-b border-hairline bg-canvas-soft-2 px-2 pt-2 gap-1 overflow-x-auto whitespace-nowrap scrollbar-none"
         role="tablist"
         aria-label="Data Input Sources"
       >
         <button
           id="tab-manual"
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] hover:text-ink transition-colors cursor-pointer select-none text-ink bg-canvas border-hairline! active-tab"
+          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] hover:text-ink transition-colors cursor-pointer select-none text-ink bg-canvas border-hairline! active-tab shrink-0"
           role="tab"
           aria-selected="true"
           aria-controls="panel-manual"
@@ -49,7 +49,7 @@
         </button>
         <button
           id="tab-paste"
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none"
+          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none shrink-0"
           role="tab"
           aria-selected="false"
           aria-controls="panel-paste"
@@ -58,7 +58,7 @@
         </button>
         <button
           id="tab-upload"
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none"
+          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none shrink-0"
           role="tab"
           aria-selected="false"
           aria-controls="panel-upload"
@@ -76,21 +76,21 @@
           role="tabpanel"
           aria-labelledby="tab-manual"
         >
-          <div class="flex items-center justify-between">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             <h2 class="font-sans text-sm font-semibold text-ink">
               Data Fields
             </h2>
             <div class="flex gap-2">
               <button
                 id="btn-sort-val"
-                class="inline-flex items-center justify-center h-7 px-2.5 bg-canvas border border-hairline rounded-sm text-xs font-sans text-body hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+                class="inline-flex items-center justify-center h-7 px-2.5 bg-canvas border border-hairline rounded-sm text-xs font-sans text-body hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shrink-0"
                 title="Sort slices by value descending"
               >
                 Sort by Value
               </button>
               <button
                 id="btn-clear-all"
-                class="inline-flex items-center justify-center h-7 px-2.5 bg-canvas border border-error-soft text-error rounded-sm text-xs font-sans hover:bg-error-soft/30 hover:text-error-deep transition-colors focus-visible:outline-2 focus-visible:outline-error cursor-pointer"
+                class="inline-flex items-center justify-center h-7 px-2.5 bg-canvas border border-error-soft text-error rounded-sm text-xs font-sans hover:bg-error-soft/30 hover:text-error-deep transition-colors focus-visible:outline-2 focus-visible:outline-error cursor-pointer shrink-0"
               >
                 Clear All
               </button>
@@ -565,7 +565,7 @@ Oranges	25"
   </div>
 
   <!-- Right Column: Sticky Preview & Export Panel (5 Cols on desktop) -->
-  <div class="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-20">
+  <div class="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-20 order-1 lg:order-2">
     <!-- Chart Preview Card -->
     <div
       class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl3 flex flex-col items-center gap-6"
@@ -645,22 +645,22 @@ Oranges	25"
 
       <!-- Action Panel Buttons -->
       <div class="w-full flex flex-col gap-2 pt-2 border-t border-hairline">
-        <div class="flex gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <button
             id="btn-export-png"
-            class="flex-1 inline-flex items-center justify-center h-9 bg-primary text-on-primary rounded-pill text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shadow-lvl1"
+            class="w-full inline-flex items-center justify-center h-9 bg-primary text-on-primary rounded-pill text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shadow-lvl1"
           >
             Download PNG
           </button>
           <button
             id="btn-export-svg"
-            class="flex-1 inline-flex items-center justify-center h-9 bg-canvas text-ink border border-hairline rounded-pill text-xs font-sans font-medium hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+            class="w-full inline-flex items-center justify-center h-9 bg-canvas text-ink border border-hairline rounded-pill text-xs font-sans font-medium hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
           >
             Download SVG
           </button>
           <button
             id="btn-export-pdf"
-            class="flex-1 inline-flex items-center justify-center h-9 bg-canvas text-ink border border-hairline rounded-pill text-xs font-sans font-medium hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+            class="w-full inline-flex items-center justify-center h-9 bg-canvas text-ink border border-hairline rounded-pill text-xs font-sans font-medium hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
           >
             Download PDF
           </button>
@@ -668,7 +668,7 @@ Oranges	25"
         <div class="flex gap-2">
           <button
             id="btn-copy-svg"
-            class="flex-1 inline-flex items-center justify-center h-8 bg-canvas text-body border border-hairline rounded-sm text-xs font-sans hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+            class="w-full inline-flex items-center justify-center h-8 bg-canvas text-body border border-hairline rounded-sm text-xs font-sans hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
           >
             Copy SVG to Clipboard
           </button>
@@ -714,12 +714,12 @@ Oranges	25"
           id="share-link-input"
           type="text"
           readonly
-          class="flex-1 h-8 px-2.5 border border-hairline rounded-sm font-mono text-[11px] text-mute bg-canvas-soft-2 focus:outline-none"
+          class="flex-1 min-w-0 h-8 px-2.5 border border-hairline rounded-sm font-mono text-[11px] text-mute bg-canvas-soft-2 focus:outline-none"
           value="Generate share link..."
         />
         <button
           id="btn-share-copy"
-          class="inline-flex items-center justify-center h-8 px-3 bg-primary text-on-primary rounded-sm text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+          class="inline-flex items-center justify-center h-8 px-3 bg-primary text-on-primary rounded-sm text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shrink-0"
         >
           Copy Link
         </button>
@@ -741,12 +741,12 @@ Oranges	25"
         <input
           id="draft-name-input"
           type="text"
-          class="flex-1 h-8 px-2.5 border border-hairline rounded-sm font-sans text-xs bg-canvas-soft-2 focus:bg-canvas focus:outline-none focus:border-hairline-strong transition-colors"
+          class="flex-1 min-w-0 h-8 px-2.5 border border-hairline rounded-sm font-sans text-xs bg-canvas-soft-2 focus:bg-canvas focus:outline-none focus:border-hairline-strong transition-colors"
           placeholder="Draft name…"
         />
         <button
           id="btn-draft-save"
-          class="inline-flex items-center justify-center h-8 px-3 bg-canvas border border-hairline rounded-sm text-xs font-sans text-body hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
+          class="inline-flex items-center justify-center h-8 px-3 bg-canvas border border-hairline rounded-sm text-xs font-sans text-body hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shrink-0"
         >
           Save Draft
         </button>
@@ -1457,7 +1457,7 @@ Oranges	25"
         <input 
           type="text" 
           placeholder="Slice Label…" 
-          class="flex-grow h-8 px-2 border border-hairline focus:border-hairline-strong focus:outline-none rounded-sm text-xs font-sans bg-canvas-soft-2 focus:bg-canvas transition-colors"
+          class="flex-grow min-w-0 h-8 px-2 border border-hairline focus:border-hairline-strong focus:outline-none rounded-sm text-xs font-sans bg-canvas-soft-2 focus:bg-canvas transition-colors"
           value="${row.label}"
           autocomplete="off"
         />
@@ -2214,7 +2214,7 @@ Oranges	25"
         row.innerHTML = `
           <button 
             type="button" 
-            class="load-draft-btn text-left font-sans text-xs text-body hover:text-ink truncate max-w-[150px] font-medium cursor-pointer"
+            class="load-draft-btn flex-grow min-w-0 text-left font-sans text-xs text-body hover:text-ink truncate max-w-[150px] font-medium cursor-pointer"
             title="Load draft: ${draft.name}"
           >
             ${draft.name}
