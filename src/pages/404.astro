@@ -1,0 +1,179 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Page Not Found — Pie Chart Maker" 
+  description="We couldn't find the page you were looking for. It might have been moved, deleted, or never existed."
+  robots="noindex, follow"
+>
+  <main class="w-full min-h-[70vh] flex items-center justify-center bg-canvas-soft py-12 md:py-20">
+    <div class="max-w-[1000px] w-full mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      
+      <!-- Left Column: Copy and Actions -->
+      <div class="text-center md:text-left flex flex-col items-center md:items-start order-2 md:order-1">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-soft text-error-deep font-mono text-[11px] font-semibold uppercase tracking-wider select-none border border-error/10">
+          Error 404
+        </span>
+        
+        <h1 class="font-sans text-[40px] sm:text-[48px] md:text-[56px] font-semibold tracking-[-1.5px] sm:tracking-[-2.5px] text-ink leading-tight mt-4 mb-4">
+          Lost in space.
+        </h1>
+        
+        <p class="font-sans text-[16px] md:text-[18px] text-body leading-relaxed max-w-[460px] mb-8">
+          The page you are looking for doesn't exist, has been moved, or is temporarily unavailable. Let's get you back on track.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mb-10">
+          <a
+            href="/"
+            class="inline-flex items-center justify-center h-11 px-6 bg-primary text-on-primary text-sm font-sans font-medium rounded-full hover:bg-primary/95 transition-all shadow-lvl2 hover:shadow-lvl3 focus-visible:outline-2 focus-visible:outline-primary cursor-pointer text-center"
+          >
+            Go to Homepage
+          </a>
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center h-11 px-6 bg-canvas text-ink text-sm font-sans font-medium rounded-full border border-hairline hover:bg-canvas-soft-2 transition-all focus-visible:outline-2 focus-visible:outline-primary cursor-pointer text-center"
+          >
+            Contact Support
+          </a>
+        </div>
+
+        <!-- Quick Links Directory -->
+        <div class="w-full border-t border-hairline pt-6 text-left">
+          <h3 class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider mb-3 select-none">
+            Quick Directory
+          </h3>
+          <ul class="grid grid-cols-2 gap-x-6 gap-y-2.5 font-sans text-xs">
+            <li>
+              <a href="/" class="text-link hover:text-link-deep hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-link">
+                &rarr; Create 2D/3D Charts
+              </a>
+            </li>
+            <li>
+              <a href="/about" class="text-link hover:text-link-deep hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-link">
+                &rarr; About the Tool
+              </a>
+            </li>
+            <li>
+              <a href="/privacy" class="text-link hover:text-link-deep hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-link">
+                &rarr; Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="/terms" class="text-link hover:text-link-deep hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-link">
+                &rarr; Terms of Service
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Column: Animated Chart Artwork -->
+      <div class="flex items-center justify-center order-1 md:order-2">
+        <div class="relative w-full max-w-[320px] sm:max-w-[400px]">
+          <!-- Decorative ambient glow -->
+          <div class="absolute inset-0 bg-radial from-color-gradient-preview-start/5 to-transparent blur-3xl pointer-events-none scale-150"></div>
+          
+          <svg viewBox="0 0 200 200" class="w-full h-auto select-none relative z-10" aria-hidden="true">
+            <defs>
+              <!-- Gradients matching global.css -->
+              <linearGradient id="grad-develop" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#007cf0" />
+                <stop offset="100%" stop-color="#00dfd8" />
+              </linearGradient>
+              <linearGradient id="grad-preview" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7928ca" />
+                <stop offset="100%" stop-color="#ff0080" />
+              </linearGradient>
+              <linearGradient id="grad-ship" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff4d4d" />
+                <stop offset="100%" stop-color="#f9cb28" />
+              </linearGradient>
+            </defs>
+
+            <!-- Technical grid backdrop -->
+            <g class="stroke-hairline dark:stroke-hairline-strong/15" stroke-width="0.5" stroke-dasharray="2 4">
+              <line x1="10" y1="100" x2="190" y2="100" />
+              <line x1="100" y1="10" x2="100" y2="190" />
+              <line x1="36.4" y1="36.4" x2="163.6" y2="163.6" />
+              <line x1="36.4" y1="163.6" x2="163.6" y2="36.4" />
+              <circle cx="100" cy="100" r="75" fill="none" />
+              <circle cx="100" cy="100" r="45" fill="none" />
+            </g>
+
+            <!-- Twinkling stars/dots -->
+            <circle cx="35" cy="50" r="1.5" class="fill-mute/40 dark:fill-mute/60 animate-pulse-slow" />
+            <circle cx="170" cy="70" r="2" class="fill-mute/50 dark:fill-mute/70 animate-pulse-fast" />
+            <circle cx="60" cy="165" r="1" class="fill-mute/30 dark:fill-mute/50 animate-pulse-slow" />
+            <circle cx="160" cy="150" r="1.5" class="fill-mute/40 dark:fill-mute/60 animate-pulse-fast" />
+
+            <!-- Dotted path showing drifting slice trail -->
+            <path d="M 68 68 C 58 58, 42 42, 28 28" fill="none" class="stroke-hairline-strong/40 dark:stroke-hairline-strong/20" stroke-width="1.2" stroke-dasharray="3 3" />
+
+            <!-- Main Chart Group -->
+            <g transform="translate(0, 0)">
+              <!-- Slice A (Develop: 0 to 135 deg) -->
+              <path d="M 100 100 L 100 25 A 75 75 0 0 1 153 153 Z" fill="url(#grad-develop)" class="drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300" />
+
+              <!-- Slice B (Preview: 135 to 250 deg) -->
+              <path d="M 100 100 L 153 153 A 75 75 0 0 1 29.5 125.6 Z" fill="url(#grad-preview)" class="drop-shadow-sm opacity-90 hover:opacity-100 transition-opacity duration-300" />
+
+              <!-- Drifting Slice C (Ship: 250 to 360 deg) -->
+              <g class="animate-drift">
+                <path d="M 100 100 L 29.5 125.6 A 75 75 0 0 1 100 25 Z" fill="url(#grad-ship)" class="drop-shadow-md opacity-95 hover:opacity-100 transition-opacity duration-300" />
+                <!-- Question mark text -->
+                <text x="62" y="72" class="fill-on-primary font-sans font-semibold text-[13px] pointer-events-none select-none">?</text>
+              </g>
+            </g>
+
+            <!-- Donut Center cutout -->
+            <circle cx="100" cy="100" r="35" class="fill-canvas-soft dark:fill-canvas transition-colors duration-300" />
+            <!-- Technical center ring -->
+            <circle cx="100" cy="100" r="35" fill="none" class="stroke-hairline dark:stroke-hairline-strong/25" stroke-width="1" />
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Drifting Animation for Slice C */
+  @keyframes drift {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    50% {
+      transform: translate(-10px, -10px);
+    }
+    100% {
+      transform: translate(0px, 0px);
+    }
+  }
+
+  .animate-drift {
+    animation: drift 5s ease-in-out infinite;
+  }
+
+  /* Star Pulses */
+  @keyframes pulseSlow {
+    0%, 100% { opacity: 0.2; transform: scale(0.9); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+  }
+
+  @keyframes pulseFast {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  .animate-pulse-slow {
+    animation: pulseSlow 4s ease-in-out infinite;
+  }
+
+  .animate-pulse-fast {
+    animation: pulseFast 2.5s ease-in-out infinite;
+  }
+</style>

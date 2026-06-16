@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About Us — Pie Chart Maker" description="Learn about the philosophy and features behind the best free online 2D/3D pie chart generator.">
+  <main class="w-full">
+    <!-- Hero Header -->
+    <section class="relative w-full mesh-gradient-bg border-b border-hairline py-16 md:py-24 overflow-hidden">
+      <div class="absolute -top-[20%] left-[30%] w-[50%] h-[350px] bg-radial from-color-link/5 via-color-violet/5 to-transparent blur-3xl pointer-events-none"></div>
+      
+      <div class="max-w-[800px] mx-auto px-6 text-center md:text-left relative z-10">
+        <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">Our Story</span>
+        <h1 class="font-sans text-[32px] sm:text-[36px] md:text-[56px] font-semibold tracking-[-1px] sm:tracking-[-2px] text-ink leading-tight md:leading-[1.05] mt-2 mb-6">
+          High-performance charting.
+        </h1>
+        <p class="font-sans text-[16px] md:text-[18px] text-body leading-relaxed max-w-[640px]">
+          We believe data visualization should be instant, elegant, and completely private. Pie Chart Maker was built to eliminate heavy design frameworks, sign-up forms, and tracking.
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="w-full bg-canvas py-16 md:py-24">
+      <div class="max-w-[800px] mx-auto px-6">
+        <div class="prose dark:prose-invert max-w-none">
+          <h2 class="font-sans text-xl md:text-2xl font-semibold text-ink mb-4">
+            The Philosophy Behind Pie Chart Maker
+          </h2>
+          <p class="font-sans text-sm md:text-base text-body leading-relaxed mb-6">
+            In today's web landscape, simple tasks often require setting up accounts, accepting complex cookie consents, or paying for premium features. We wanted to build a tool that does one thing exceptionally well: generate clean, professional pie and donut charts in seconds.
+          </p>
+
+          <h3 class="font-sans text-lg font-semibold text-ink mt-8 mb-3">
+            Core Principles
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+            <div class="p-6 bg-canvas-soft border border-hairline rounded-md">
+              <h4 class="font-sans text-base font-semibold text-ink mb-2">100% Client-Side Architecture</h4>
+              <p class="font-sans text-xs text-body leading-relaxed">
+                Your data is never uploaded to any server. All calculations, parsing, and rendering happen inside your browser sandbox, keeping sensitive spreadsheets fully secure.
+              </p>
+            </div>
+            <div class="p-6 bg-canvas-soft border border-hairline rounded-md">
+              <h4 class="font-sans text-base font-semibold text-ink mb-2">Developer-Grade Outputs</h4>
+              <p class="font-sans text-xs text-body leading-relaxed">
+                Export SVG source code, high-resolution PNGs, or print-ready PDFs. Every visual aspect is optimized for crystal-sharp scaling on high-DPI displays.
+              </p>
+            </div>
+            <div class="p-6 bg-canvas-soft border border-hairline rounded-md">
+              <h4 class="font-sans text-base font-semibold text-ink mb-2">Decentralized Sharing</h4>
+              <p class="font-sans text-xs text-body leading-relaxed">
+                Share configurations by sending a URL. Because the data state is compressed and base64-encoded in the URL hash, sharing works instantly with zero database latency.
+              </p>
+            </div>
+            <div class="p-6 bg-canvas-soft border border-hairline rounded-md">
+              <h4 class="font-sans text-base font-semibold text-ink mb-2">Modern Visual Customization</h4>
+              <p class="font-sans text-xs text-body leading-relaxed">
+                Easily scale inner radii, customize label alignments, choose custom gradients, and switch from flat 2D designs to isometric 3D extrusions with simple controls.
+              </p>
+            </div>
+          </div>
+
+          <h2 class="font-sans text-xl md:text-2xl font-semibold text-ink mb-4 mt-12">
+            Open & Free Software
+          </h2>
+          <p class="font-sans text-sm md:text-base text-body leading-relaxed mb-6">
+            Pie Chart Maker is and will remain free of charge. The project leverages powerful modern open-source web technologies like Astro, Tailwind CSS, and SheetJS to offer a clean, robust workspace for developers, students, researchers, and designers alike.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

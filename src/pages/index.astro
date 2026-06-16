@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ChartMaker from '../components/ChartMaker.astro';
+import FAQ from '../components/FAQ.astro';
 ---
 
 <Layout>
@@ -26,6 +27,17 @@ import ChartMaker from '../components/ChartMaker.astro';
         <a href="#how-to-use" class="w-full sm:w-auto inline-flex items-center justify-center h-10 px-5 bg-canvas text-body border border-hairline text-xs font-sans font-medium rounded-pill hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary" role="button">
           Read Guide
         </a>
+      </div>
+
+      <!-- Quick Links to MPA Pages -->
+      <div class="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-2 mt-4 text-[11px] sm:text-xs text-mute font-sans">
+        <a href="/about" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">About Us</a>
+        <span class="w-1 h-1 rounded-full bg-hairline-strong/60" aria-hidden="true"></span>
+        <a href="/contact" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Contact Us</a>
+        <span class="w-1 h-1 rounded-full bg-hairline-strong/60" aria-hidden="true"></span>
+        <a href="/privacy" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Privacy Policy</a>
+        <span class="w-1 h-1 rounded-full bg-hairline-strong/60" aria-hidden="true"></span>
+        <a href="/terms" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Terms & Conditions</a>
       </div>
     </div>
   </section>
@@ -205,6 +217,9 @@ import ChartMaker from '../components/ChartMaker.astro';
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
   <!-- SEO Content Section -->
   <section class="w-full bg-canvas border-b border-hairline py-16 md:py-24">
     <div class="max-w-[800px] mx-auto px-6">
@@ -261,4 +276,7 @@ import ChartMaker from '../components/ChartMaker.astro';
       </div>
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <FAQ />
 </Layout>

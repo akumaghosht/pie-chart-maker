@@ -1,0 +1,236 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Internal Server Error — Pie Chart Maker" 
+  description="We are experiencing an internal server issue. Please try reloading the page or check back later."
+  robots="noindex, follow"
+>
+  <main class="w-full min-h-[70vh] flex items-center justify-center bg-canvas-soft py-12 md:py-20">
+    <div class="max-w-[1000px] w-full mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      
+      <!-- Left Column: Copy and Actions -->
+      <div class="text-center md:text-left flex flex-col items-center md:items-start order-2 md:order-1">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-soft text-error-deep font-mono text-[11px] font-semibold uppercase tracking-wider select-none border border-error/10">
+          Error 500
+        </span>
+        
+        <h1 class="font-sans text-[40px] sm:text-[48px] md:text-[56px] font-semibold tracking-[-1.5px] sm:tracking-[-2.5px] text-ink leading-tight mt-4 mb-4">
+          Something went wrong.
+        </h1>
+        
+        <p class="font-sans text-[16px] md:text-[18px] text-body leading-relaxed max-w-[460px] mb-8">
+          We're experiencing an internal server issue. This is not your fault. Try reloading the page, or go back to the homepage.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mb-10">
+          <button
+            onclick="window.location.reload()"
+            class="inline-flex items-center justify-center h-11 px-6 bg-primary text-on-primary text-sm font-sans font-medium rounded-full hover:bg-primary/95 transition-all shadow-lvl2 hover:shadow-lvl3 focus-visible:outline-2 focus-visible:outline-primary cursor-pointer text-center"
+          >
+            Reload Page
+          </button>
+          <a
+            href="/"
+            class="inline-flex items-center justify-center h-11 px-6 bg-canvas text-ink text-sm font-sans font-medium rounded-full border border-hairline hover:bg-canvas-soft-2 transition-all focus-visible:outline-2 focus-visible:outline-primary cursor-pointer text-center"
+          >
+            Go to Homepage
+          </a>
+        </div>
+
+        <!-- Support Info -->
+        <div class="w-full border-t border-hairline pt-6 text-left">
+          <h3 class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider mb-2 select-none">
+            Need Help?
+          </h3>
+          <p class="font-sans text-xs text-body leading-relaxed max-w-[400px]">
+            If you keep seeing this page, please feel free to <a href="/contact" class="text-link hover:underline">contact support</a> or try again in a few minutes. Your chart configurations saved in the URL are safe!
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Column: Animated Glitch Artwork -->
+      <div class="flex items-center justify-center order-1 md:order-2">
+        <div class="relative w-full max-w-[320px] sm:max-w-[400px]">
+          <!-- Decorative ambient glow (red/warning themed) -->
+          <div class="absolute inset-0 bg-radial from-error/5 to-transparent blur-3xl pointer-events-none scale-150"></div>
+          
+          <svg viewBox="0 0 200 200" class="w-full h-auto select-none relative z-10" aria-hidden="true">
+            <defs>
+              <!-- Gradients matching global.css -->
+              <linearGradient id="grad-develop" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#007cf0" />
+                <stop offset="100%" stop-color="#00dfd8" />
+              </linearGradient>
+              <linearGradient id="grad-preview" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7928ca" />
+                <stop offset="100%" stop-color="#ff0080" />
+              </linearGradient>
+              <linearGradient id="grad-ship" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff4d4d" />
+                <stop offset="100%" stop-color="#f9cb28" />
+              </linearGradient>
+            </defs>
+
+            <!-- Technical grid backdrop with a glitched overlay -->
+            <g class="stroke-hairline dark:stroke-hairline-strong/15" stroke-width="0.5" stroke-dasharray="2 4">
+              <line x1="10" y1="100" x2="190" y2="100" />
+              <line x1="100" y1="10" x2="100" y2="190" />
+              <line x1="36.4" y1="36.4" x2="163.6" y2="163.6" />
+              <circle cx="100" cy="100" r="75" fill="none" />
+              <circle cx="100" cy="100" r="45" fill="none" />
+            </g>
+
+            <!-- Disconnected / Falling bits -->
+            <rect x="35" y="45" width="4" height="4" class="fill-error/30 dark:fill-error/50 animate-glitch-bit-1" />
+            <rect x="155" y="145" width="3" height="6" class="fill-error/40 dark:fill-error/60 animate-glitch-bit-2" />
+            <circle cx="165" cy="55" r="1.5" class="fill-mute/40 dark:fill-mute/60 animate-pulse" />
+            <circle cx="50" cy="155" r="1.5" class="fill-mute/40 dark:fill-mute/60 animate-pulse" />
+
+            <!-- Main Chart Group - split in two parts -->
+            <g>
+              <!-- Right/Upper Split (Slice A: 0 to 135 deg) -->
+              <g class="animate-glitch-right">
+                <path d="M 100 100 L 100 25 A 75 75 0 0 1 153 153 Z" fill="url(#grad-develop)" class="drop-shadow-sm opacity-90" />
+              </g>
+
+              <!-- Left/Lower Split (Slice B & C: 135 to 360 deg) -->
+              <g class="animate-glitch-left">
+                <!-- Slice B -->
+                <path d="M 100 100 L 153 153 A 75 75 0 0 1 29.5 125.6 Z" fill="url(#grad-preview)" class="drop-shadow-sm opacity-90" />
+                <!-- Slice C -->
+                <path d="M 100 100 L 29.5 125.6 A 75 75 0 0 1 100 25 Z" fill="url(#grad-ship)" class="drop-shadow-sm opacity-90" />
+              </g>
+            </g>
+
+            <!-- Jagged Crack Overlay -->
+            <g class="animate-crack font-mono">
+              <path d="M 100 20 L 98 45 L 104 70 L 96 95 L 102 120 L 97 145 L 100 180" fill="none" class="stroke-error dark:stroke-error-deep" stroke-width="2" stroke-linejoin="round" />
+            </g>
+
+            <!-- Donut Center cutout (needs to be drawn in halves or split, but overlapping transparent works) -->
+            <g class="mix-blend-normal">
+              <!-- Left cutout -->
+              <path d="M 100 100 M 100 65 A 35 35 0 0 0 100 135 Z" class="fill-canvas-soft dark:fill-canvas transition-colors duration-300 animate-glitch-left" />
+              <!-- Right cutout -->
+              <path d="M 100 100 M 100 65 A 35 35 0 0 1 100 135 Z" class="fill-canvas-soft dark:fill-canvas transition-colors duration-300 animate-glitch-right" />
+            </g>
+
+            <!-- Technical center rings -->
+            <circle cx="100" cy="100" r="35" fill="none" class="stroke-hairline dark:stroke-hairline-strong/20" stroke-width="1" />
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Jittery Glitch Animation for Left Side */
+  @keyframes glitchLeft {
+    0%, 100% {
+      transform: translate(-3px, 3px);
+    }
+    40% {
+      transform: translate(-3px, 3px);
+    }
+    41% {
+      transform: translate(-5px, 2px);
+    }
+    42% {
+      transform: translate(-1px, 4px);
+    }
+    43% {
+      transform: translate(-3px, 3px);
+    }
+    85% {
+      transform: translate(-3px, 3px);
+    }
+    86% {
+      transform: translate(-4px, 5px);
+    }
+    87% {
+      transform: translate(-2px, 1px);
+    }
+    88% {
+      transform: translate(-3px, 3px);
+    }
+  }
+
+  /* Jittery Glitch Animation for Right Side */
+  @keyframes glitchRight {
+    0%, 100% {
+      transform: translate(3px, -3px);
+    }
+    40% {
+      transform: translate(3px, -3px);
+    }
+    41% {
+      transform: translate(5px, -4px);
+    }
+    42% {
+      transform: translate(1px, -2px);
+    }
+    43% {
+      transform: translate(3px, -3px);
+    }
+    85% {
+      transform: translate(3px, -3px);
+    }
+    86% {
+      transform: translate(1px, -5px);
+    }
+    87% {
+      transform: translate(4px, -1px);
+    }
+    88% {
+      transform: translate(3px, -3px);
+    }
+  }
+
+  /* Subtly jitter the crack itself */
+  @keyframes crackJitter {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    40% { transform: scale(1) translate(0, 0); }
+    41% { transform: scale(1.02) translate(-1px, 1px); }
+    42% { transform: scale(0.98) translate(1px, -1px); }
+    43% { transform: scale(1) translate(0, 0); }
+    85% { transform: scale(1) translate(0, 0); }
+    86% { transform: scale(1.05) translate(0px, -1px); }
+    87% { transform: scale(0.95) translate(-1px, 0px); }
+    88% { transform: scale(1) translate(0, 0); }
+  }
+
+  .animate-glitch-left {
+    animation: glitchLeft 7s ease-in-out infinite;
+  }
+
+  .animate-glitch-right {
+    animation: glitchRight 7s ease-in-out infinite;
+  }
+
+  .animate-crack {
+    transform-origin: center;
+    animation: crackJitter 7s ease-in-out infinite;
+  }
+
+  /* Bit animations */
+  @keyframes glitchBit1 {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+    50% { transform: translate(-5px, 8px) scale(0.8); opacity: 0.8; }
+  }
+  @keyframes glitchBit2 {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    50% { transform: translate(4px, -10px) scale(1.2); opacity: 0.9; }
+  }
+
+  .animate-glitch-bit-1 {
+    animation: glitchBit1 4s ease-in-out infinite;
+  }
+  .animate-glitch-bit-2 {
+    animation: glitchBit2 3.5s ease-in-out infinite;
+  }
+</style>

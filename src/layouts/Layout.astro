@@ -4,11 +4,13 @@ import "../styles/global.css";
 interface Props {
 	title?: string;
 	description?: string;
+	robots?: string;
 }
 
 const {
 	title = "Pie Chart Maker — Free Online 2D/3D Donut & Pie Chart Generator",
 	description = "Use the best free online pie chart maker and donut chart maker to create stunning 2D or 3D custom graphics with percentages. Easily import CSV/XLSX spreadsheets or raw logs, and export high-res vector SVGs, PDFs, or PNGs. 100% private and serverless.",
+	robots,
 } = Astro.props;
 ---
 
@@ -37,6 +39,7 @@ const {
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		{robots && <meta name="robots" content={robots} />}
 		<meta name="keywords" content="pie chart maker, pie chart maker free, free pie chart maker, pie chart maker with percentages, online pie chart maker, 3d pie chart maker, free online pie chart maker, easy pie chart maker, budget pie chart maker, pie chart maker online, donut pie chart maker, google pie chart maker, pie chart maker google, online pie chart maker free, pie chart maker online free, percentage pie chart maker, pie chart maker template, custom pie chart maker, donut chart maker, donut chart maker free, 3d donut chart maker, online donut chart maker, free donut chart maker, online donut chart maker free, donut chart maker online, donut chart maker online free" />
 		<meta name="author" content="piechartmakerfree.com" />
 
@@ -300,16 +303,38 @@ const {
 					<h3
 						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
 					>
-						About
+						Company
 					</h3>
-					<p class="font-sans text-xs text-mute leading-relaxed">
-						Pie Chart Maker is a high-performance developer-inspired
-						tool provided by <a
-							href="https://piechartmakerfree.com"
-							class="text-body hover:text-ink underline"
-							>piechartmakerfree.com</a
-						>. Crafted for instant edits and private sharing.
-					</p>
+					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
+						<li>
+							<a
+								href="/about"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>About Us</a
+							>
+						</li>
+						<li>
+							<a
+								href="/contact"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Contact Us</a
+							>
+						</li>
+						<li>
+							<a
+								href="/privacy"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Privacy Policy</a
+							>
+						</li>
+						<li>
+							<a
+								href="/terms"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Terms & Conditions</a
+							>
+						</li>
+					</ul>
 				</div>
 			</div>
 
@@ -342,10 +367,10 @@ const {
 				<div
 					class="flex items-center gap-6 font-sans text-xs text-mute"
 				>
-					<a href="#" class="hover:text-ink transition-colors"
+					<a href="/privacy" class="hover:text-ink transition-colors"
 						>Privacy Policy</a
 					>
-					<a href="#" class="hover:text-ink transition-colors"
+					<a href="/terms" class="hover:text-ink transition-colors"
 						>Terms of Service</a
 					>
 				</div>
