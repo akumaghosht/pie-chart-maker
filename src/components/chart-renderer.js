@@ -77,19 +77,33 @@ export function renderChart(svg, data, config) {
     topOffset += (config.subtitleFontSize || 10.5) + 6;
   }
 
-  const availableChartHeight = height - legendAreaHeight - topOffset;
+  // Radius & Placement parameters (calculated dynamically to prevent overlap with title and legend)
+  const chartAreaTop = topOffset;
+  const chartAreaBottom = height - legendAreaHeight;
+  const availableChartHeight = chartAreaBottom - chartAreaTop;
 
-  // If 3D, offset center slightly upwards to account for the extrusion height
-  const cy = topOffset + (is3D ? (availableChartHeight - height3D) / 2 + 5 : availableChartHeight / 2);
-  
-  // Radius: make sure the chart fits within the container, leaving margin for labels & hover
-  const margin = is3D ? 60 : 50;
+  // Solve center Y coordinates
+  // If 3D, offset center Y slightly upwards to account for the extrusion thickness
+  const cy = chartAreaTop + (is3D ? (availableChartHeight - height3D) / 2 + 5 : availableChartHeight / 2);
+
   const extendRadiusX = 12;
   const extendRadiusY = 10;
   const elbowLength = 8;
   const fontSize = (config.labelFontSize || 9.5).toString();
 
-  const rx = Math.min(cx, cy) - margin;
+  // Margins for labels & lines
+  const verticalMargin = is3D ? 32 : 24; // 3D needs slightly more space for vertical extrusion rendering
+  const horizontalMargin = 95; // safe margin for horizontal labels text
+
+  // Calculate maximum allowed ry based on available vertical space and margins
+  const ryMax = (availableChartHeight / 2) - (is3D ? height3D / 2 : 0) - verticalMargin;
+  
+  // Calculate maximum allowed rx based on width and horizontal margins
+  const rxMax = cx - horizontalMargin;
+
+  // Solve rx and ry: ry = rx * tilt, so rx = ry / tilt.
+  // This guarantees neither rx exceeds rxMax, nor ry exceeds ryMax.
+  const rx = Math.min(rxMax, ryMax / tilt);
   const ry = rx * tilt;
 
   // Setup SVG attributes
