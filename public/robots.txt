@@ -1,0 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /404
+Disallow: /500
+
+Sitemap: https://piechartmakerfree.com/sitemap.xml
