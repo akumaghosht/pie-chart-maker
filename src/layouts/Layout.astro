@@ -1,43 +1,53 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
 	title?: string;
 	description?: string;
 }
 
-const { 
-  title = "Pie Chart Maker — Create beautiful 2D/3D charts online", 
-  description = "Create, customize, and export stunning 2D/3D pie and donut charts. Upload CSV/XLSX, paste text, or manually edit data with dynamic live previews. Zero ads, serverless sharing." 
+const {
+	title = "Pie Chart Maker — Create beautiful 2D/3D charts online",
+	description = "Create, customize, and export stunning 2D/3D pie and donut charts. Upload CSV/XLSX, paste text, or manually edit data with dynamic live previews. Zero ads, serverless sharing.",
 } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+		<link
+			rel="icon"
+			type="image/png"
+			href="/favicon-96x96.png"
+			sizes="96x96"
+		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="shortcut icon" href="/favicon.ico" />
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/apple-touch-icon.png"
+		/>
 		<meta name="apple-mobile-web-app-title" content="Pie Chart" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<meta name="generator" content={Astro.generator} />
-		
+
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<meta name="author" content="piechartmakerfree.com" />
-		
+
 		<!-- Theme Color -->
 		<meta name="theme-color" id="theme-color" content="#fafafa" />
-		
+
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://piechartmakerfree.com" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		
+
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:title" content={title} />
@@ -45,14 +55,23 @@ const {
 
 		<!-- Prevent flash of wrong theme -->
 		<script>
-			(function() {
+			(function () {
 				const key = "pie_chart_theme";
-				var stored = (function(){try{return localStorage.getItem(key);}catch(e){return null;}})();
+				var stored = (function () {
+					try {
+						return localStorage.getItem(key);
+					} catch (e) {
+						return null;
+					}
+				})();
 				var theme;
 				if (stored === "dark" || stored === "light") {
 					theme = stored;
 				} else {
-					theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+					theme = window.matchMedia("(prefers-color-scheme: dark)")
+						.matches
+						? "dark"
+						: "light";
 				}
 				if (theme === "dark") {
 					document.documentElement.classList.add("dark");
@@ -63,28 +82,56 @@ const {
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body class="flex flex-col min-h-screen bg-canvas-soft text-ink">
 		<!-- Skip Link for Accessibility -->
-		<a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-on-primary focus:rounded-sm focus:outline-none">
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-on-primary focus:rounded-sm focus:outline-none"
+		>
 			Skip to main content
 		</a>
 
 		<!-- Vercel Nav Bar -->
-		<header class="sticky top-0 z-40 w-full h-20 bg-canvas border-b border-hairline flex items-center justify-between px-4 md:px-12 py-3">
+		<header
+			class="sticky top-0 z-40 w-full h-20 bg-canvas border-b border-hairline flex items-center justify-between px-4 md:px-12 py-3"
+		>
 			<!-- Left Side: Logo & Website Name -->
 			<div class="flex items-center gap-2 md:gap-3">
 				<!-- Brand Logo & Name -->
-				<a href="/" class="flex items-center gap-1.5 md:gap-2.5 focus-visible:outline-2 focus-visible:outline-primary py-1" aria-label="Pie Chart Maker Home">
+				<a
+					href="/"
+					class="flex items-center gap-1.5 md:gap-2.5 focus-visible:outline-2 focus-visible:outline-primary py-1"
+					aria-label="Pie Chart Maker Home"
+				>
 					<!-- Pure Vercel solid black Triangle Logo -->
-					<svg width="24" height="21" viewBox="0 0 75 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-ink" aria-hidden="true">
-						<path d="M37.5 0L75 65H0L37.5 0Z" fill="currentColor"/>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="w-6 h-6 rotate-45 text-ink shrink-0"
+						aria-hidden="true"
+					>
+						<path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+						<path d="M22 12A10 10 0 0 0 12 2v10z"></path>
 					</svg>
-					<span class="font-sans text-[13px] sm:text-[14px] md:text-[15px] font-semibold tracking-tight text-ink">Pie Chart Maker</span>
+					<span
+						class="font-sans text-[13px] sm:text-[14px] md:text-[15px] font-semibold tracking-tight text-ink"
+						>Pie Chart Maker</span
+					>
 				</a>
 			</div>
-			
+
 			<!-- Right Side: Links & CTAs -->
 			<div class="flex items-center gap-1 md:gap-2">
 				<!-- Dark Mode Toggle -->
@@ -96,17 +143,44 @@ const {
 					title="Toggle dark mode"
 				>
 					<!-- Sun icon (shown in dark mode) -->
-					<svg id="icon-sun" class="hidden w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+					<svg
+						id="icon-sun"
+						class="hidden w-4 h-4"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+						></path>
 					</svg>
 					<!-- Moon icon (shown in light mode) -->
-					<svg id="icon-moon" class="block w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+					<svg
+						id="icon-moon"
+						class="block w-4 h-4"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+						></path>
 					</svg>
 				</button>
 
 				<!-- How It Works Link -->
-				<a href="#how-to-use" class="text-body hover:text-ink text-[11px] sm:text-xs font-sans font-medium px-2.5 py-1.5 rounded-md hover:bg-canvas-soft-2 transition-all focus-visible:outline-2 focus-visible:outline-primary">
+				<a
+					href="#how-to-use"
+					class="text-body hover:text-ink text-[11px] sm:text-xs font-sans font-medium px-2.5 py-1.5 rounded-md hover:bg-canvas-soft-2 transition-all focus-visible:outline-2 focus-visible:outline-primary"
+				>
 					How it works
 				</a>
 			</div>
@@ -118,52 +192,157 @@ const {
 		</main>
 
 		<!-- Vercel Footer -->
-		<footer class="w-full bg-canvas border-t border-hairline px-6 py-12 md:px-12 md:py-16">
-			<div class="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+		<footer
+			class="w-full bg-canvas border-t border-hairline px-6 py-12 md:px-12 md:py-16"
+		>
+			<div
+				class="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-12"
+			>
 				<div class="flex flex-col gap-3">
-					<h3 class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider">Features</h3>
+					<h3
+						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
+					>
+						Features
+					</h3>
 					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">2D/3D Extrusion</a></li>
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Donut / Hole Scaling</a></li>
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">CSV & XLSX Import</a></li>
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">URL Hash Sharing</a></li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>2D/3D Extrusion</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Donut / Hole Scaling</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>CSV & XLSX Import</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>URL Hash Sharing</a>
+						</li>
 					</ul>
 				</div>
 				<div class="flex flex-col gap-3">
-					<h3 class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider">Other Tools</h3>
+					<h3
+						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
+					>
+						Other Tools
+					</h3>
 					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
-						<li><a href="https://realonlineruler.com" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Online Ruler</a></li>
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Unit Converter</a></li>
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Protractor Online</a></li>
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Screen Caliper</a></li>
+						<li>
+							<a
+								href="https://realonlineruler.com"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Online Ruler</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Unit Converter</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Protractor Online</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Screen Caliper</a>
+						</li>
 					</ul>
 				</div>
 				<div class="flex flex-col gap-3">
-					<h3 class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider">Resources</h3>
+					<h3
+						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
+					>
+						Resources
+					</h3>
 					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">SVG Specifications</a></li>
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">CSV File Template</a></li>
-						<li><a href="#" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Chart Mathematics</a></li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>SVG Specifications</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>CSV File Template</a>
+						</li>
+						<li>
+							<a
+								href="#"
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>Chart Mathematics</a>
+						</li>
 					</ul>
 				</div>
 				<div class="flex flex-col gap-3">
-					<h3 class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider">About</h3>
+					<h3
+						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
+					>
+						About
+					</h3>
 					<p class="font-sans text-xs text-mute leading-relaxed">
-						Pie Chart Maker is a high-performance developer-inspired tool provided by <a href="https://piechartmakerfree.com" class="text-body hover:text-ink underline">piechartmakerfree.com</a>. Crafted for instant edits and private sharing.
+						Pie Chart Maker is a high-performance developer-inspired
+						tool provided by <a
+							href="https://piechartmakerfree.com"
+							class="text-body hover:text-ink underline"
+							>piechartmakerfree.com</a
+						>. Crafted for instant edits and private sharing.
 					</p>
 				</div>
 			</div>
-			
-			<div class="max-w-[1200px] mx-auto border-t border-hairline pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+
+			<div
+				class="max-w-[1200px] mx-auto border-t border-hairline pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
+			>
 				<div class="flex items-center gap-3">
-					<svg width="22" height="19" viewBox="0 0 76 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-ink" aria-hidden="true">
-						<path d="M37.5 0L75.0215 64.5H0L37.5 0Z" fill="currentColor"/>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="w-5 h-5 rotate-45 text-ink shrink-0"
+						aria-hidden="true"
+					>
+						<path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+						<path d="M22 12A10 10 0 0 0 12 2v10z"></path>
 					</svg>
-					<span class="font-sans text-xs text-mute">© {new Date().getFullYear()}&nbsp;piechartmakerfree.com. All rights reserved.</span>
+					<span class="font-sans text-xs text-mute"
+						>© {
+							new Date().getFullYear()
+						}&nbsp;piechartmakerfree.com. All rights reserved.</span
+					>
 				</div>
-				<div class="flex items-center gap-6 font-sans text-xs text-mute">
-					<a href="#" class="hover:text-ink transition-colors">Privacy Policy</a>
-					<a href="#" class="hover:text-ink transition-colors">Terms of Service</a>
+				<div
+					class="flex items-center gap-6 font-sans text-xs text-mute"
+				>
+					<a href="#" class="hover:text-ink transition-colors"
+						>Privacy Policy</a
+					>
+					<a href="#" class="hover:text-ink transition-colors"
+						>Terms of Service</a
+					>
 				</div>
 			</div>
 		</footer>
@@ -179,7 +358,9 @@ const {
 			function getPreferredTheme() {
 				const stored = localStorage.getItem(storageKey);
 				if (stored === "dark" || stored === "light") return stored;
-				return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+				return window.matchMedia("(prefers-color-scheme: dark)").matches
+					? "dark"
+					: "light";
 			}
 
 			function applyTheme(theme) {
@@ -200,7 +381,9 @@ const {
 			}
 
 			function toggleTheme() {
-				const current = htmlEl.classList.contains("dark") ? "dark" : "light";
+				const current = htmlEl.classList.contains("dark")
+					? "dark"
+					: "light";
 				setTheme(current === "dark" ? "light" : "dark");
 			}
 
@@ -213,11 +396,13 @@ const {
 			}
 
 			// Listen for system preference changes (only if no stored preference)
-			window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-				if (!localStorage.getItem(storageKey)) {
-					applyTheme(e.matches ? "dark" : "light");
-				}
-			});
+			window
+				.matchMedia("(prefers-color-scheme: dark)")
+				.addEventListener("change", (e) => {
+					if (!localStorage.getItem(storageKey)) {
+						applyTheme(e.matches ? "dark" : "light");
+					}
+				});
 		</script>
 	</body>
 </html>
