@@ -39,57 +39,103 @@ import ChartMaker from '../components/ChartMaker.astro';
   <section class="w-full bg-canvas border-b border-hairline py-16 md:py-24">
     <div class="max-w-[1200px] mx-auto px-6">
       <div class="text-center md:text-left mb-16 max-w-[500px]">
-        <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">Engine details</span>
+        <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">Core capabilities</span>
         <h3 class="font-sans text-[28px] md:text-[36px] font-semibold tracking-[-1px] text-ink mt-2 text-balance">
-          Engineered for performance.
+          Engineered for professionals.
         </h3>
         <p class="font-sans text-sm text-body leading-relaxed mt-2">
-          Say goodbye to heavy corporate chart frameworks. We run on-canvas calculations with modern vector SVGs to maximize page speeds.
+          Say goodbye to heavy corporate chart frameworks. We run on-canvas calculations with modern vector SVGs to maximize page speeds and configuration flexibility.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Feature Card 1 -->
-        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong transition-all duration-300 flex flex-col gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Feature Card 1: 2D & 3D Render Engine -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong hover:-translate-y-0.5 hover:shadow-lvl2 transition-all duration-300 flex flex-col gap-4">
           <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
             <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25"></path>
             </svg>
           </div>
           <div>
-            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Real-Time Canvas Calculations</h4>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">2D & 3D Render Engine</h4>
             <p class="font-sans text-xs text-body leading-relaxed">
-              Every coordinate is calculated on the client side using pure JavaScript. Sliders and text edits update the drawing path with sub-millisecond redraw latency.
+              Dynamically toggle between standard 2D flat layouts and isometric 3D extrusions. Adjust extrusion depth, tilt angle, donut hole radius, and toggle pop-out animations on hover.
             </p>
           </div>
         </div>
 
-        <!-- Feature Card 2 -->
-        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong transition-all duration-300 flex flex-col gap-4">
+        <!-- Feature Card 2: Universal Data Importers -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong hover:-translate-y-0.5 hover:shadow-lvl2 transition-all duration-300 flex flex-col gap-4">
           <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
             <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
             </svg>
           </div>
           <div>
-            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">100% Client-Side Privacy</h4>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Universal Data Importers</h4>
             <p class="font-sans text-xs text-body leading-relaxed">
-              Your data never touches a server. All file parsing, CSV extractions, and PDF/PNG downloads are handled directly inside your browser sandbox.
+              Create charts via manual inputs, paste unstructured raw logs (auto-parsed via robust regex extraction), or drag-and-drop spreadsheets (.csv, .xlsx) processed entirely in-browser.
             </p>
           </div>
         </div>
 
-        <!-- Feature Card 3 -->
-        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong transition-all duration-300 flex flex-col gap-4">
+        <!-- Feature Card 3: Rich Typography & Backgrounds -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong hover:-translate-y-0.5 hover:shadow-lvl2 transition-all duration-300 flex flex-col gap-4">
           <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
             <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10a9.96 9.96 0 007-2.93 1 1 0 00-.325-1.637 8 8 0 01-5.175-7.433V9a3 3 0 003-3 1 1 0 00-1-1h-1z"></path>
+              <circle cx="12" cy="12" r="3" fill="currentColor"/>
             </svg>
           </div>
           <div>
-            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Decentralized Hash Sharing</h4>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Custom Typography & Styles</h4>
             <p class="font-sans text-xs text-body leading-relaxed">
-              Generate links containing the complete encoded state of your chart. No databases, no storage costs, just instant and fully editable share links.
+              Customize title, subtitle, label and source sizes and colors. Choose from modern font families (Inter, Geist, Outfit, JetBrains Mono) and select transparent, solid, or preset gradient backgrounds.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature Card 4: Print & Vector Exports -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong hover:-translate-y-0.5 hover:shadow-lvl2 transition-all duration-300 flex flex-col gap-4">
+          <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
+            <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Developer-Grade Exports</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              Download your configurations as clean, scalable vector SVG files, print-ready PDFs, or high-resolution PNGs. Copy raw SVG code directly to your clipboard with a single click.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature Card 5: Decentralized Share System -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong hover:-translate-y-0.5 hover:shadow-lvl2 transition-all duration-300 flex flex-col gap-4">
+          <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
+            <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Zero-Server State Sharing</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              No database, no user accounts, no login required. Your chart parameters are completely serialized and base64-encoded directly into a shareable URL hash for private sharing.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature Card 6: Workspaces & Local Storage -->
+        <div class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline hover:border-hairline-strong hover:-translate-y-0.5 hover:shadow-lvl2 transition-all duration-300 flex flex-col gap-4">
+          <div class="w-8 h-8 rounded-sm bg-canvas flex items-center justify-center border border-hairline shadow-lvl1">
+            <svg class="w-4 h-4 text-ink" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-sans text-[15px] font-semibold text-ink mb-1.5">Local Workspace Drafts</h4>
+            <p class="font-sans text-xs text-body leading-relaxed">
+              Save multiple charts as drafts within your browser's local storage. Reopen, rename, or delete drafts anytime with zero server dependencies.
             </p>
           </div>
         </div>
@@ -100,20 +146,30 @@ import ChartMaker from '../components/ChartMaker.astro';
   <!-- Technical Documentation / Help Section -->
   <section id="how-to-use" class="w-full bg-canvas-soft-2 border-b border-hairline py-16 md:py-24">
     <div class="max-w-[800px] mx-auto px-6">
-      <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">Documentation</span>
-      <h3 class="font-sans text-[28px] md:text-[36px] font-semibold tracking-[-1px] text-ink mt-2 mb-8 text-balance">
-        How to input your data.
-      </h3>
+      <div class="text-center md:text-left mb-12">
+        <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">Documentation</span>
+        <h3 class="font-sans text-[28px] md:text-[36px] font-semibold tracking-[-1px] text-ink mt-2 text-balance">
+          How it works.
+        </h3>
+        <p class="font-sans text-sm text-body leading-relaxed mt-2 max-w-[560px]">
+          Create, customize, and publish your pie charts in three simple steps. Learn how our data engines and configurations work.
+        </p>
+      </div>
 
       <div class="flex flex-col gap-10">
         <!-- Step 1 -->
         <div class="flex gap-4 md:gap-6 items-start">
           <span class="font-mono text-xs text-mute font-semibold px-2 py-1 bg-canvas border border-hairline rounded-sm shadow-lvl1 shrink-0">01</span>
           <div>
-            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Manual Data Entry</h4>
+            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Import or Input Data</h4>
             <p class="font-sans text-xs text-body leading-relaxed">
-              Use the default <strong>Manual Entry</strong> tab to construct your chart slice-by-slice. Enter the name of the category, key in the numerical values, and select a color using the color-box colorpicker. Hit <em>Add Slice Field</em> to append new segments. The default colors are pre-allocated from our Vercel color theme.
+              Choose your preferred input method at the top of the editor:
             </p>
+            <ul class="list-disc list-inside mt-2 font-sans text-xs text-body leading-relaxed flex flex-col gap-1">
+              <li><strong>Manual Entry:</strong> Add fields slice-by-slice, adjust values, and select colors using the built-in color-box picker. Sort slices with one click.</li>
+              <li><strong>Paste Text:</strong> Paste tables, lists, or log files. Our regex engine automatically separates items and extracts values.</li>
+              <li><strong>CSV/Excel Files:</strong> Drag-and-drop spreadsheets. SheetJS processes them locally on your device in milliseconds.</li>
+            </ul>
           </div>
         </div>
 
@@ -121,10 +177,15 @@ import ChartMaker from '../components/ChartMaker.astro';
         <div class="flex gap-4 md:gap-6 items-start">
           <span class="font-mono text-xs text-mute font-semibold px-2 py-1 bg-canvas border border-hairline rounded-sm shadow-lvl1 shrink-0">02</span>
           <div>
-            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Pasting Raw Logs or Text</h4>
+            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Style and Fine-tune</h4>
             <p class="font-sans text-xs text-body leading-relaxed">
-              Copy raw statistics, log dumps, or markdown tables and paste them into the <strong>Paste Text</strong> tab. Our regex extractor dynamically identifies columns separated by commas, tabs, spaces, or colons. Slices will be loaded with colors assigned automatically from the palette.
+              Control the visualization of your dataset with real-time on-canvas calculations:
             </p>
+            <ul class="list-disc list-inside mt-2 font-sans text-xs text-body leading-relaxed flex flex-col gap-1">
+              <li><strong>Geometry:</strong> Toggle Donut layout to adjust hole size, or 3D isometric projection to control tilt and height.</li>
+              <li><strong>Typography & Colors:</strong> Select custom headings, font families, and precise colors/sizes for all labels and source citations.</li>
+              <li><strong>Backdrop:</strong> Set transparent backgrounds for overlays, solid white/dark presets, or premium linear gradients.</li>
+            </ul>
           </div>
         </div>
 
@@ -132,10 +193,15 @@ import ChartMaker from '../components/ChartMaker.astro';
         <div class="flex gap-4 md:gap-6 items-start">
           <span class="font-mono text-xs text-mute font-semibold px-2 py-1 bg-canvas border border-hairline rounded-sm shadow-lvl1 shrink-0">03</span>
           <div>
-            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Importing CSV & XLSX Sheets</h4>
+            <h4 class="font-sans text-[16px] font-semibold text-ink mb-2">Export, Share, or Save</h4>
             <p class="font-sans text-xs text-body leading-relaxed">
-              Drag-and-drop or select spreadsheets containing large datasets inside the <strong>File Upload</strong> tab. CSV rows are parsed instantly. Excel spreadsheets (.xlsx, .xls) trigger the dynamic loading of SheetJS, parsing your sheets locally with full compatibility.
+              Distribute or save your charts with high-performance outputs:
             </p>
+            <ul class="list-disc list-inside mt-2 font-sans text-xs text-body leading-relaxed flex flex-col gap-1">
+              <li><strong>High-Resolution Exports:</strong> Download high-fidelity PNG, vector SVG, print-ready PDF, or copy SVG XML directly to your clipboard.</li>
+              <li><strong>Serverless Sharing:</strong> Generate state-encoded links. The URL hash contains the entire data state, sharing instantly with no database storage.</li>
+              <li><strong>Local Storage Drafts:</strong> Save workspace configurations as drafts in local storage, allowing you to edit offline later.</li>
+            </ul>
           </div>
         </div>
       </div>
