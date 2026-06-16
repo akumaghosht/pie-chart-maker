@@ -7,8 +7,8 @@ interface Props {
 }
 
 const {
-	title = "Pie Chart Maker — Create beautiful 2D/3D charts online",
-	description = "Create, customize, and export stunning 2D/3D pie and donut charts. Upload CSV/XLSX, paste text, or manually edit data with dynamic live previews. Zero ads, serverless sharing.",
+	title = "Pie Chart Maker — Free Online 2D/3D Donut & Pie Chart Generator",
+	description = "Use the best free online pie chart maker and donut chart maker to create stunning 2D or 3D custom graphics with percentages. Easily import CSV/XLSX spreadsheets or raw logs, and export high-res vector SVGs, PDFs, or PNGs. 100% private and serverless.",
 } = Astro.props;
 ---
 
@@ -37,6 +37,7 @@ const {
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<meta name="keywords" content="pie chart maker, pie chart maker free, free pie chart maker, pie chart maker with percentages, online pie chart maker, 3d pie chart maker, free online pie chart maker, easy pie chart maker, budget pie chart maker, pie chart maker online, donut pie chart maker, google pie chart maker, pie chart maker google, online pie chart maker free, pie chart maker online free, percentage pie chart maker, pie chart maker template, custom pie chart maker, donut chart maker, donut chart maker free, 3d donut chart maker, online donut chart maker, free donut chart maker, online donut chart maker free, donut chart maker online, donut chart maker online free" />
 		<meta name="author" content="piechartmakerfree.com" />
 
 		<!-- Theme Color -->
@@ -47,11 +48,15 @@ const {
 		<meta property="og:url" content="https://piechartmakerfree.com" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
+		<meta property="og:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
+		<meta property="og:site_name" content="Pie Chart Maker" />
+		<meta property="og:locale" content="en_US" />
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
 
 		<!-- Prevent flash of wrong theme -->
 		<script>
