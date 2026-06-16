@@ -243,6 +243,20 @@ Oranges	25"
               autocomplete="off"
             />
           </div>
+          <div class="flex flex-col gap-1.5">
+            <label
+              for="chart-source"
+              class="font-sans text-xs font-medium text-body"
+              >Data Source Citation</label
+            >
+            <input
+              id="chart-source"
+              type="text"
+              class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors"
+              placeholder="e.g. Source: World Bank Database…"
+              autocomplete="off"
+            />
+          </div>
         </div>
 
         <!-- Visual Settings -->
@@ -418,6 +432,7 @@ Oranges	25"
               <select id="label-mode" class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors cursor-pointer">
                 <option value="label-percent">Name + Percentage (e.g. Marketing (15.5%))</option>
                 <option value="label-value">Name + Value (e.g. Marketing (120))</option>
+                <option value="label-value-percent">Name, Value & Percent (e.g. Marketing (120, 15.5%))</option>
                 <option value="label">Name Only (e.g. Marketing)</option>
                 <option value="value">Value Only (e.g. 120)</option>
                 <option value="percent">Percentage Only (e.g. 15.5%)</option>
@@ -426,43 +441,88 @@ Oranges	25"
             </div>
           </div>
 
-          <!-- Right styling column: Color options -->
+          <!-- Right styling column: Typographical Settings -->
           <div class="flex flex-col gap-4">
-            <!-- Text Colors Grid -->
+            <!-- Typography & Colors Configuration -->
             <div class="flex flex-col gap-2">
-              <span class="font-sans text-xs font-medium text-body">Text Colors</span>
-              <div class="grid grid-cols-3 gap-2">
-                <!-- Title Color -->
-                <div class="flex flex-col gap-1">
-                  <span class="font-sans text-[10px] text-mute">Title</span>
-                  <div class="flex items-center gap-1">
-                    <div class="relative w-7 h-7 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
+              <span class="font-sans text-xs font-medium text-body">Typography Details</span>
+              <div class="flex flex-col gap-2">
+                <!-- Title Font Styling -->
+                <div class="flex items-center justify-between gap-2 py-1 border-b border-hairline/30">
+                  <span class="font-sans text-[11px] text-mute">Title Font</span>
+                  <div class="flex items-center gap-1.5">
+                    <select id="size-title" class="h-7 px-1.5 border border-hairline rounded-sm font-sans text-[10px] focus:outline-none bg-canvas-soft-2 cursor-pointer">
+                      <option value="12">12px</option>
+                      <option value="14">14px</option>
+                      <option value="15" selected>15px</option>
+                      <option value="16">16px</option>
+                      <option value="18">18px</option>
+                      <option value="20">20px</option>
+                      <option value="24">24px</option>
+                    </select>
+                    <div class="relative w-6 h-6 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
                       <input type="color" id="color-title" class="absolute opacity-0 w-full h-full cursor-pointer" value="#171717" />
                       <div id="color-title-preview" class="w-full h-full" style="background-color: #171717"></div>
                     </div>
-                    <input type="text" id="color-title-hex" class="w-full h-7 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#171717" />
+                    <input type="text" id="color-title-hex" class="w-14 h-7 px-1 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#171717" />
                   </div>
                 </div>
-                <!-- Subtitle Color -->
-                <div class="flex flex-col gap-1">
-                  <span class="font-sans text-[10px] text-mute">Subtitle</span>
-                  <div class="flex items-center gap-1">
-                    <div class="relative w-7 h-7 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
+
+                <!-- Subtitle Font Styling -->
+                <div class="flex items-center justify-between gap-2 py-1 border-b border-hairline/30">
+                  <span class="font-sans text-[11px] text-mute">Subtitle Font</span>
+                  <div class="flex items-center gap-1.5">
+                    <select id="size-subtitle" class="h-7 px-1.5 border border-hairline rounded-sm font-sans text-[10px] focus:outline-none bg-canvas-soft-2 cursor-pointer">
+                      <option value="9">9px</option>
+                      <option value="10">10px</option>
+                      <option value="10.5" selected>10.5px</option>
+                      <option value="11">11px</option>
+                      <option value="12">12px</option>
+                      <option value="14">14px</option>
+                    </select>
+                    <div class="relative w-6 h-6 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
                       <input type="color" id="color-subtitle" class="absolute opacity-0 w-full h-full cursor-pointer" value="#666666" />
                       <div id="color-subtitle-preview" class="w-full h-full" style="background-color: #666666"></div>
                     </div>
-                    <input type="text" id="color-subtitle-hex" class="w-full h-7 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#666666" />
+                    <input type="text" id="color-subtitle-hex" class="w-14 h-7 px-1 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#666666" />
                   </div>
                 </div>
-                <!-- Label Color -->
-                <div class="flex flex-col gap-1">
-                  <span class="font-sans text-[10px] text-mute">Labels</span>
-                  <div class="flex items-center gap-1">
-                    <div class="relative w-7 h-7 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
+
+                <!-- Slice Labels Font Styling -->
+                <div class="flex items-center justify-between gap-2 py-1 border-b border-hairline/30">
+                  <span class="font-sans text-[11px] text-mute">Slice Labels Font</span>
+                  <div class="flex items-center gap-1.5">
+                    <select id="size-label" class="h-7 px-1.5 border border-hairline rounded-sm font-sans text-[10px] focus:outline-none bg-canvas-soft-2 cursor-pointer">
+                      <option value="8">8px</option>
+                      <option value="9">9px</option>
+                      <option value="9.5" selected>9.5px</option>
+                      <option value="10">10px</option>
+                      <option value="11">11px</option>
+                      <option value="12">12px</option>
+                    </select>
+                    <div class="relative w-6 h-6 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
                       <input type="color" id="color-label" class="absolute opacity-0 w-full h-full cursor-pointer" value="#171717" />
                       <div id="color-label-preview" class="w-full h-full" style="background-color: #171717"></div>
                     </div>
-                    <input type="text" id="color-label-hex" class="w-full h-7 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#171717" />
+                    <input type="text" id="color-label-hex" class="w-14 h-7 px-1 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#171717" />
+                  </div>
+                </div>
+
+                <!-- Source Font Styling -->
+                <div class="flex items-center justify-between gap-2 py-1 border-b border-hairline/30">
+                  <span class="font-sans text-[11px] text-mute">Source Font</span>
+                  <div class="flex items-center gap-1.5">
+                    <select id="size-source" class="h-7 px-1.5 border border-hairline rounded-sm font-sans text-[10px] focus:outline-none bg-canvas-soft-2 cursor-pointer">
+                      <option value="7">7px</option>
+                      <option value="8" selected>8px</option>
+                      <option value="9">9px</option>
+                      <option value="10">10px</option>
+                    </select>
+                    <div class="relative w-6 h-6 rounded-sm overflow-hidden flex items-center justify-center border border-hairline cursor-pointer shrink-0">
+                      <input type="color" id="color-source" class="absolute opacity-0 w-full h-full cursor-pointer" value="#666666" />
+                      <div id="color-source-preview" class="w-full h-full" style="background-color: #666666"></div>
+                    </div>
+                    <input type="text" id="color-source-hex" class="w-14 h-7 px-1 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#666666" />
                   </div>
                 </div>
               </div>
@@ -756,6 +816,12 @@ Oranges	25"
     labelColor: "#171717",
     backgroundColor: "transparent",
     labelMode: "label-percent",
+    source: "",
+    titleFontSize: 15,
+    subtitleFontSize: 10.5,
+    labelFontSize: 9.5,
+    sourceFontSize: 8,
+    sourceColor: "#666666",
   };
 
   // --- DOM Elements ---
@@ -828,6 +894,15 @@ Oranges	25"
   // Styling inputs
   const selectFontFamily = document.getElementById("font-family");
   const selectLabelMode = document.getElementById("label-mode");
+
+  const inputSource = document.getElementById("chart-source");
+  const selectTitleSize = document.getElementById("size-title");
+  const selectSubtitleSize = document.getElementById("size-subtitle");
+  const selectLabelSize = document.getElementById("size-label");
+  const selectSourceSize = document.getElementById("size-source");
+  const inputSourceColor = document.getElementById("color-source");
+  const inputSourceColorHex = document.getElementById("color-source-hex");
+  const previewSourceColor = document.getElementById("color-source-preview");
   
   const inputTitleColor = document.getElementById("color-title");
   const inputTitleColorHex = document.getElementById("color-title-hex");
@@ -864,6 +939,7 @@ Oranges	25"
     // 1. Headers/Text fields
     inputTitle.value = chartConfig.title || "";
     inputSubtitle.value = chartConfig.subtitle || "";
+    inputSource.value = chartConfig.source || "";
 
     // 2. Layout Radios (Pie vs Donut)
     const layoutRadios = document.querySelectorAll('input[name="chart-layout"]');
@@ -892,6 +968,10 @@ Oranges	25"
     selectFontFamily.value = chartConfig.fontFamily || "Inter";
     loadGoogleFont(chartConfig.fontFamily);
     selectLabelMode.value = chartConfig.labelMode || "label-percent";
+    selectTitleSize.value = (chartConfig.titleFontSize ?? 15).toString();
+    selectSubtitleSize.value = (chartConfig.subtitleFontSize ?? 10.5).toString();
+    selectLabelSize.value = (chartConfig.labelFontSize ?? 9.5).toString();
+    selectSourceSize.value = (chartConfig.sourceFontSize ?? 8).toString();
     
     // 6. Color Pickers & Hex inputs
     inputTitleColor.value = chartConfig.titleColor || "#171717";
@@ -905,6 +985,10 @@ Oranges	25"
     inputLabelColor.value = chartConfig.labelColor || "#171717";
     inputLabelColorHex.value = chartConfig.labelColor || "#171717";
     previewLabelColor.style.backgroundColor = chartConfig.labelColor || "#171717";
+
+    inputSourceColor.value = chartConfig.sourceColor || "#666666";
+    inputSourceColorHex.value = chartConfig.sourceColor || "#666666";
+    previewSourceColor.style.backgroundColor = chartConfig.sourceColor || "#666666";
 
     // 7. Viewport Background Custom picker & presets
     const bg = chartConfig.backgroundColor || "transparent";
@@ -1010,6 +1094,31 @@ Oranges	25"
       updateHeaders();
     });
 
+    inputSource.addEventListener("input", (e) => {
+      chartConfig.source = e.target.value;
+      triggerRender();
+    });
+
+    selectTitleSize.addEventListener("change", (e) => {
+      chartConfig.titleFontSize = parseFloat(e.target.value);
+      triggerRender();
+    });
+
+    selectSubtitleSize.addEventListener("change", (e) => {
+      chartConfig.subtitleFontSize = parseFloat(e.target.value);
+      triggerRender();
+    });
+
+    selectLabelSize.addEventListener("change", (e) => {
+      chartConfig.labelFontSize = parseFloat(e.target.value);
+      triggerRender();
+    });
+
+    selectSourceSize.addEventListener("change", (e) => {
+      chartConfig.sourceFontSize = parseFloat(e.target.value);
+      triggerRender();
+    });
+
     // Sliders
     inputDonutHole.addEventListener("input", (e) => {
       chartConfig.donutHoleRadius = parseFloat(e.target.value) / 100;
@@ -1097,6 +1206,30 @@ Oranges	25"
     inputLabelColor.value = chartConfig.labelColor;
     inputLabelColorHex.value = chartConfig.labelColor;
     previewLabelColor.style.backgroundColor = chartConfig.labelColor;
+
+    // Source Color pickers
+    inputSourceColor.value = chartConfig.sourceColor || "#666666";
+    inputSourceColorHex.value = chartConfig.sourceColor || "#666666";
+    previewSourceColor.style.backgroundColor = chartConfig.sourceColor || "#666666";
+
+    inputSourceColor.addEventListener("input", (e) => {
+      const val = e.target.value;
+      inputSourceColorHex.value = val;
+      previewSourceColor.style.backgroundColor = val;
+      chartConfig.sourceColor = val;
+      triggerRender();
+    });
+
+    inputSourceColorHex.addEventListener("input", (e) => {
+      let val = e.target.value.trim();
+      if (!val.startsWith("#")) val = "#" + val;
+      if (/^#[0-9a-fA-F]{3,8}$/.test(val)) {
+        inputSourceColor.value = val;
+        previewSourceColor.style.backgroundColor = val;
+        chartConfig.sourceColor = val;
+        triggerRender();
+      }
+    });
 
     inputLabelColor.addEventListener("input", (e) => {
       const val = e.target.value;
@@ -1874,6 +2007,12 @@ Oranges	25"
         lc: chartConfig.labelColor,
         bg: chartConfig.backgroundColor,
         lm: chartConfig.labelMode,
+        src: chartConfig.source,
+        tfs: chartConfig.titleFontSize,
+        sfs: chartConfig.subtitleFontSize,
+        lfs: chartConfig.labelFontSize,
+        srfs: chartConfig.sourceFontSize,
+        srco: chartConfig.sourceColor,
       },
     };
 
@@ -1932,6 +2071,12 @@ Oranges	25"
             labelColor: state.c.lc ?? "#171717",
             backgroundColor: state.c.bg ?? "transparent",
             labelMode: state.c.lm ?? "label-percent",
+            source: state.c.src ?? "",
+            titleFontSize: state.c.tfs ?? 15,
+            subtitleFontSize: state.c.sfs ?? 10.5,
+            labelFontSize: state.c.lfs ?? 9.5,
+            sourceFontSize: state.c.srfs ?? 8,
+            sourceColor: state.c.srco ?? "#666666",
           };
 
           // Sync UI controls with the URL state
@@ -1969,6 +2114,12 @@ Oranges	25"
           chartConfig.labelColor = chartConfig.labelColor ?? "#171717";
           chartConfig.backgroundColor = chartConfig.backgroundColor ?? "transparent";
           chartConfig.labelMode = chartConfig.labelMode ?? "label-percent";
+          chartConfig.source = chartConfig.source ?? "";
+          chartConfig.titleFontSize = chartConfig.titleFontSize ?? 15;
+          chartConfig.subtitleFontSize = chartConfig.subtitleFontSize ?? 10.5;
+          chartConfig.labelFontSize = chartConfig.labelFontSize ?? 9.5;
+          chartConfig.sourceFontSize = chartConfig.sourceFontSize ?? 8;
+          chartConfig.sourceColor = chartConfig.sourceColor ?? "#666666";
           
           syncUiFromConfig();
         }
@@ -2105,6 +2256,12 @@ Oranges	25"
           chartConfig.labelColor = chartConfig.labelColor ?? "#171717";
           chartConfig.backgroundColor = chartConfig.backgroundColor ?? "transparent";
           chartConfig.labelMode = chartConfig.labelMode ?? "label-percent";
+          chartConfig.source = chartConfig.source ?? "";
+          chartConfig.titleFontSize = chartConfig.titleFontSize ?? 15;
+          chartConfig.subtitleFontSize = chartConfig.subtitleFontSize ?? 10.5;
+          chartConfig.labelFontSize = chartConfig.labelFontSize ?? 9.5;
+          chartConfig.sourceFontSize = chartConfig.sourceFontSize ?? 8;
+          chartConfig.sourceColor = chartConfig.sourceColor ?? "#666666";
 
           syncUiFromConfig();
           syncManualRowsUI();

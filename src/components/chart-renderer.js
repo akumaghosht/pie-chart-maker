@@ -71,10 +71,10 @@ export function renderChart(svg, data, config) {
   // Calculate top offset dynamically for SVG Title & Subtitle
   let topOffset = 10;
   if (config.title) {
-    topOffset += 24;
+    topOffset += (config.titleFontSize || 15) + 9;
   }
   if (config.subtitle) {
-    topOffset += 16;
+    topOffset += (config.subtitleFontSize || 10.5) + 6;
   }
 
   const availableChartHeight = height - legendAreaHeight - topOffset;
@@ -87,7 +87,7 @@ export function renderChart(svg, data, config) {
   const extendRadiusX = 12;
   const extendRadiusY = 10;
   const elbowLength = 8;
-  const fontSize = '9.5';
+  const fontSize = (config.labelFontSize || 9.5).toString();
 
   const rx = Math.min(cx, cy) - margin;
   const ry = rx * tilt;
@@ -142,6 +142,9 @@ export function renderChart(svg, data, config) {
   }
 
   // Render Title & Subtitle inside SVG for exports & unified WYSIWYG
+  const titleFontSize = config.titleFontSize || 15;
+  const subtitleFontSize = config.subtitleFontSize || 10.5;
+
   if (config.title) {
     const titleText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     titleText.setAttribute('x', '260');
@@ -149,7 +152,7 @@ export function renderChart(svg, data, config) {
     titleText.setAttribute('text-anchor', 'middle');
     titleText.setAttribute('fill', config.titleColor || inkColor);
     titleText.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
-    titleText.setAttribute('font-size', '15');
+    titleText.setAttribute('font-size', titleFontSize.toString());
     titleText.setAttribute('font-weight', '600');
     titleText.textContent = config.title;
     svg.appendChild(titleText);
@@ -157,11 +160,11 @@ export function renderChart(svg, data, config) {
   if (config.subtitle) {
     const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     subText.setAttribute('x', '260');
-    subText.setAttribute('y', config.title ? '41' : '25');
+    subText.setAttribute('y', config.title ? (25 + titleFontSize + 2).toString() : '25');
     subText.setAttribute('text-anchor', 'middle');
     subText.setAttribute('fill', config.subtitleColor || muteColor);
     subText.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
-    subText.setAttribute('font-size', '10.5');
+    subText.setAttribute('font-size', subtitleFontSize.toString());
     subText.setAttribute('font-weight', '400');
     subText.textContent = config.subtitle;
     svg.appendChild(subText);
@@ -593,6 +596,8 @@ export function renderChart(svg, data, config) {
         return `${label} (${percent.toFixed(1)}%)`;
       case 'label-value':
         return `${label} (${value.toLocaleString()})`;
+      case 'label-value-percent':
+        return `${label} (${value.toLocaleString()}, ${percent.toFixed(1)}%)`;
       case 'label':
         return label;
       case 'value':
@@ -620,9 +625,11 @@ export function renderChart(svg, data, config) {
     }
 
     // 2. Try truncated label with suffix if mode contains label
-    if (mode === 'label-percent' || mode === 'label-value' || mode === 'label') {
+    if (mode === 'label-percent' || mode === 'label-value' || mode === 'label-value-percent' || mode === 'label') {
       let tempLabel = label;
-      const suffix = mode === 'label-percent' ? ` (${percent.toFixed(1)}%)` : mode === 'label-value' ? ` (${value.toLocaleString()})` : '';
+      const suffix = mode === 'label-percent' ? ` (${percent.toFixed(1)}%)` : 
+                     mode === 'label-value' ? ` (${value.toLocaleString()})` : 
+                     mode === 'label-value-percent' ? ` (${value.toLocaleString()}, ${percent.toFixed(1)}%)` : '';
       
       while (tempLabel.length > 0) {
         tempLabel = tempLabel.slice(0, -1);
@@ -633,7 +640,7 @@ export function renderChart(svg, data, config) {
       }
       
       // Fallback: if label + suffix doesn't fit, try just value or percent
-      if (mode === 'label-percent') {
+      if (mode === 'label-percent' || mode === 'label-value-percent') {
         textElement.textContent = `${percent.toFixed(1)}%`;
         if (textElement.getComputedTextLength() <= maxWidth) return;
       } else if (mode === 'label-value') {
@@ -770,6 +777,20 @@ export function renderChart(svg, data, config) {
       xOffset += item.width;
     });
   });
+
+  // 7. Draw Source Citation at bottom-right corner of SVG if provided
+  if (config.source) {
+    const srcText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    srcText.setAttribute('x', '500'); // bottom-right with margin
+    srcText.setAttribute('y', (height - 6).toString());
+    srcText.setAttribute('text-anchor', 'end');
+    srcText.setAttribute('fill', config.sourceColor || muteColor);
+    srcText.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
+    srcText.setAttribute('font-size', (config.sourceFontSize || 8).toString());
+    srcText.setAttribute('font-weight', '400');
+    srcText.textContent = config.source.startsWith('Source:') ? config.source : `Source: ${config.source}`;
+    svg.appendChild(srcText);
+  }
 }
 
 function renderEmptyState(svg) {
