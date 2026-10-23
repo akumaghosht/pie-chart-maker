@@ -8,7 +8,7 @@ export default defineConfig({
   site: 'https://piechartmakerfree.com',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'es', 'ja', 'fr', 'de', 'pt', 'ko', 'it'],
+    locales: ['en', 'es', 'ja', 'fr', 'de', 'pt', 'ko', 'it', 'hi', 'bn', 'ar'],
     routing: {
       prefixDefaultLocale: false,
     },
