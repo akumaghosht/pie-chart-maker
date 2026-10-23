@@ -13,7 +13,25 @@ const t = useTranslations(currentLang);
 ---
 
 <div
+  id="workspace-container"
   class="max-w-[1240px] mx-auto px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+  data-lang={currentLang}
+  data-default-title={t("default.title")}
+  data-default-subtitle={t("default.subtitle")}
+  data-default-slice1={t("default.slice1")}
+  data-default-slice2={t("default.slice2")}
+  data-default-slice3={t("default.slice3")}
+  data-default-slice4={t("default.slice4")}
+  data-slice-prefix={t("app.slicePrefix")}
+  data-slice-placeholder={t("app.slicePlaceholder")}
+  data-val-placeholder={t("app.valPlaceholder")}
+  data-delete-slice={t("app.deleteSlice")}
+  data-no-data={t("app.noData")}
+  data-untitled={t("app.untitled")}
+  data-link-copied={t("app.linkCopied")}
+  data-draft-saved={t("app.draftSaved")}
+  data-enter-draft-name={t("app.enterDraftName")}
+  data-no-drafts={t("app.noDrafts")}
 >
   <!-- Left Column: Inputs & Controls (7 Cols on desktop) -->
   <div class="lg:col-span-7 flex flex-col gap-6 order-2 lg:order-1">
@@ -95,21 +113,21 @@ const t = useTranslations(currentLang);
         >
           <div class="flex flex-wrap items-center justify-between gap-2">
             <h2 class="font-sans text-sm font-semibold text-ink">
-              Data Fields
+              {t("app.dataFields")}
             </h2>
             <div class="flex gap-2">
               <button
                 id="btn-sort-val"
                 class="inline-flex items-center justify-center h-7 px-2.5 bg-canvas border border-hairline rounded-sm text-xs font-sans text-body hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shrink-0"
-                title="Sort slices by value descending"
+                title={t("app.sortByValue")}
               >
-                Sort by Value
+                {t("app.sortByValue")}
               </button>
               <button
                 id="btn-clear-all"
                 class="inline-flex items-center justify-center h-7 px-2.5 bg-canvas border border-error-soft text-error rounded-sm text-xs font-sans hover:bg-error-soft/30 hover:text-error-deep transition-colors focus-visible:outline-2 focus-visible:outline-error cursor-pointer shrink-0"
               >
-                Clear All
+                {t("app.clearAll")}
               </button>
             </div>
           </div>
@@ -126,7 +144,7 @@ const t = useTranslations(currentLang);
             id="btn-add-row"
             class="w-full inline-flex items-center justify-center h-9 border border-dashed border-hairline-strong rounded-sm text-xs font-sans font-medium text-body hover:bg-canvas-soft hover:text-ink hover:border-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer mt-2"
           >
-            + Add Slice Field
+            {t("app.addSlice")}
           </button>
         </div>
 
@@ -141,17 +159,13 @@ const t = useTranslations(currentLang);
             for="paste-textarea"
             class="font-sans text-xs font-medium text-body"
           >
-            Paste raw text data (one item per line, separated by commas, tabs,
-            spaces, or colons):
+            {t("app.pasteLabel")}
           </label>
           <textarea
             id="paste-textarea"
             rows="6"
             class="w-full font-mono text-xs p-3 border border-hairline rounded-sm focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors"
-            placeholder="Apples, 45
-Bananas: 80
-Cherries 120
-Oranges	25"
+            placeholder={t("app.pastePlaceholder")}
             spellcheck="false"
             autocomplete="off"></textarea>
           <div class="flex gap-3 justify-end">
@@ -159,7 +173,7 @@ Oranges	25"
               id="btn-parse-text"
               class="inline-flex items-center justify-center h-8 px-4 bg-primary text-on-primary rounded-sm text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
             >
-              Extract & Update Slices
+              {t("app.extractUpdate")}
             </button>
           </div>
         </div>
@@ -174,7 +188,7 @@ Oranges	25"
           <div
             id="dropzone"
             class="w-full border-2 border-dashed border-hairline hover:border-hairline-strong rounded-md p-8 text-center bg-canvas-soft-2 cursor-pointer transition-colors flex flex-col items-center justify-center gap-3"
-            aria-label="File upload drag and drop area"
+            aria-label={t("app.dropzoneTitle")}
           >
             <svg
               class="text-mute w-8 h-8"
@@ -193,10 +207,10 @@ Oranges	25"
             </svg>
             <div class="flex flex-col gap-1">
               <span class="font-sans text-xs font-medium text-ink"
-                >Drag & drop your CSV or XLSX file here</span
+                >{t("app.dropzoneTitle")}</span
               >
               <span class="font-sans text-[11px] text-mute"
-                >or click to browse your computer</span
+                >{t("app.dropzoneSubtitle")}</span
               >
             </div>
             <input
@@ -212,9 +226,7 @@ Oranges	25"
           >
           </div>
           <div class="font-sans text-[11px] text-mute leading-relaxed">
-            Format: Column 1 should contain slice names, and Column 2 should
-            contain values. First row will be ignored if it contains header
-            text.
+            {t("app.fileFormatHint")}
           </div>
         </div>
       </div>
@@ -227,7 +239,7 @@ Oranges	25"
       <h2
         class="font-sans text-sm font-semibold text-ink border-b border-hairline pb-3"
       >
-        Chart Configurations
+        {t("app.configTitle")}
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -236,13 +248,13 @@ Oranges	25"
           <div class="flex flex-col gap-1.5">
             <label
               for="chart-title"
-              class="font-sans text-xs font-medium text-body">Chart Title</label
+              class="font-sans text-xs font-medium text-body">{t("app.title")}</label
             >
             <input
               id="chart-title"
               type="text"
               class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors"
-              placeholder="e.g. Sales Breakdown 2026…"
+              placeholder={t("app.titlePlaceholder")}
               autocomplete="off"
             />
           </div>
@@ -250,13 +262,13 @@ Oranges	25"
             <label
               for="chart-subtitle"
               class="font-sans text-xs font-medium text-body"
-              >Chart Subtitle</label
+              >{t("app.subtitle")}</label
             >
             <input
               id="chart-subtitle"
               type="text"
               class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors"
-              placeholder="e.g. Total Revenue by Department…"
+              placeholder={t("app.subtitlePlaceholder")}
               autocomplete="off"
             />
           </div>
@@ -264,13 +276,13 @@ Oranges	25"
             <label
               for="chart-source"
               class="font-sans text-xs font-medium text-body"
-              >Data Source Citation</label
+              >{t("app.source")}</label
             >
             <input
               id="chart-source"
               type="text"
               class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors"
-              placeholder="e.g. Source: World Bank Database…"
+              placeholder={t("app.sourcePlaceholder")}
               autocomplete="off"
             />
           </div>
@@ -281,7 +293,7 @@ Oranges	25"
           <!-- Chart Type Toggle -->
           <div class="flex flex-col gap-2">
             <span class="font-sans text-xs font-medium text-body"
-              >Chart Layout</span
+              >{t("app.chartLayout")}</span
             >
             <div class="flex gap-2">
               <label
@@ -294,7 +306,7 @@ Oranges	25"
                   checked
                   class="sr-only"
                 />
-                Pie Chart
+                {t("app.pieChart")}
               </label>
               <label
                 class="flex-1 inline-flex items-center justify-center h-8 px-4 rounded-sm border border-hairline bg-canvas text-body hover:text-ink text-xs font-sans font-medium cursor-pointer select-none text-center hover:bg-canvas-soft transition-all has-checked:bg-primary has-checked:text-on-primary has-checked:border-primary"
@@ -305,7 +317,7 @@ Oranges	25"
                   value="donut"
                   class="sr-only"
                 />
-                Donut Chart
+                {t("app.donutChart")}
               </label>
             </div>
           </div>
@@ -315,7 +327,7 @@ Oranges	25"
             class="flex items-center justify-between py-1 border-b border-hairline/50"
           >
             <span class="font-sans text-xs font-medium text-body"
-              >3D Isometric View</span
+              >{t("app.toggle3D")}</span
             >
             <label class="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" id="toggle-3d" class="sr-only peer" />
@@ -331,7 +343,7 @@ Oranges	25"
             class="flex items-center justify-between py-1 border-b border-hairline/50"
           >
             <span class="font-sans text-xs font-medium text-body"
-              >Pop Slices on Hover</span
+              >{t("app.togglePop")}</span
             >
             <label class="relative inline-flex items-center cursor-pointer">
               <input
@@ -360,7 +372,7 @@ Oranges	25"
             <label
               for="input-donut-hole"
               class="font-sans text-xs font-medium text-body"
-              >Donut Hole Size</label
+              >{t("app.donutHoleSize")}</label
             >
             <span
               id="donut-hole-val"
@@ -383,7 +395,7 @@ Oranges	25"
             <label
               for="input-3d-tilt"
               class="font-sans text-xs font-medium text-body"
-              >3D Tilt Angle</label
+              >{t("app.tilt")}</label
             >
             <span
               id="3d-tilt-val"
@@ -406,7 +418,7 @@ Oranges	25"
             <label
               for="input-3d-height"
               class="font-sans text-xs font-medium text-body"
-              >3D Extrusion Thickness</label
+              >{t("app.extrusion")}</label
             >
             <span
               id="3d-height-val"
@@ -426,13 +438,13 @@ Oranges	25"
 
       <!-- Typography & Styling Options -->
       <div class="pt-6 border-t border-hairline/50 flex flex-col gap-6">
-        <h3 class="font-sans text-xs font-semibold text-ink">Style & Typography</h3>
+        <h3 class="font-sans text-xs font-semibold text-ink">{t("app.typography")}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Left styling column -->
           <div class="flex flex-col gap-4">
             <!-- Font Family -->
             <div class="flex flex-col gap-1.5">
-              <label for="font-family" class="font-sans text-xs font-medium text-body">Chart Font Family</label>
+              <label for="font-family" class="font-sans text-xs font-medium text-body">{t("app.fontFamily")}</label>
               <select id="font-family" class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors cursor-pointer">
                 <option value="Inter">Inter (Sans-Serif)</option>
                 <option value="Geist">Geist (Modern Sans)</option>
@@ -445,15 +457,15 @@ Oranges	25"
 
             <!-- Label Mode -->
             <div class="flex flex-col gap-1.5">
-              <label for="label-mode" class="font-sans text-xs font-medium text-body">Label Mode</label>
+              <label for="label-mode" class="font-sans text-xs font-medium text-body">{t("app.labelMode")}</label>
               <select id="label-mode" class="h-9 px-3 border border-hairline rounded-sm font-sans text-xs focus:outline-none focus:border-hairline-strong bg-canvas-soft-2 focus:bg-canvas transition-colors cursor-pointer">
-                <option value="label-percent">Name + Percentage (e.g. Marketing (15.5%))</option>
-                <option value="label-value">Name + Value (e.g. Marketing (120))</option>
-                <option value="label-value-percent">Name, Value & Percent (e.g. Marketing (120, 15.5%))</option>
-                <option value="label">Name Only (e.g. Marketing)</option>
-                <option value="value">Value Only (e.g. 120)</option>
-                <option value="percent">Percentage Only (e.g. 15.5%)</option>
-                <option value="none">None (Hide Labels)</option>
+                <option value="label-percent">{t("app.optNamePercent")}</option>
+                <option value="label-value">{t("app.optNameValue")}</option>
+                <option value="label-value-percent">{t("app.optNameValuePercent")}</option>
+                <option value="label">{t("app.optNameOnly")}</option>
+                <option value="value">{t("app.optValueOnly")}</option>
+                <option value="percent">{t("app.optPercentOnly")}</option>
+                <option value="none">{t("app.optNone")}</option>
               </select>
             </div>
           </div>
@@ -462,11 +474,11 @@ Oranges	25"
           <div class="flex flex-col gap-4">
             <!-- Typography & Colors Configuration -->
             <div class="flex flex-col gap-2">
-              <span class="font-sans text-xs font-medium text-body">Typography Details</span>
+              <span class="font-sans text-xs font-medium text-body">{t("app.typoDetails")}</span>
               <div class="flex flex-col gap-2">
                 <!-- Title Font Styling -->
                 <div class="flex items-center justify-between gap-2 py-1 border-b border-hairline/30">
-                  <span class="font-sans text-[11px] text-mute">Title Font</span>
+                  <span class="font-sans text-[11px] text-mute">{t("app.titleFont")}</span>
                   <div class="flex items-center gap-1.5">
                     <select id="size-title" class="h-7 px-1.5 border border-hairline rounded-sm font-sans text-[10px] focus:outline-none bg-canvas-soft-2 cursor-pointer">
                       <option value="12">12px</option>
@@ -487,7 +499,7 @@ Oranges	25"
 
                 <!-- Subtitle Font Styling -->
                 <div class="flex items-center justify-between gap-2 py-1 border-b border-hairline/30">
-                  <span class="font-sans text-[11px] text-mute">Subtitle Font</span>
+                  <span class="font-sans text-[11px] text-mute">{t("app.subFont")}</span>
                   <div class="flex items-center gap-1.5">
                     <select id="size-subtitle" class="h-7 px-1.5 border border-hairline rounded-sm font-sans text-[10px] focus:outline-none bg-canvas-soft-2 cursor-pointer">
                       <option value="9">9px</option>
@@ -507,7 +519,7 @@ Oranges	25"
 
                 <!-- Slice Labels Font Styling -->
                 <div class="flex items-center justify-between gap-2 py-1 border-b border-hairline/30">
-                  <span class="font-sans text-[11px] text-mute">Slice Labels Font</span>
+                  <span class="font-sans text-[11px] text-mute">{t("app.sliceFont")}</span>
                   <div class="flex items-center gap-1.5">
                     <select id="size-label" class="h-7 px-1.5 border border-hairline rounded-sm font-sans text-[10px] focus:outline-none bg-canvas-soft-2 cursor-pointer">
                       <option value="8">8px</option>
@@ -527,7 +539,7 @@ Oranges	25"
 
                 <!-- Source Font Styling -->
                 <div class="flex items-center justify-between gap-2 py-1 border-b border-hairline/30">
-                  <span class="font-sans text-[11px] text-mute">Source Font</span>
+                  <span class="font-sans text-[11px] text-mute">{t("app.sourceFont")}</span>
                   <div class="flex items-center gap-1.5">
                     <select id="size-source" class="h-7 px-1.5 border border-hairline rounded-sm font-sans text-[10px] focus:outline-none bg-canvas-soft-2 cursor-pointer">
                       <option value="7">7px</option>
@@ -547,24 +559,24 @@ Oranges	25"
 
             <!-- Viewport Background -->
             <div class="flex flex-col gap-2">
-              <span class="font-sans text-xs font-medium text-body">Chart Background</span>
+              <span class="font-sans text-xs font-medium text-body">{t("app.chartBg")}</span>
               <div class="flex flex-wrap items-center gap-2">
                 <!-- Preset circles -->
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 flex items-center justify-center text-[10px] text-mute" data-bg="transparent" title="Transparent" style="background-color: transparent;">
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 flex items-center justify-center text-[10px] text-mute" data-bg="transparent" title={t("app.bgTransparent")} style="background-color: transparent;">
                   ∅
                 </button>
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-white scale-110 border-hairline-strong" data-bg="#ffffff" title="Solid White"></button>
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-neutral-50" data-bg="#fafafa" title="Soft Gray"></button>
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-neutral-900" data-bg="#0a0a0a" title="Deep Dark"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-white scale-110 border-hairline-strong" data-bg="#ffffff" title={t("app.bgWhite")}></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-neutral-50" data-bg="#fafafa" title={t("app.bgGray")}></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-neutral-900" data-bg="#0a0a0a" title={t("app.bgDark")}></button>
                 
                 <!-- Sleek gradients presets -->
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #fdfbf7 0%, #eee5d3 100%)" title="Warm Mesh" style="background: linear-gradient(135deg, #fdfbf7 0%, #eee5d3 100%);"></button>
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)" title="Ice Teal" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);"></button>
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)" title="Sunset" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);"></button>
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)" title="Dawn" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #fdfbf7 0%, #eee5d3 100%)" title={t("app.bgWarmMesh")} style="background: linear-gradient(135deg, #fdfbf7 0%, #eee5d3 100%);"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)" title={t("app.bgIceTeal")} style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)" title={t("app.bgSunset")} style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95" data-bg="linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)" title={t("app.bgDawn")} style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);"></button>
                 
                 <!-- Custom Picker -->
-                <div class="relative w-6 h-6 rounded-md border border-hairline cursor-pointer overflow-hidden flex items-center justify-center shrink-0 shadow-lvl1 hover:scale-105 transition-transform border-dashed border-hairline-strong bg-canvas-soft hover:bg-canvas" title="Custom Solid Color">
+                <div class="relative w-6 h-6 rounded-md border border-hairline cursor-pointer overflow-hidden flex items-center justify-center shrink-0 shadow-lvl1 hover:scale-105 transition-transform border-dashed border-hairline-strong bg-canvas-soft hover:bg-canvas" title={t("app.bgCustom")}>
                   <input type="color" id="color-bg" class="absolute opacity-0 w-full h-full cursor-pointer" value="#ffffff" />
                   <div id="color-bg-preview" class="w-full h-full flex items-center justify-center" style="background-color: #ffffff">
                     <svg id="color-bg-plus-icon" class="text-mute transition-opacity duration-150 opacity-0" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -592,13 +604,13 @@ Oranges	25"
       >
         <span
           class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider select-none"
-          >[ Live Chart Preview ]</span
+          >[ {t("app.livePreview")} ]</span
         >
         <div class="flex items-center gap-3">
           <button
             id="btn-reset-preview"
             class="inline-flex items-center justify-center gap-1 text-[10px] font-sans font-medium text-body hover:text-ink cursor-pointer border border-hairline hover:bg-canvas-soft-2 px-2 py-0.5 rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-            title="Reset chart data and configurations to defaults"
+            title={t("app.reset")}
             type="button"
           >
             <!-- Reset Icon -->
@@ -617,14 +629,14 @@ Oranges	25"
                 stroke-linecap="round"
                 stroke-linejoin="round"></path>
             </svg>
-            <span>Reset</span>
+            <span>{t("app.reset")}</span>
           </button>
           <span class="w-[1px] h-3 bg-hairline"></span>
           <div class="flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
             ></span>
             <span class="font-sans text-[10px] font-medium text-mute"
-              >Synced</span
+              >{t("app.synced")}</span
             >
           </div>
         </div>
@@ -699,7 +711,7 @@ Oranges	25"
     >
       <span
         class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider border-b border-hairline pb-2 select-none"
-        >[ Slices Distribution ]</span
+        >[ {t("app.slicesDistribution")} ]</span
       >
       <div
         id="chart-legend"
@@ -709,7 +721,7 @@ Oranges	25"
       </div>
       <div class="text-right border-t border-hairline pt-2">
         <span class="font-sans text-[11px] text-mute"
-          >Total Value: <span
+          >{t("app.totalValue")}: <span
             id="legend-total-val"
             class="font-mono font-medium text-body">0</span
           ></span
@@ -721,10 +733,9 @@ Oranges	25"
     <div
       class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-4"
     >
-      <h3 class="font-sans text-xs font-semibold text-ink">Share Chart</h3>
+      <h3 class="font-sans text-xs font-semibold text-ink">{t("app.shareChart")}</h3>
       <p class="font-sans text-[11px] text-body leading-relaxed">
-        Copies a link containing your chart state. Anyone opening this link can
-        view and edit the data instantly.
+        {t("app.shareDesc")}
       </p>
       <div class="flex gap-2">
         <input
@@ -738,7 +749,7 @@ Oranges	25"
           id="btn-share-copy"
           class="inline-flex items-center justify-center h-8 px-3 bg-primary text-on-primary rounded-sm text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shrink-0"
         >
-          Copy Link
+          {t("app.copyLink")}
         </button>
       </div>
     </div>
@@ -748,10 +759,10 @@ Oranges	25"
       class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-4"
     >
       <div class="flex items-center justify-between">
-        <h3 class="font-sans text-xs font-semibold text-ink">Saved Drafts</h3>
+        <h3 class="font-sans text-xs font-semibold text-ink">{t("app.savedDrafts")}</h3>
         <span
           class="font-sans text-[10px] text-mute font-medium px-2 py-0.5 bg-canvas-soft-2 border border-hairline rounded-sm"
-          >Local Storage</span
+          >{t("app.localStorage")}</span
         >
       </div>
       <div class="flex gap-2">
@@ -759,13 +770,13 @@ Oranges	25"
           id="draft-name-input"
           type="text"
           class="flex-1 min-w-0 h-8 px-2.5 border border-hairline rounded-sm font-sans text-xs bg-canvas-soft-2 focus:bg-canvas focus:outline-none focus:border-hairline-strong transition-colors"
-          placeholder="Draft name…"
+          placeholder={t("app.draftPlaceholder")}
         />
         <button
           id="btn-draft-save"
           class="inline-flex items-center justify-center h-8 px-3 bg-canvas border border-hairline rounded-sm text-xs font-sans text-body hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shrink-0"
         >
-          Save Draft
+          {t("app.saveDraft")}
         </button>
       </div>
       <div
@@ -821,12 +832,34 @@ Oranges	25"
       .replace(/'/g, "&#39;");
   }
 
+  // --- Read Localized Defaults from Workspace Container ---
+  const wsContainer = document.getElementById("workspace-container");
+  const currentLang = wsContainer?.dataset?.lang || "en";
+
+  const defaultTitle = wsContainer?.dataset?.defaultTitle || "Resource Allocation";
+  const defaultSubtitle = wsContainer?.dataset?.defaultSubtitle || "Annual Expense Distribution";
+  const defaultSlice1 = wsContainer?.dataset?.defaultSlice1 || "Marketing";
+  const defaultSlice2 = wsContainer?.dataset?.defaultSlice2 || "Development";
+  const defaultSlice3 = wsContainer?.dataset?.defaultSlice3 || "Operations";
+  const defaultSlice4 = wsContainer?.dataset?.defaultSlice4 || "Customer Success";
+
+  const slicePrefix = wsContainer?.dataset?.slicePrefix || "Slice";
+  const slicePlaceholder = wsContainer?.dataset?.slicePlaceholder || "Slice Label…";
+  const valPlaceholder = wsContainer?.dataset?.valPlaceholder || "Val";
+  const deleteSliceLabel = wsContainer?.dataset?.deleteSlice || "Delete slice";
+  const noDataText = wsContainer?.dataset?.noData || "No data entries to list.";
+  const untitledText = wsContainer?.dataset?.untitled || "Untitled";
+  const linkCopiedMsg = wsContainer?.dataset?.linkCopied || "Link copied to clipboard!";
+  const draftSavedMsg = wsContainer?.dataset?.draftSaved || "Draft saved!";
+  const enterDraftNameMsg = wsContainer?.dataset?.enterDraftName || "Please enter a draft name";
+  const noDraftsMsg = wsContainer?.dataset?.noDrafts || "No drafts saved yet.";
+
   // --- State Variables ---
   let chartData = [
-    { label: "Marketing", value: 120, color: getColor(0) },
-    { label: "Development", value: 340, color: getColor(1) },
-    { label: "Operations", value: 90, color: getColor(2) },
-    { label: "Customer Success", value: 210, color: getColor(3) },
+    { label: defaultSlice1, value: 120, color: getColor(0) },
+    { label: defaultSlice2, value: 340, color: getColor(1) },
+    { label: defaultSlice3, value: 90, color: getColor(2) },
+    { label: defaultSlice4, value: 210, color: getColor(3) },
   ];
 
   let chartConfig = {
@@ -835,8 +868,8 @@ Oranges	25"
     is3D: false,
     tilt: 0.55,
     height3D: 30,
-    title: "Resource Allocation",
-    subtitle: "Annual Expense Distribution",
+    title: defaultTitle,
+    subtitle: defaultSubtitle,
     fontFamily: "Inter",
     titleColor: "#171717",
     subtitleColor: "#666666",
@@ -1485,7 +1518,7 @@ Oranges	25"
         <!-- Label Input -->
         <input 
           type="text" 
-          placeholder="Slice Label…" 
+          placeholder="${slicePlaceholder}" 
           class="flex-grow min-w-0 h-8 px-2 border border-hairline focus:border-hairline-strong focus:outline-none rounded-sm text-xs font-sans bg-canvas-soft-2 focus:bg-canvas transition-colors"
           value="${escapeHTML(row.label)}"
           autocomplete="off"
@@ -1494,7 +1527,7 @@ Oranges	25"
         <!-- Value Input -->
         <input 
           type="number" 
-          placeholder="Val" 
+          placeholder="${valPlaceholder}" 
           min="0.0001" 
           step="any"
           class="w-20 h-8 px-2 border border-hairline focus:border-hairline-strong focus:outline-none rounded-sm text-xs font-mono bg-canvas-soft-2 focus:bg-canvas text-right transition-colors"
@@ -1505,7 +1538,7 @@ Oranges	25"
         <button 
           type="button"
           class="w-8 h-8 inline-flex items-center justify-center text-mute hover:text-error-deep rounded-sm hover:bg-error-soft/30 transition-colors focus-visible:outline-2 focus-visible:outline-error cursor-pointer shrink-0"
-          aria-label="Delete slice ${escapeHTML(row.label) || index + 1}"
+          aria-label="${deleteSliceLabel} ${escapeHTML(row.label) || index + 1}"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M1.5 3.5h11M11.5 3.5v9a1 1 0 01-1 1h-7a1 1 0 01-1-1v-9m2 0V2a1 1 0 011-1h3a1 1 0 011 1v1.5M5.5 6.5v4M8.5 6.5v4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1551,7 +1584,7 @@ Oranges	25"
   function addNewRow() {
     const defaultColor = getColor(chartData.length);
     chartData.push({
-      label: `Slice ${chartData.length + 1}`,
+      label: `${slicePrefix} ${chartData.length + 1}`,
       value: 100,
       color: defaultColor,
     });
@@ -1590,7 +1623,7 @@ Oranges	25"
     if (validData.length === 0) {
       chartLegend.innerHTML = `
         <div class="text-center font-sans text-xs text-mute py-4 leading-relaxed">
-          No data entries to list.
+          ${noDataText}
         </div>
       `;
       return;
@@ -1607,7 +1640,7 @@ Oranges	25"
       rowDiv.innerHTML = `
         <div class="flex items-center gap-2 min-w-0">
           <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${row.color}"></span>
-          <span class="font-medium text-ink truncate">${escapeHTML(row.label) || "Untitled"}</span>
+          <span class="font-medium text-ink truncate">${escapeHTML(row.label) || untitledText}</span>
         </div>
         <div class="flex items-center gap-4 shrink-0 font-mono text-mute">
           <span>${row.value.toLocaleString()}</span>
@@ -2061,7 +2094,7 @@ Oranges	25"
     shareLinkInput.setSelectionRange(0, 99999);
     try {
       navigator.clipboard.writeText(shareLinkInput.value);
-      showToast("Share link copied to clipboard!");
+      showToast(linkCopiedMsg);
     } catch (err) {
       showToast("Failed to copy link.");
     }
@@ -2120,9 +2153,10 @@ Oranges	25"
         showToast("Failed to parse shared link.");
       }
     } else {
-      // Fallback: load last draft from localStorage
+      // Fallback: load last draft from localStorage scoped by language
       try {
-        const lastSession = localStorage.getItem("pie_chart_last_session");
+        const sessionKey = `pie_chart_last_session_${currentLang}`;
+        const lastSession = localStorage.getItem(sessionKey);
         if (lastSession) {
           const parsed = JSON.parse(lastSession);
           chartData = parsed.data;
@@ -2134,8 +2168,8 @@ Oranges	25"
           chartConfig.is3D = !!chartConfig.is3D;
           chartConfig.tilt = chartConfig.tilt ?? 0.55;
           chartConfig.height3D = chartConfig.height3D ?? 30;
-          chartConfig.title = chartConfig.title ?? "";
-          chartConfig.subtitle = chartConfig.subtitle ?? "";
+          chartConfig.title = chartConfig.title ?? defaultTitle;
+          chartConfig.subtitle = chartConfig.subtitle ?? defaultSubtitle;
           chartConfig.disableHoverOffset = !!chartConfig.disableHoverOffset;
           chartConfig.fontFamily = chartConfig.fontFamily ?? "Inter";
           chartConfig.titleColor = chartConfig.titleColor ?? "#171717";
@@ -2159,11 +2193,12 @@ Oranges	25"
       } catch (e) {}
     }
 
-    // Auto save last state before unloading page
+    // Auto save last state before unloading page (scoped by language)
     window.addEventListener("beforeunload", () => {
       try {
+        const sessionKey = `pie_chart_last_session_${currentLang}`;
         localStorage.setItem(
-          "pie_chart_last_session",
+          sessionKey,
           JSON.stringify({
             data: chartData,
             config: chartConfig,
@@ -2191,7 +2226,7 @@ Oranges	25"
   function saveDraft() {
     const name = draftNameInput.value.trim();
     if (!name) {
-      showToast("Please enter a draft name");
+      showToast(enterDraftNameMsg);
       return;
     }
 
@@ -2219,7 +2254,7 @@ Oranges	25"
       localStorage.setItem("pie_chart_drafts", JSON.stringify(drafts));
       draftNameInput.value = "";
       loadDraftsHistory();
-      showToast(`Draft "${name}" saved!`);
+      showToast(`${name}: ${draftSavedMsg}`);
     } catch (err) {
       console.error(err);
       showToast("Failed to save draft.");
@@ -2234,7 +2269,7 @@ Oranges	25"
 
       if (drafts.length === 0) {
         draftsList.innerHTML = `
-          <span class="font-sans text-[11px] text-mute select-none py-1">No drafts saved yet.</span>
+          <span class="font-sans text-[11px] text-mute select-none py-1">${noDraftsMsg}</span>
         `;
         return;
       }
