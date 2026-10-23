@@ -121,7 +121,7 @@ export function renderChart(svg, data, config) {
   }
 
   // Draw background rect
-  const bg = config.backgroundColor;
+  const bg = config.backgroundColor !== undefined ? config.backgroundColor : '#ffffff';
   if (bg && bg.includes('linear-gradient')) {
     const matches = bg.match(/#[0-9a-fA-F]{3,8}/g);
     if (matches && matches.length >= 2) {

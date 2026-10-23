@@ -1,33 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Home Page in all languages with hreflang markup -->
   <url>
     <loc>https://piechartmakerfree.com/</loc>
-    <lastmod>2026-06-16</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/" />
   </url>
   <url>
+    <loc>https://piechartmakerfree.com/es/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/" />
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/ja/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/" />
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/fr/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/" />
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/de/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/" />
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/pt/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/" />
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/ko/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/" />
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/it/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/" />
+  </url>
+
+  <!-- About, Contact, Privacy, Terms in all languages -->
+  <url>
     <loc>https://piechartmakerfree.com/about</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/about" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/about/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/about/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/about/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/about/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/about/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/about/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/about/" />
   </url>
   <url>
     <loc>https://piechartmakerfree.com/contact</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/contact" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/contact/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/contact/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/contact/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/contact/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/contact/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/contact/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/contact/" />
   </url>
   <url>
     <loc>https://piechartmakerfree.com/privacy</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/privacy" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/privacy/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/privacy/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/privacy/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/privacy/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/privacy/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/privacy/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/privacy/" />
   </url>
   <url>
     <loc>https://piechartmakerfree.com/terms</loc>
-    <lastmod>2026-06-16</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piechartmakerfree.com/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://piechartmakerfree.com/terms" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://piechartmakerfree.com/es/terms/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://piechartmakerfree.com/ja/terms/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://piechartmakerfree.com/fr/terms/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://piechartmakerfree.com/de/terms/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://piechartmakerfree.com/pt/terms/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/terms/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/terms/" />
   </url>
 </urlset>

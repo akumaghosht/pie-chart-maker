@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HomeContent from '../../components/HomeContent.astro';
+import { languages, defaultLang, type SupportedLanguage } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return (Object.keys(languages) as SupportedLanguage[])
+    .filter((l) => l !== defaultLang)
+    .map((lang) => ({
+      params: { lang },
+    }));
+}
+
+const { lang } = Astro.params as { lang: SupportedLanguage };
+---
+
+<Layout lang={lang}>
+  <HomeContent lang={lang} />
+</Layout>

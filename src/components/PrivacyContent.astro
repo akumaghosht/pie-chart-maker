@@ -1,0 +1,65 @@
+---
+---
+
+<main class="w-full">
+  <!-- Hero Header -->
+  <section class="relative w-full mesh-gradient-bg border-b border-hairline py-16 md:py-24 overflow-hidden">
+    <div class="absolute -top-[20%] left-[30%] w-[50%] h-[350px] bg-radial from-color-link/5 via-color-violet/5 to-transparent blur-3xl pointer-events-none"></div>
+    
+    <div class="max-w-[800px] mx-auto px-6 text-center md:text-left relative z-10">
+      <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">Privacy & Trust</span>
+      <h1 class="font-sans text-[32px] sm:text-[36px] md:text-[56px] font-semibold tracking-[-1px] sm:tracking-[-2px] text-ink leading-tight md:leading-[1.05] mt-2 mb-6">
+        Privacy Policy.
+      </h1>
+      <p class="font-sans text-[16px] md:text-[18px] text-body leading-relaxed max-w-[640px]">
+        We take data privacy very seriously. Because our application is serverless, your data never leaves your personal device.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content Section -->
+  <section class="w-full bg-canvas py-16 md:py-24">
+    <div class="max-w-[800px] mx-auto px-6">
+      <div class="prose dark:prose-invert max-w-none">
+        <p class="font-sans text-xs text-mute mb-8">
+          Last Updated: June 16, 2026
+        </p>
+
+        <h2 class="font-sans text-xl md:text-2xl font-semibold text-ink mb-4">
+          1. Zero Chart Data Collection
+        </h2>
+        <p class="font-sans text-sm md:text-base text-body leading-relaxed mb-6">
+          Unlike traditional charting software, Pie Chart Maker operates entirely client-side. When you type in values, paste log contents, or drag-and-drop spreadsheets (.csv, .xlsx), all parsing and rendering calculations are performed within your browser's memory. No data is sent to external servers or stored in cloud databases.
+        </p>
+
+        <h2 class="font-sans text-xl md:text-2xl font-semibold text-ink mb-4">
+          2. Local Storage and Drafts
+        </h2>
+        <p class="font-sans text-sm md:text-base text-body leading-relaxed mb-6">
+          If you use the drafts feature to save your chart configurations, the data is saved in your browser's <code>localStorage</code> sandbox. It remains on your machine and is accessible only to you. You can delete these drafts at any time by clearing your browser data or using the "Delete" options in the workspace manager.
+        </p>
+
+        <h2 class="font-sans text-xl md:text-2xl font-semibold text-ink mb-4">
+          3. Sharing State via URL Hashes
+        </h2>
+        <p class="font-sans text-sm md:text-base text-body leading-relaxed mb-6">
+          When you generate a shareable link to a chart, all configuration settings are encoded directly into a base64 string contained in the URL hash (the part starting with <code>#</code>). Because browser clients do not send URL hashes to web servers during HTTP requests, your shared chart details are never exposed to our network infrastructure.
+        </p>
+
+        <h2 class="font-sans text-xl md:text-2xl font-semibold text-ink mb-4">
+          4. Analytics and Server Logs
+        </h2>
+        <p class="font-sans text-sm md:text-base text-body leading-relaxed mb-6">
+          We collect standard, non-identifying web analytics data (such as page views, referrer URLs, and device types) to optimize performance, layout structure, and site loading speed. This data is strictly aggregated and contains no personal information or user-inputted chart content.
+        </p>
+
+        <h2 class="font-sans text-xl md:text-2xl font-semibold text-ink mb-4">
+          5. Changes to This Policy
+        </h2>
+        <p class="font-sans text-sm md:text-base text-body leading-relaxed mb-6">
+          We may update our Privacy Policy periodically. Any updates will be posted on this page with an updated "Last Updated" date. By using our tool, you agree to the conditions outlined in this policy.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>

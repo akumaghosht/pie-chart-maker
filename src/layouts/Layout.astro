@@ -1,21 +1,40 @@
 ---
 import "../styles/global.css";
+import {
+	getLangFromUrl,
+	useTranslations,
+	useTranslatedPath,
+	getHreflangList,
+	getCanonicalUrl,
+} from "../i18n/utils";
+import { ogLocales, type SupportedLanguage } from "../i18n/ui";
+import LanguagePicker from "../components/LanguagePicker.astro";
 
 interface Props {
 	title?: string;
 	description?: string;
 	robots?: string;
+	keywords?: string;
+	lang?: SupportedLanguage;
 }
 
-const {
-	title = "Pie Chart Maker — Free Online 2D/3D Donut & Pie Chart Generator",
-	description = "Use the best free online pie chart maker and donut chart maker to create stunning 2D or 3D custom graphics with percentages. Easily import CSV/XLSX spreadsheets or raw logs, and export high-res vector SVGs, PDFs, or PNGs. 100% private and serverless.",
-	robots,
-} = Astro.props;
+const urlLang = getLangFromUrl(Astro.url);
+const currentLang = Astro.props.lang || urlLang;
+const t = useTranslations(currentLang);
+const translatePath = useTranslatedPath(currentLang);
+
+const title = Astro.props.title || t("meta.title");
+const description = Astro.props.description || t("meta.description");
+const keywords = Astro.props.keywords || t("meta.keywords");
+const robots = Astro.props.robots;
+
+const hreflangs = getHreflangList(Astro.url);
+const canonicalUrl = getCanonicalUrl(Astro.url);
+const ogLocale = ogLocales[currentLang] || "en_US";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={currentLang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,12 +54,23 @@ const {
 		<meta name="apple-mobile-web-app-title" content="Pie Chart" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="sitemap" href="/sitemap.xml" />
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href={canonicalUrl} />
+
+		<!-- Hreflang Tags for Multi-Language SEO -->
+		{
+			hreflangs.map((entry) => (
+				<link rel="alternate" hreflang={entry.hreflang} href={entry.href} />
+			))
+		}
 
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		{robots && <meta name="robots" content={robots} />}
-		<meta name="keywords" content="pie chart maker, pie chart maker free, free pie chart maker, pie chart maker with percentages, online pie chart maker, 3d pie chart maker, free online pie chart maker, easy pie chart maker, budget pie chart maker, pie chart maker online, donut pie chart maker, google pie chart maker, pie chart maker google, online pie chart maker free, pie chart maker online free, percentage pie chart maker, pie chart maker template, custom pie chart maker, donut chart maker, donut chart maker free, 3d donut chart maker, online donut chart maker, free donut chart maker, online donut chart maker free, donut chart maker online, donut chart maker online free" />
+		<meta name="keywords" content={keywords} />
 		<meta name="author" content="piechartmakerfree.com" />
 
 		<!-- Theme Color -->
@@ -48,12 +78,12 @@ const {
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://piechartmakerfree.com" />
+		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
-		<meta property="og:site_name" content="Pie Chart Maker" />
-		<meta property="og:locale" content="en_US" />
+		<meta property="og:site_name" content={t("nav.logo")} />
+		<meta property="og:locale" content={ogLocale} />
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
@@ -109,22 +139,22 @@ const {
 		<!-- Skip Link for Accessibility -->
 		<a
 			href="#main-content"
-			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-on-primary focus:rounded-sm focus:outline-none"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-primary focus:text-on-primary focus:rounded-sm focus:outline-none"
 		>
-			Skip to main content
+			{t("nav.skip")}
 		</a>
 
 		<!-- Vercel Nav Bar -->
 		<header
-			class="sticky top-0 z-40 w-full h-20 bg-canvas border-b border-hairline flex items-center justify-between px-4 md:px-12 py-3"
+			class="sticky top-0 z-50 w-full h-14 bg-canvas/95 backdrop-blur-md border-b border-hairline flex items-center justify-between px-4 md:px-12 transition-colors"
 		>
 			<!-- Left Side: Logo & Website Name -->
 			<div class="flex items-center gap-2 md:gap-3">
 				<!-- Brand Logo & Name -->
 				<a
-					href="/"
+					href={translatePath("/")}
 					class="flex items-center gap-1.5 md:gap-2.5 focus-visible:outline-2 focus-visible:outline-primary py-1"
-					aria-label="Pie Chart Maker Home"
+					aria-label={`${t("nav.logo")} Home`}
 				>
 					<!-- Pure Vercel solid black Triangle Logo -->
 					<svg
@@ -145,20 +175,23 @@ const {
 					</svg>
 					<span
 						class="font-sans text-[13px] sm:text-[14px] md:text-[15px] font-semibold tracking-tight text-ink"
-						>Pie Chart Maker</span
+						>{t("nav.logo")}</span
 					>
 				</a>
 			</div>
 
 			<!-- Right Side: Links & CTAs -->
-			<div class="flex items-center gap-1 md:gap-2">
+			<div class="flex items-center gap-1.5 md:gap-2.5">
+				<!-- Language Switcher in Nav -->
+				<LanguagePicker variant="nav" />
+
 				<!-- Dark Mode Toggle -->
 				<button
 					id="theme-toggle"
 					type="button"
 					class="w-8 h-8 inline-flex items-center justify-center rounded-md text-body hover:text-ink hover:bg-canvas-soft-2 transition-all focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
-					aria-label="Toggle dark mode"
-					title="Toggle dark mode"
+					aria-label={t("nav.toggleTheme")}
+					title={t("nav.toggleTheme")}
 				>
 					<!-- Sun icon (shown in dark mode) -->
 					<svg
@@ -196,10 +229,10 @@ const {
 
 				<!-- How It Works Link -->
 				<a
-					href="#how-to-use"
+					href={translatePath("/#how-to-use")}
 					class="text-body hover:text-ink text-[11px] sm:text-xs font-sans font-medium px-2.5 py-1.5 rounded-md hover:bg-canvas-soft-2 transition-all focus-visible:outline-2 focus-visible:outline-primary"
 				>
-					How it works
+					{t("nav.howItWorks")}
 				</a>
 			</div>
 		</header>
@@ -214,38 +247,66 @@ const {
 			class="w-full bg-canvas border-t border-hairline px-6 py-12 md:px-12 md:py-16"
 		>
 			<div
-				class="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-12"
+				class="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-3 gap-8 mb-8"
 			>
 				<div class="flex flex-col gap-3">
 					<h3
 						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
 					>
-						Features
+						{t("footer.features")}
 					</h3>
 					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
 						<li>
 							<a
-								href="#"
+								href={translatePath("/#editor-workspace")}
 								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>2D/3D Extrusion</a>
+								>{t("footer.feat1")}</a>
 						</li>
 						<li>
 							<a
-								href="#"
+								href={translatePath("/#editor-workspace")}
 								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Donut / Hole Scaling</a>
+								>{t("footer.feat2")}</a>
 						</li>
 						<li>
 							<a
-								href="#"
+								href={translatePath("/#editor-workspace")}
 								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>CSV & XLSX Import</a>
+								>{t("footer.feat3")}</a>
 						</li>
 						<li>
 							<a
-								href="#"
+								href={translatePath("/#editor-workspace")}
 								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>URL Hash Sharing</a>
+								>{t("footer.feat4")}</a>
+						</li>
+					</ul>
+				</div>
+				<!-- Other Tools section hidden for now -->
+				<div class="flex flex-col gap-3">
+					<h3
+						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
+					>
+						{t("footer.resources")}
+					</h3>
+					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
+						<li>
+							<a
+								href={translatePath("/#how-to-use")}
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>{t("footer.res1")}</a>
+						</li>
+						<li>
+							<a
+								href={translatePath("/#how-to-use")}
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>{t("footer.res2")}</a>
+						</li>
+						<li>
+							<a
+								href={translatePath("/#how-to-use")}
+								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+								>{t("footer.res3")}</a>
 						</li>
 					</ul>
 				</div>
@@ -253,103 +314,48 @@ const {
 					<h3
 						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
 					>
-						Other Tools
+						{t("footer.company")}
 					</h3>
 					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
 						<li>
 							<a
-								href="https://realonlineruler.com"
+								href={translatePath("/about")}
 								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Online Ruler</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Unit Converter</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Protractor Online</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Screen Caliper</a>
-						</li>
-					</ul>
-				</div>
-				<div class="flex flex-col gap-3">
-					<h3
-						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
-					>
-						Resources
-					</h3>
-					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
-						<li>
-							<a
-								href="#"
-								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>SVG Specifications</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>CSV File Template</a>
-						</li>
-						<li>
-							<a
-								href="#"
-								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Chart Mathematics</a>
-						</li>
-					</ul>
-				</div>
-				<div class="flex flex-col gap-3">
-					<h3
-						class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider"
-					>
-						Company
-					</h3>
-					<ul class="flex flex-col gap-2 font-sans text-sm text-body">
-						<li>
-							<a
-								href="/about"
-								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>About Us</a
+								>{t("footer.comp1")}</a
 							>
 						</li>
 						<li>
 							<a
-								href="/contact"
+								href={translatePath("/contact")}
 								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Contact Us</a
+								>{t("footer.comp2")}</a
 							>
 						</li>
 						<li>
 							<a
-								href="/privacy"
+								href={translatePath("/privacy")}
 								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Privacy Policy</a
+								>{t("footer.comp3")}</a
 							>
 						</li>
 						<li>
 							<a
-								href="/terms"
+								href={translatePath("/terms")}
 								class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-								>Terms & Conditions</a
+								>{t("footer.comp4")}</a
 							>
 						</li>
 					</ul>
 				</div>
 			</div>
 
+			<!-- Footer Language Selector -->
+			<div class="max-w-[1200px] mx-auto py-4 border-t border-hairline/60">
+				<LanguagePicker variant="footer" />
+			</div>
+
 			<div
-				class="max-w-[1200px] mx-auto border-t border-hairline pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
+				class="max-w-[1200px] mx-auto border-t border-hairline pt-6 flex flex-col md:flex-row items-center justify-between gap-4"
 			>
 				<div class="flex items-center gap-3">
 					<svg
@@ -371,17 +377,17 @@ const {
 					<span class="font-sans text-xs text-mute"
 						>© {
 							new Date().getFullYear()
-						}&nbsp;piechartmakerfree.com. All rights reserved.</span
+						}&nbsp;piechartmakerfree.com. {t("footer.copyright")}</span
 					>
 				</div>
 				<div
 					class="flex items-center gap-6 font-sans text-xs text-mute"
 				>
-					<a href="/privacy" class="hover:text-ink transition-colors"
-						>Privacy Policy</a
+					<a href={translatePath("/privacy")} class="hover:text-ink transition-colors"
+						>{t("footer.comp3")}</a
 					>
-					<a href="/terms" class="hover:text-ink transition-colors"
-						>Terms of Service</a
+					<a href={translatePath("/terms")} class="hover:text-ink transition-colors"
+						>{t("footer.comp4")}</a
 					>
 				</div>
 			</div>

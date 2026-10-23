@@ -1,5 +1,15 @@
 ---
 // ChartMaker.astro - The core application interface for the Pie Chart Maker
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import type { SupportedLanguage } from "../i18n/ui";
+
+interface Props {
+  lang?: SupportedLanguage;
+}
+
+const urlLang = getLangFromUrl(Astro.url);
+const currentLang = Astro.props.lang || urlLang;
+const t = useTranslations(currentLang);
 ---
 
 <div
@@ -19,12 +29,10 @@
       <h1
         class="font-sans text-[28px] md:text-[36px] font-semibold tracking-tight text-ink leading-tight mb-2 text-balance"
       >
-        Create beautiful pie charts.
+        {t("nav.logo")}
       </h1>
       <p class="font-sans text-[14px] text-body leading-relaxed max-w-[500px]">
-        Generate high-resolution vector charts dynamically. Enter data manually,
-        paste raw text, or drop a spreadsheet. Completely private, fully
-        customizable, and ad-free.
+        {t("hero.subtitle")}
       </p>
     </div>
 
@@ -45,7 +53,7 @@
           aria-selected="true"
           aria-controls="panel-manual"
         >
-          [ Manual Entry ]
+          [ {t("app.tabManual")} ]
         </button>
         <button
           id="tab-paste"
@@ -54,7 +62,7 @@
           aria-selected="false"
           aria-controls="panel-paste"
         >
-          [ Paste Text ]
+          [ {t("app.tabPaste")} ]
         </button>
         <button
           id="tab-upload"
@@ -63,7 +71,16 @@
           aria-selected="false"
           aria-controls="panel-upload"
         >
-          [ CSV / XLSX File ]
+          [ {t("app.tabUpload")} ]
+        </button>
+        <button
+          id="tab-share"
+          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none shrink-0"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-share"
+        >
+          [ {t("app.tabShare")} ]
         </button>
       </div>
 
@@ -536,7 +553,7 @@ Oranges	25"
                 <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 flex items-center justify-center text-[10px] text-mute" data-bg="transparent" title="Transparent" style="background-color: transparent;">
                   ∅
                 </button>
-                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-white" data-bg="#ffffff" title="Solid White"></button>
+                <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-white scale-110 border-hairline-strong" data-bg="#ffffff" title="Solid White"></button>
                 <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-neutral-50" data-bg="#fafafa" title="Soft Gray"></button>
                 <button type="button" class="btn-bg-preset w-6 h-6 rounded-full border border-hairline cursor-pointer focus:outline-none transition-transform hover:scale-105 active:scale-95 bg-neutral-900" data-bg="#0a0a0a" title="Deep Dark"></button>
                 
@@ -550,12 +567,12 @@ Oranges	25"
                 <div class="relative w-6 h-6 rounded-md border border-hairline cursor-pointer overflow-hidden flex items-center justify-center shrink-0 shadow-lvl1 hover:scale-105 transition-transform border-dashed border-hairline-strong bg-canvas-soft hover:bg-canvas" title="Custom Solid Color">
                   <input type="color" id="color-bg" class="absolute opacity-0 w-full h-full cursor-pointer" value="#ffffff" />
                   <div id="color-bg-preview" class="w-full h-full flex items-center justify-center" style="background-color: #ffffff">
-                    <svg id="color-bg-plus-icon" class="text-mute transition-opacity duration-150" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <svg id="color-bg-plus-icon" class="text-mute transition-opacity duration-150 opacity-0" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                   </div>
                 </div>
-                <input type="text" id="color-bg-hex" class="w-20 h-6 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="transparent" />
+                <input type="text" id="color-bg-hex" class="w-20 h-6 px-1.5 border border-hairline rounded-sm font-mono text-[9px] focus:outline-none bg-canvas-soft-2 text-center" value="#ffffff" />
               </div>
             </div>
           </div>
@@ -650,19 +667,19 @@ Oranges	25"
             id="btn-export-png"
             class="w-full inline-flex items-center justify-center h-9 bg-primary text-on-primary rounded-pill text-xs font-sans font-medium hover:bg-primary/95 transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer shadow-lvl1"
           >
-            Download PNG
+            {t("app.downloadPng")}
           </button>
           <button
             id="btn-export-svg"
             class="w-full inline-flex items-center justify-center h-9 bg-canvas text-ink border border-hairline rounded-pill text-xs font-sans font-medium hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
           >
-            Download SVG
+            {t("app.downloadSvg")}
           </button>
           <button
             id="btn-export-pdf"
             class="w-full inline-flex items-center justify-center h-9 bg-canvas text-ink border border-hairline rounded-pill text-xs font-sans font-medium hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
           >
-            Download PDF
+            {t("app.downloadPdf")}
           </button>
         </div>
         <div class="flex gap-2">
@@ -670,7 +687,7 @@ Oranges	25"
             id="btn-copy-svg"
             class="w-full inline-flex items-center justify-center h-8 bg-canvas text-body border border-hairline rounded-sm text-xs font-sans hover:bg-canvas-soft hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary cursor-pointer"
           >
-            Copy SVG to Clipboard
+            {t("app.copySvg")}
           </button>
         </div>
       </div>
@@ -794,6 +811,16 @@ Oranges	25"
     return DEFAULT_PALETTE[index % DEFAULT_PALETTE.length];
   }
 
+  function escapeHTML(str) {
+    if (typeof str !== "string") return str;
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   // --- State Variables ---
   let chartData = [
     { label: "Marketing", value: 120, color: getColor(0) },
@@ -814,7 +841,8 @@ Oranges	25"
     titleColor: "#171717",
     subtitleColor: "#666666",
     labelColor: "#171717",
-    backgroundColor: "transparent",
+    backgroundColor: "#ffffff",
+    isExplicitBg: false,
     labelMode: "label-percent",
     source: "",
     titleFontSize: 15,
@@ -991,7 +1019,7 @@ Oranges	25"
     previewSourceColor.style.backgroundColor = chartConfig.sourceColor || "#666666";
 
     // 7. Viewport Background Custom picker & presets
-    const bg = chartConfig.backgroundColor || "transparent";
+    const bg = chartConfig.backgroundColor || "#ffffff";
     inputBgColorHex.value = bg;
     if (!bg.includes("linear-gradient")) {
       const solidColor = bg === "transparent" ? "#ffffff" : bg;
@@ -1253,6 +1281,7 @@ Oranges	25"
     // Viewport Background Presets and Custom Color
     function updateBgState(val) {
       chartConfig.backgroundColor = val;
+      chartConfig.isExplicitBg = true;
       inputBgColorHex.value = val;
       
       if (!val.includes("linear-gradient")) {
@@ -1448,7 +1477,7 @@ Oranges	25"
             type="color" 
             class="absolute opacity-0 w-full h-full cursor-pointer" 
             value="${row.color}" 
-            aria-label="Pick color for ${row.label}"
+            aria-label="Pick color for ${escapeHTML(row.label)}"
           />
           <div class="w-full h-full" style="background-color: ${row.color}"></div>
         </div>
@@ -1458,7 +1487,7 @@ Oranges	25"
           type="text" 
           placeholder="Slice Label…" 
           class="flex-grow min-w-0 h-8 px-2 border border-hairline focus:border-hairline-strong focus:outline-none rounded-sm text-xs font-sans bg-canvas-soft-2 focus:bg-canvas transition-colors"
-          value="${row.label}"
+          value="${escapeHTML(row.label)}"
           autocomplete="off"
         />
 
@@ -1476,7 +1505,7 @@ Oranges	25"
         <button 
           type="button"
           class="w-8 h-8 inline-flex items-center justify-center text-mute hover:text-error-deep rounded-sm hover:bg-error-soft/30 transition-colors focus-visible:outline-2 focus-visible:outline-error cursor-pointer shrink-0"
-          aria-label="Delete slice ${row.label || index + 1}"
+          aria-label="Delete slice ${escapeHTML(row.label) || index + 1}"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M1.5 3.5h11M11.5 3.5v9a1 1 0 01-1 1h-7a1 1 0 01-1-1v-9m2 0V2a1 1 0 011-1h3a1 1 0 011 1v1.5M5.5 6.5v4M8.5 6.5v4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1578,7 +1607,7 @@ Oranges	25"
       rowDiv.innerHTML = `
         <div class="flex items-center gap-2 min-w-0">
           <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${row.color}"></span>
-          <span class="font-medium text-ink truncate">${row.label || "Untitled"}</span>
+          <span class="font-medium text-ink truncate">${escapeHTML(row.label) || "Untitled"}</span>
         </div>
         <div class="flex items-center gap-4 shrink-0 font-mono text-mute">
           <span>${row.value.toLocaleString()}</span>
@@ -2069,7 +2098,7 @@ Oranges	25"
             titleColor: state.c.tc ?? "#171717",
             subtitleColor: state.c.sc ?? "#666666",
             labelColor: state.c.lc ?? "#171717",
-            backgroundColor: state.c.bg ?? "transparent",
+            backgroundColor: state.c.bg ?? "#ffffff",
             labelMode: state.c.lm ?? "label-percent",
             source: state.c.src ?? "",
             titleFontSize: state.c.tfs ?? 15,
@@ -2112,7 +2141,11 @@ Oranges	25"
           chartConfig.titleColor = chartConfig.titleColor ?? "#171717";
           chartConfig.subtitleColor = chartConfig.subtitleColor ?? "#666666";
           chartConfig.labelColor = chartConfig.labelColor ?? "#171717";
-          chartConfig.backgroundColor = chartConfig.backgroundColor ?? "transparent";
+          if (!chartConfig.isExplicitBg) {
+            chartConfig.backgroundColor = "#ffffff";
+          } else {
+            chartConfig.backgroundColor = chartConfig.backgroundColor ?? "#ffffff";
+          }
           chartConfig.labelMode = chartConfig.labelMode ?? "label-percent";
           chartConfig.source = chartConfig.source ?? "";
           chartConfig.titleFontSize = chartConfig.titleFontSize ?? 15;
@@ -2215,16 +2248,16 @@ Oranges	25"
           <button 
             type="button" 
             class="load-draft-btn flex-grow min-w-0 text-left font-sans text-xs text-body hover:text-ink truncate max-w-[150px] font-medium cursor-pointer"
-            title="Load draft: ${draft.name}"
+            title="Load draft: ${escapeHTML(draft.name)}"
           >
-            ${draft.name}
+            ${escapeHTML(draft.name)}
           </button>
           <div class="flex items-center gap-2">
             <span class="font-mono text-[9px] text-mute">${draft.date}</span>
             <button 
               type="button" 
               class="delete-draft-btn w-6 h-6 inline-flex items-center justify-center text-mute hover:text-error-deep rounded-sm hover:bg-error-soft/30 transition-colors cursor-pointer"
-              aria-label="Delete draft ${draft.name}"
+              aria-label="Delete draft ${escapeHTML(draft.name)}"
             >
               <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M1.5 3.5h11M11.5 3.5v9a1 1 0 01-1 1h-7a1 1 0 01-1-1v-9m2 0V2a1 1 0 011-1h3a1 1 0 011 1v1.5M5.5 6.5v4M8.5 6.5v4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2254,7 +2287,7 @@ Oranges	25"
           chartConfig.titleColor = chartConfig.titleColor ?? "#171717";
           chartConfig.subtitleColor = chartConfig.subtitleColor ?? "#666666";
           chartConfig.labelColor = chartConfig.labelColor ?? "#171717";
-          chartConfig.backgroundColor = chartConfig.backgroundColor ?? "transparent";
+          chartConfig.backgroundColor = chartConfig.backgroundColor ?? "#ffffff";
           chartConfig.labelMode = chartConfig.labelMode ?? "label-percent";
           chartConfig.source = chartConfig.source ?? "";
           chartConfig.titleFontSize = chartConfig.titleFontSize ?? 15;
