@@ -11,7 +11,7 @@ const urlLang = getLangFromUrl(Astro.url);
 const currentLang = Astro.props.lang || urlLang;
 const t = useTranslations(currentLang);
 
-const faqItems = [
+const rawFaqItems = [
   {
     q: t("faq.q1"),
     a: t("faq.a1"),
@@ -24,7 +24,15 @@ const faqItems = [
     q: t("faq.q3"),
     a: t("faq.a3"),
   },
+  {
+    q: t("faq.q4"),
+    a: t("faq.a4"),
+  },
 ];
+
+const faqItems = rawFaqItems.filter(
+  (item) => item.q && item.a && item.q !== "faq.q4" && item.a !== "faq.a4"
+);
 
 const schemaJson = JSON.stringify({
   "@context": "https://schema.org",

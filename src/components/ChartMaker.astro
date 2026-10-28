@@ -47,39 +47,30 @@ const t = useTranslations(currentLang);
       >
         <button
           id="tab-manual"
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] hover:text-ink transition-colors cursor-pointer select-none text-ink bg-canvas border-hairline! active-tab shrink-0"
+          class="px-4 py-2 text-xs font-sans font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] hover:text-ink transition-colors cursor-pointer select-none text-ink bg-canvas border-hairline! active-tab shrink-0"
           role="tab"
           aria-selected="true"
           aria-controls="panel-manual"
         >
-          [ {t("app.tabManual")} ]
+          {t("app.tabManual")}
         </button>
         <button
           id="tab-paste"
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none shrink-0"
+          class="px-4 py-2 text-xs font-sans font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none shrink-0"
           role="tab"
           aria-selected="false"
           aria-controls="panel-paste"
         >
-          [ {t("app.tabPaste")} ]
+          {t("app.tabPaste")}
         </button>
         <button
           id="tab-upload"
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none shrink-0"
+          class="px-4 py-2 text-xs font-sans font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none shrink-0"
           role="tab"
           aria-selected="false"
           aria-controls="panel-upload"
         >
-          [ {t("app.tabUpload")} ]
-        </button>
-        <button
-          id="tab-share"
-          class="px-4 py-2 text-xs font-mono font-medium rounded-t-sm border border-transparent border-b-0 -mb-[1px] text-body hover:text-ink transition-colors cursor-pointer select-none shrink-0"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-share"
-        >
-          [ {t("app.tabShare")} ]
+          {t("app.tabUpload")}
         </button>
       </div>
 
@@ -583,10 +574,9 @@ const t = useTranslations(currentLang);
       <div
         class="w-full flex items-center justify-between border-b border-hairline pb-3"
       >
-        <span
-          class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider select-none"
-          >[ {t("app.livePreview")} ]</span
-        >
+        <h2 class="font-sans text-sm font-semibold text-ink">
+          {t("app.livePreview")}
+        </h2>
         <div class="flex items-center gap-3">
           <button
             id="btn-reset-preview"
@@ -690,10 +680,11 @@ const t = useTranslations(currentLang);
     <div
       class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-3"
     >
-      <span
-        class="font-mono text-[10px] font-semibold text-hairline-strong uppercase tracking-wider border-b border-hairline pb-2 select-none"
-        >[ {t("app.slicesDistribution")} ]</span
+      <h2
+        class="font-sans text-sm font-semibold text-ink border-b border-hairline pb-3"
       >
+        {t("app.slicesDistribution")}
+      </h2>
       <div
         id="chart-legend"
         class="grid grid-cols-1 gap-1.5 max-h-[220px] overflow-y-auto pr-1"
@@ -714,7 +705,11 @@ const t = useTranslations(currentLang);
     <div
       class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-4"
     >
-      <h3 class="font-sans text-xs font-semibold text-ink">{t("app.shareChart")}</h3>
+      <h2
+        class="font-sans text-sm font-semibold text-ink border-b border-hairline pb-3"
+      >
+        {t("app.shareChart")}
+      </h2>
       <p class="font-sans text-[11px] text-body leading-relaxed">
         {t("app.shareDesc")}
       </p>
@@ -739,8 +734,10 @@ const t = useTranslations(currentLang);
     <div
       class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-4"
     >
-      <div class="flex items-center justify-between">
-        <h3 class="font-sans text-xs font-semibold text-ink">{t("app.savedDrafts")}</h3>
+      <div class="flex items-center justify-between border-b border-hairline pb-3">
+        <h2 class="font-sans text-sm font-semibold text-ink">
+          {t("app.savedDrafts")}
+        </h2>
         <span
           class="font-sans text-[10px] text-mute font-medium px-2 py-0.5 bg-canvas-soft-2 border border-hairline rounded-sm"
           >{t("app.localStorage")}</span
