@@ -346,14 +346,16 @@ export function render3DChart(container, initialData, initialConfig, svgOverlay)
     const donutHole = isDonut ? Math.max(0.15, Math.min(0.8, config.donutHoleRadius ?? 0.5)) : 0;
     const extrusionHeight = Math.max(0.12, Math.min(1.4, (config.height3D ?? 30) / 48));
     
-    // Proportional radius that leaves ample margins for callout labels and bottom legend
-    const outerRadius = 1.15;
+    // Proportional radius scaled by chartSize (default 100%)
+    const chartScale = Math.max(0.4, Math.min(1.6, (config.chartSize ?? 100) / 100));
+    const outerRadius = 1.15 * chartScale;
     const innerRadius = outerRadius * donutHole;
     // Keep solid seamless pie chart, small aesthetic gap for donut slices
     const sliceGap = isDonut ? (validData.length > 1 ? 0.012 : 0) : 0;
     
     // Position ground shadow plane just underneath the extruded chart bottom
     shadowMesh.position.y = -extrusionHeight / 2 - 0.015;
+    shadowMesh.scale.set(chartScale, chartScale, chartScale);
     
     let currentAngle = -Math.PI / 2; // Start at 12 o'clock (top/back)
     
@@ -404,7 +406,8 @@ export function render3DChart(container, initialData, initialConfig, svgOverlay)
       sliceMeshes.push(mesh);
 
       // Create dynamic SVG pointer line and text element
-      if (labelsGroup && percent >= 1.5 && config.labelMode !== 'none') {
+      const showLabels = config.showLabels !== false && config.labelMode !== 'none';
+      if (labelsGroup && percent >= 1.5 && showLabels) {
         const pointer = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
         pointer.setAttribute('stroke', '#666666');
         pointer.setAttribute('stroke-width', '1');
@@ -451,7 +454,8 @@ export function render3DChart(container, initialData, initialConfig, svgOverlay)
     activeIndex = data.index;
     
     const disablePop = !!currentConfig.disableHoverOffset;
-    const popDist = disablePop ? 0 : 0.16;
+    const chartScale = Math.max(0.4, Math.min(1.6, (currentConfig.chartSize ?? 100) / 100));
+    const popDist = disablePop ? 0 : 0.16 * chartScale;
     
     // Move along midAngle on X-Z plane
     mesh.userData.targetX = Math.cos(data.midAngle) * popDist;
@@ -589,7 +593,8 @@ export function render3DChart(container, initialData, initialConfig, svgOverlay)
     }
     if (!labelsGroup) return;
 
-    if (currentConfig.labelMode === 'none' || dynamicLabels.length === 0) {
+    const showLabels = currentConfig.showLabels !== false && currentConfig.labelMode !== 'none';
+    if (!showLabels || dynamicLabels.length === 0) {
       labelsGroup.setAttribute('display', 'none');
       return;
     }
@@ -600,7 +605,8 @@ export function render3DChart(container, initialData, initialConfig, svgOverlay)
     const centerSvgX = (centerVec.x * 0.5 + 0.5) * SVG_VIEW_WIDTH;
     const centerSvgY = (-centerVec.y * 0.5 + 0.5) * SVG_VIEW_HEIGHT;
 
-    const outerRadius = 1.15;
+    const chartScale = Math.max(0.4, Math.min(1.6, (currentConfig.chartSize ?? 100) / 100));
+    const outerRadius = 1.15 * chartScale;
     const extrusionHeight = Math.max(0.12, Math.min(1.4, (currentConfig.height3D ?? 30) / 48));
 
     for (let i = 0; i < dynamicLabels.length; i++) {

@@ -337,6 +337,90 @@ const t = useTranslations(currentLang);
               </div>
             </label>
           </div>
+
+          <!-- Show Title Toggle -->
+          <div
+            class="flex items-center justify-between py-1 border-b border-hairline/50"
+          >
+            <span class="font-sans text-xs font-medium text-body"
+              >{t("app.showTitle")}</span
+            >
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="toggle-show-title"
+                checked
+                class="sr-only peer"
+              />
+              <div
+                class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"
+              >
+              </div>
+            </label>
+          </div>
+
+          <!-- Show Subtitle Toggle -->
+          <div
+            class="flex items-center justify-between py-1 border-b border-hairline/50"
+          >
+            <span class="font-sans text-xs font-medium text-body"
+              >{t("app.showSubtitle")}</span
+            >
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="toggle-show-subtitle"
+                checked
+                class="sr-only peer"
+              />
+              <div
+                class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"
+              >
+              </div>
+            </label>
+          </div>
+
+          <!-- Show Labels Toggle -->
+          <div
+            class="flex items-center justify-between py-1 border-b border-hairline/50"
+          >
+            <span class="font-sans text-xs font-medium text-body"
+              >{t("app.showLabels")}</span
+            >
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="toggle-show-labels"
+                checked
+                class="sr-only peer"
+              />
+              <div
+                class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"
+              >
+              </div>
+            </label>
+          </div>
+
+          <!-- Show Bottom Legend / Index Toggle -->
+          <div
+            class="flex items-center justify-between py-1 border-b border-hairline/50"
+          >
+            <span class="font-sans text-xs font-medium text-body"
+              >{t("app.showLegend")}</span
+            >
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="toggle-show-legend"
+                checked
+                class="sr-only peer"
+              />
+              <div
+                class="w-9 h-5 bg-canvas-soft-2 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-hairline after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-hairline"
+              >
+              </div>
+            </label>
+          </div>
         </div>
       </div>
 
@@ -368,25 +452,25 @@ const t = useTranslations(currentLang);
           />
         </div>
 
-        <!-- 3D Tilt Slider -->
-        <div id="slider-3d-tilt-group" class="hidden flex flex-col gap-2">
+        <!-- Chart Size Slider -->
+        <div id="slider-chart-size-group" class="flex flex-col gap-2">
           <div class="flex justify-between items-center">
             <label
-              for="input-3d-tilt"
+              for="input-chart-size"
               class="font-sans text-xs font-medium text-body"
-              >{t("app.tilt")}</label
+              >{t("app.chartSize")}</label
             >
             <span
-              id="3d-tilt-val"
-              class="font-mono text-xs text-mute font-medium">55%</span
+              id="chart-size-val"
+              class="font-mono text-xs text-mute font-medium">100%</span
             >
           </div>
           <input
-            id="input-3d-tilt"
+            id="input-chart-size"
             type="range"
-            min="20"
-            max="90"
-            value="55"
+            min="50"
+            max="150"
+            value="100"
             class="w-full accent-primary h-1 bg-canvas-soft-2 rounded-lg cursor-pointer"
           />
         </div>
@@ -609,14 +693,6 @@ const t = useTranslations(currentLang);
             </svg>
             <span>{t("app.reset")}</span>
           </button>
-          <span class="w-[1px] h-3 bg-hairline"></span>
-          <div class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
-            ></span>
-            <span class="font-sans text-[10px] font-medium text-mute"
-              >{t("app.synced")}</span
-            >
-          </div>
         </div>
       </div>
 
@@ -696,6 +772,7 @@ const t = useTranslations(currentLang);
 
     <!-- Vercel Legend Grid -->
     <div
+      id="chart-legend-card"
       class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl2 flex flex-col gap-3"
     >
       <h2
@@ -865,9 +942,14 @@ const t = useTranslations(currentLang);
     donutHoleRadius: 0.5,
     is3D: false,
     tilt: 0.55,
+    chartSize: 100,
     height3D: 30,
     title: defaultTitle,
     subtitle: defaultSubtitle,
+    showTitle: true,
+    showSubtitle: true,
+    showLabels: true,
+    showLegend: true,
     fontFamily: "Inter",
     titleColor: "#171717",
     subtitleColor: "#666666",
@@ -900,20 +982,24 @@ const t = useTranslations(currentLang);
   const inputSubtitle = document.getElementById("chart-subtitle");
   const toggle3D = document.getElementById("toggle-3d");
   const toggleHoverPop = document.getElementById("toggle-hover-pop");
+  const toggleShowTitle = document.getElementById("toggle-show-title");
+  const toggleShowSubtitle = document.getElementById("toggle-show-subtitle");
+  const toggleShowLabels = document.getElementById("toggle-show-labels");
+  const toggleShowLegend = document.getElementById("toggle-show-legend");
+  const chartLegendCard = document.getElementById("chart-legend-card");
 
   // Dynamic Sliders Groupings
   const sliderDonutHoleGroup = document.getElementById(
     "slider-donut-hole-group",
   );
-  const slider3dTiltGroup = document.getElementById("slider-3d-tilt-group");
   const slider3dHeightGroup = document.getElementById("slider-3d-height-group");
 
   // Sliders Values
   const inputDonutHole = document.getElementById("input-donut-hole");
-  const input3dTilt = document.getElementById("input-3d-tilt");
+  const inputChartSize = document.getElementById("input-chart-size");
   const input3dHeight = document.getElementById("input-3d-height");
   const donutHoleVal = document.getElementById("donut-hole-val");
-  const tiltVal = document.getElementById("3d-tilt-val");
+  const chartSizeVal = document.getElementById("chart-size-val");
   const heightVal = document.getElementById("3d-height-val");
 
   // Manual list
@@ -1017,13 +1103,23 @@ const t = useTranslations(currentLang);
     // 3. Toggles
     toggle3D.checked = !!chartConfig.is3D;
     toggleHoverPop.checked = !chartConfig.disableHoverOffset;
+    toggleShowTitle.checked = chartConfig.showTitle !== false;
+    toggleShowSubtitle.checked = chartConfig.showSubtitle !== false;
+    toggleShowLabels.checked = chartConfig.showLabels !== false && chartConfig.labelMode !== "none";
+    toggleShowLegend.checked = chartConfig.showLegend !== false;
+    inputTitle.disabled = !toggleShowTitle.checked;
+    inputTitle.classList.toggle("opacity-50", !toggleShowTitle.checked);
+    inputSubtitle.disabled = !toggleShowSubtitle.checked;
+    inputSubtitle.classList.toggle("opacity-50", !toggleShowSubtitle.checked);
+    selectLabelMode.disabled = !toggleShowLabels.checked;
+    selectLabelMode.classList.toggle("opacity-50", !toggleShowLabels.checked);
 
     // 4. Sliders
     inputDonutHole.value = Math.round((chartConfig.donutHoleRadius ?? 0.5) * 100).toString();
     donutHoleVal.textContent = `${inputDonutHole.value}%`;
 
-    input3dTilt.value = Math.round((chartConfig.tilt ?? 0.55) * 100).toString();
-    tiltVal.textContent = `${input3dTilt.value}%`;
+    inputChartSize.value = (chartConfig.chartSize ?? 100).toString();
+    chartSizeVal.textContent = `${inputChartSize.value}%`;
 
     input3dHeight.value = (chartConfig.height3D ?? 30).toString();
     heightVal.textContent = `${input3dHeight.value}px`;
@@ -1147,15 +1243,56 @@ const t = useTranslations(currentLang);
       triggerRender();
     });
 
+    // Show Title toggle
+    toggleShowTitle.checked = chartConfig.showTitle !== false;
+    toggleShowTitle.addEventListener("change", (e) => {
+      chartConfig.showTitle = e.target.checked;
+      inputTitle.disabled = !e.target.checked;
+      inputTitle.classList.toggle("opacity-50", !e.target.checked);
+      triggerRender();
+    });
+
+    // Show Subtitle toggle
+    toggleShowSubtitle.checked = chartConfig.showSubtitle !== false;
+    toggleShowSubtitle.addEventListener("change", (e) => {
+      chartConfig.showSubtitle = e.target.checked;
+      inputSubtitle.disabled = !e.target.checked;
+      inputSubtitle.classList.toggle("opacity-50", !e.target.checked);
+      triggerRender();
+    });
+
+    // Show Labels toggle
+    toggleShowLabels.checked = chartConfig.showLabels !== false && chartConfig.labelMode !== "none";
+    toggleShowLabels.addEventListener("change", (e) => {
+      chartConfig.showLabels = e.target.checked;
+      selectLabelMode.disabled = !e.target.checked;
+      selectLabelMode.classList.toggle("opacity-50", !e.target.checked);
+      if (e.target.checked && chartConfig.labelMode === "none") {
+        chartConfig.labelMode = "label-percent";
+        selectLabelMode.value = "label-percent";
+      }
+      triggerRender();
+    });
+
+    // Show Bottom Legend / Index toggle
+    toggleShowLegend.checked = chartConfig.showLegend !== false;
+    toggleShowLegend.addEventListener("change", (e) => {
+      chartConfig.showLegend = e.target.checked;
+      updateControlVisibility();
+      triggerRender();
+    });
+
     // Inputs listeners
     inputTitle.addEventListener("input", (e) => {
       chartConfig.title = e.target.value;
       updateHeaders();
+      triggerRender();
     });
 
     inputSubtitle.addEventListener("input", (e) => {
       chartConfig.subtitle = e.target.value;
       updateHeaders();
+      triggerRender();
     });
 
     inputSource.addEventListener("input", (e) => {
@@ -1190,9 +1327,9 @@ const t = useTranslations(currentLang);
       triggerRender();
     });
 
-    input3dTilt.addEventListener("input", (e) => {
-      chartConfig.tilt = parseFloat(e.target.value) / 100;
-      tiltVal.textContent = `${e.target.value}%`;
+    inputChartSize.addEventListener("input", (e) => {
+      chartConfig.chartSize = parseInt(e.target.value, 10);
+      chartSizeVal.textContent = `${e.target.value}%`;
       triggerRender();
     });
 
@@ -1215,6 +1352,13 @@ const t = useTranslations(currentLang);
     selectLabelMode.value = chartConfig.labelMode;
     selectLabelMode.addEventListener("change", (e) => {
       chartConfig.labelMode = e.target.value;
+      if (e.target.value === "none") {
+        chartConfig.showLabels = false;
+        toggleShowLabels.checked = false;
+      } else {
+        chartConfig.showLabels = true;
+        toggleShowLabels.checked = true;
+      }
       triggerRender();
     });
 
@@ -1449,11 +1593,11 @@ const t = useTranslations(currentLang);
   }
 
   function updateHeaders() {
-    previewTitle.textContent = chartConfig.title;
-    previewSubtitle.textContent = chartConfig.subtitle;
+    previewTitle.textContent = chartConfig.showTitle !== false ? (chartConfig.title || "") : "";
+    previewSubtitle.textContent = chartConfig.showSubtitle !== false ? (chartConfig.subtitle || "") : "";
 
-    if (!chartConfig.title) {
-      previewTitle.textContent = "Pie Chart Maker";
+    if (!chartConfig.title || chartConfig.showTitle === false) {
+      previewTitle.textContent = chartConfig.showTitle !== false ? "Pie Chart Maker" : "";
       previewTitle.classList.add("text-mute/50");
     } else {
       previewTitle.classList.remove("text-mute/50");
@@ -1470,11 +1614,18 @@ const t = useTranslations(currentLang);
 
     // Toggle 3D options visibility
     if (chartConfig.is3D) {
-      slider3dTiltGroup.classList.remove("hidden");
       slider3dHeightGroup.classList.remove("hidden");
     } else {
-      slider3dTiltGroup.classList.add("hidden");
       slider3dHeightGroup.classList.add("hidden");
+    }
+
+    // Toggle Slices Distribution / Legend card at the bottom
+    if (chartLegendCard) {
+      if (chartConfig.showLegend !== false) {
+        chartLegendCard.classList.remove("hidden");
+      } else {
+        chartLegendCard.classList.add("hidden");
+      }
     }
   }
 
@@ -2200,9 +2351,14 @@ const t = useTranslations(currentLang);
         hr: chartConfig.donutHoleRadius,
         i3d: chartConfig.is3D ? 1 : 0,
         t: chartConfig.tilt,
+        cs: chartConfig.chartSize ?? 100,
         h: chartConfig.height3D,
         ti: chartConfig.title,
         sub: chartConfig.subtitle,
+        sti: chartConfig.showTitle !== false ? 1 : 0,
+        ssub: chartConfig.showSubtitle !== false ? 1 : 0,
+        sleg: chartConfig.showLegend !== false ? 1 : 0,
+        slb: chartConfig.showLabels !== false ? 1 : 0,
         ho: chartConfig.disableHoverOffset ? 1 : 0,
         f: chartConfig.fontFamily,
         tc: chartConfig.titleColor,
@@ -2264,9 +2420,14 @@ const t = useTranslations(currentLang);
             donutHoleRadius: state.c.hr ?? 0.5,
             is3D: state.c.i3d === 1,
             tilt: state.c.t ?? 0.55,
+            chartSize: state.c.cs ?? 100,
             height3D: state.c.h ?? 30,
             title: state.c.ti ?? "",
             subtitle: state.c.sub ?? "",
+            showTitle: state.c.sti === undefined ? true : state.c.sti === 1,
+            showSubtitle: state.c.ssub === undefined ? true : state.c.ssub === 1,
+            showLabels: state.c.slb === undefined ? true : state.c.slb === 1,
+            showLegend: state.c.sleg === undefined ? true : state.c.sleg === 1,
             disableHoverOffset: state.c.ho === 1,
             fontFamily: state.c.f ?? "Inter",
             titleColor: state.c.tc ?? "#171717",
@@ -2330,9 +2491,14 @@ const t = useTranslations(currentLang);
           chartConfig.donutHoleRadius = chartConfig.donutHoleRadius ?? 0.5;
           chartConfig.is3D = !!chartConfig.is3D;
           chartConfig.tilt = chartConfig.tilt ?? 0.55;
+          chartConfig.chartSize = chartConfig.chartSize ?? 100;
           chartConfig.height3D = chartConfig.height3D ?? 30;
           chartConfig.title = chartConfig.title ?? defaultTitle;
           chartConfig.subtitle = chartConfig.subtitle ?? defaultSubtitle;
+          chartConfig.showTitle = chartConfig.showTitle ?? true;
+          chartConfig.showSubtitle = chartConfig.showSubtitle ?? true;
+          chartConfig.showLabels = chartConfig.showLabels ?? true;
+          chartConfig.showLegend = chartConfig.showLegend ?? true;
           chartConfig.disableHoverOffset = !!chartConfig.disableHoverOffset;
           chartConfig.fontFamily = chartConfig.fontFamily ?? "Inter";
           chartConfig.titleColor = chartConfig.titleColor ?? "#171717";
@@ -2482,9 +2648,14 @@ const t = useTranslations(currentLang);
           chartConfig.donutHoleRadius = chartConfig.donutHoleRadius ?? 0.5;
           chartConfig.is3D = !!chartConfig.is3D;
           chartConfig.tilt = chartConfig.tilt ?? 0.55;
+          chartConfig.chartSize = chartConfig.chartSize ?? 100;
           chartConfig.height3D = chartConfig.height3D ?? 30;
           chartConfig.title = chartConfig.title ?? "";
           chartConfig.subtitle = chartConfig.subtitle ?? "";
+          chartConfig.showTitle = chartConfig.showTitle ?? true;
+          chartConfig.showSubtitle = chartConfig.showSubtitle ?? true;
+          chartConfig.showLabels = chartConfig.showLabels ?? true;
+          chartConfig.showLegend = chartConfig.showLegend ?? true;
           chartConfig.disableHoverOffset = !!chartConfig.disableHoverOffset;
           chartConfig.fontFamily = chartConfig.fontFamily ?? "Inter";
           chartConfig.titleColor = chartConfig.titleColor ?? "#171717";

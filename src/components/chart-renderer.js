@@ -51,30 +51,39 @@ export function renderChart(svg, data, config) {
   
   const cx = 360;
 
+  const showTitle = config.showTitle !== false;
+  const showSubtitle = config.showSubtitle !== false;
+  const showLegend = config.showLegend !== false;
+
   // Dynamically calculate the space needed for the bottom legend
   const rowSpacing = validData.length > 10 ? 16 : 22;
   
-  // Estimate total legend width to determine wrapping rows count
-  let currentWordWidth = 0;
-  let legendRowsCount = 1;
-  validData.forEach((item) => {
-    const itemWidth = 28 + item.label.length * 6.5;
-    if (currentWordWidth + itemWidth > width - 40 && currentWordWidth > 0) {
-      legendRowsCount++;
-      currentWordWidth = itemWidth;
-    } else {
-      currentWordWidth += itemWidth;
-    }
-  });
+  let legendAreaHeight = 15;
+  if (showLegend) {
+    // Estimate total legend width to determine wrapping rows count
+    let currentWordWidth = 0;
+    let legendRowsCount = 1;
+    validData.forEach((item) => {
+      const itemWidth = 28 + item.label.length * 6.5;
+      if (currentWordWidth + itemWidth > width - 40 && currentWordWidth > 0) {
+        legendRowsCount++;
+        currentWordWidth = itemWidth;
+      } else {
+        currentWordWidth += itemWidth;
+      }
+    });
 
-  const legendAreaHeight = 15 + legendRowsCount * rowSpacing;
+    legendAreaHeight = 15 + legendRowsCount * rowSpacing;
+  } else if (config.source) {
+    legendAreaHeight = 25;
+  }
   
   // Calculate top offset dynamically for SVG Title & Subtitle
-  let topOffset = 12;
-  if (config.title) {
+  let topOffset = 15;
+  if (showTitle && config.title) {
     topOffset += (config.titleFontSize || 15) + 10;
   }
-  if (config.subtitle) {
+  if (showSubtitle && config.subtitle) {
     topOffset += (config.subtitleFontSize || 10.5) + 8;
   }
 
@@ -92,9 +101,11 @@ export function renderChart(svg, data, config) {
   const elbowLength = 10;
   const fontSize = (config.labelFontSize || 9.5).toString();
 
+  const showLabels = config.showLabels !== false && (config.labelMode || 'label-percent') !== 'none';
+
   // Margins for labels & lines
-  const verticalMargin = is3D ? 32 : 26; // 3D needs slightly more space for vertical extrusion rendering
-  const horizontalMargin = 160; // safe margin for horizontal labels text
+  const verticalMargin = is3D ? 32 : (showLabels ? 26 : 18);
+  const horizontalMargin = showLabels ? 160 : 36;
 
   // Calculate maximum allowed ry based on available vertical space and margins
   const ryMax = (availableChartHeight / 2) - (is3D ? height3D / 2 : 0) - verticalMargin;
@@ -102,9 +113,12 @@ export function renderChart(svg, data, config) {
   // Calculate maximum allowed rx based on width and horizontal margins
   const rxMax = cx - horizontalMargin;
 
+  // Chart size scaling factor (default 100%, range: 50% to 150%)
+  const chartScale = Math.max(0.4, Math.min(1.6, (config.chartSize ?? 100) / 100));
+
   // Solve rx and ry: ry = rx * tilt, so rx = ry / tilt.
-  // This guarantees neither rx exceeds rxMax, nor ry exceeds ryMax.
-  const rx = Math.min(rxMax, ryMax / tilt);
+  // This guarantees neither rx exceeds rxMax, nor ry exceeds ryMax at 100%.
+  const rx = Math.min(rxMax, ryMax / tilt) * chartScale;
   const ry = rx * tilt;
 
   // Setup SVG attributes
@@ -212,7 +226,7 @@ export function renderChart(svg, data, config) {
   const titleFontSize = config.titleFontSize || 15;
   const subtitleFontSize = config.subtitleFontSize || 10.5;
 
-  if (config.title) {
+  if (showTitle && config.title) {
     const titleText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     titleText.setAttribute('x', cx.toString());
     titleText.setAttribute('y', '25');
@@ -224,10 +238,11 @@ export function renderChart(svg, data, config) {
     titleText.textContent = config.title;
     svg.appendChild(titleText);
   }
-  if (config.subtitle) {
+  if (showSubtitle && config.subtitle) {
     const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     subText.setAttribute('x', cx.toString());
-    subText.setAttribute('y', config.title ? (25 + titleFontSize + 3).toString() : '25');
+    const subY = (showTitle && config.title) ? (25 + titleFontSize + 3).toString() : '25';
+    subText.setAttribute('y', subY);
     subText.setAttribute('text-anchor', 'middle');
     subText.setAttribute('fill', config.subtitleColor || muteColor);
     subText.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
@@ -803,7 +818,7 @@ export function renderChart(svg, data, config) {
 
   // In WebGL 3D mode, static labels are skipped here because dynamic 3D-projected labels
   // are rendered and animated in real-time by chart-renderer-3d.js to move with the slices.
-  if (labelMode !== 'none' && !isWebGL3D) {
+  if (showLabels && !isWebGL3D) {
     validData.forEach((item, index) => {
       const sliceAngle = (item.value / total) * 2 * Math.PI;
       const midAngle = currentStartAngle + sliceAngle / 2;
@@ -859,75 +874,77 @@ export function renderChart(svg, data, config) {
   }
 
   // 6. Draw Legend at the Bottom horizontally centered (without headers or numbering)
-  const legendGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  legendGroup.setAttribute('class', 'svg-legend select-none');
-  svg.appendChild(legendGroup);
+  if (showLegend) {
+    const legendGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    legendGroup.setAttribute('class', 'svg-legend select-none');
+    svg.appendChild(legendGroup);
 
-  // Calculate widths of legend items to center them
-  const itemsData = validData.map((item) => {
-    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    
-    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    dot.setAttribute('r', '4');
-    dot.setAttribute('fill', item.color);
-    g.appendChild(dot);
-    
-    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
-    text.setAttribute('font-size', '10.5');
-    text.setAttribute('font-weight', '500');
-    text.setAttribute('fill', config.labelColor || bodyColor);
-    text.textContent = item.label;
-    g.appendChild(text);
-    
-    legendGroup.appendChild(g);
-    
-    // Measure text length (with dynamic fallback if client rect is unavailable)
-    let textLen = text.getComputedTextLength();
-    if (textLen === 0) {
-      textLen = item.label.length * 6.5;
-    }
-    
-    // Total width: dot gap (8) + dot diameter (8) + text spacing (12) + text width + item spacing (18)
-    const itemWidth = 28 + textLen;
-    
-    return { g, dot, text, width: itemWidth };
-  });
-
-  // Arrange items horizontally, wrap to a new line if they exceed width
-  const maxLegendWidth = width - 40; // 480px
-  const rows = [[]];
-  
-  itemsData.forEach((item) => {
-    const currentRow = rows[rows.length - 1];
-    const rowWidth = currentRow.reduce((sum, i) => sum + i.width, 0);
-    
-    if (rowWidth + item.width > maxLegendWidth && currentRow.length > 0) {
-      rows.push([item]);
-    } else {
-      currentRow.push(item);
-    }
-  });
-
-  // Position elements vertically centered within the bottom legend area
-  const rowHeight = rowSpacing;
-  const startY = height - legendAreaHeight + 20;
-  
-  rows.forEach((row, rowIndex) => {
-    const rowY = startY + rowIndex * rowHeight;
-    const totalRowWidth = row.reduce((sum, i) => sum + i.width, 0) - 18; // subtract last item spacing
-    const rowStartX = (width - totalRowWidth) / 2;
-    
-    let xOffset = rowStartX;
-    row.forEach((item) => {
-      item.g.setAttribute('transform', `translate(${xOffset}, ${rowY})`);
-      item.dot.setAttribute('cx', '4');
-      item.dot.setAttribute('cy', '-3');
-      item.text.setAttribute('x', '14');
-      item.text.setAttribute('y', '0');
-      xOffset += item.width;
+    // Calculate widths of legend items to center them
+    const itemsData = validData.map((item) => {
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('r', '4');
+      dot.setAttribute('fill', item.color);
+      g.appendChild(dot);
+      
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
+      text.setAttribute('font-size', '10.5');
+      text.setAttribute('font-weight', '500');
+      text.setAttribute('fill', config.labelColor || bodyColor);
+      text.textContent = item.label;
+      g.appendChild(text);
+      
+      legendGroup.appendChild(g);
+      
+      // Measure text length (with dynamic fallback if client rect is unavailable)
+      let textLen = text.getComputedTextLength();
+      if (textLen === 0) {
+        textLen = item.label.length * 6.5;
+      }
+      
+      // Total width: dot gap (8) + dot diameter (8) + text spacing (12) + text width + item spacing (18)
+      const itemWidth = 28 + textLen;
+      
+      return { g, dot, text, width: itemWidth };
     });
-  });
+
+    // Arrange items horizontally, wrap to a new line if they exceed width
+    const maxLegendWidth = width - 40; // 480px
+    const rows = [[]];
+    
+    itemsData.forEach((item) => {
+      const currentRow = rows[rows.length - 1];
+      const rowWidth = currentRow.reduce((sum, i) => sum + i.width, 0);
+      
+      if (rowWidth + item.width > maxLegendWidth && currentRow.length > 0) {
+        rows.push([item]);
+      } else {
+        currentRow.push(item);
+      }
+    });
+
+    // Position elements vertically centered within the bottom legend area
+    const rowHeight = rowSpacing;
+    const startY = height - legendAreaHeight + 20;
+    
+    rows.forEach((row, rowIndex) => {
+      const rowY = startY + rowIndex * rowHeight;
+      const totalRowWidth = row.reduce((sum, i) => sum + i.width, 0) - 18; // subtract last item spacing
+      const rowStartX = (width - totalRowWidth) / 2;
+      
+      let xOffset = rowStartX;
+      row.forEach((item) => {
+        item.g.setAttribute('transform', `translate(${xOffset}, ${rowY})`);
+        item.dot.setAttribute('cx', '4');
+        item.dot.setAttribute('cy', '-3');
+        item.text.setAttribute('x', '14');
+        item.text.setAttribute('y', '0');
+        xOffset += item.width;
+      });
+    });
+  }
 
   // 7. Draw Source Citation at bottom-right corner of SVG if provided
   if (config.source) {
