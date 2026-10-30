@@ -18,7 +18,7 @@ const t = useTranslations(currentLang);
 
 <div
   id="workspace-container"
-  class="max-w-[1240px] mx-auto px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+  class="max-w-[1400px] mx-auto px-4 sm:px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
   data-lang={currentLang}
   data-initial-data={initialData ? JSON.stringify(initialData) : undefined}
   data-initial-title={initialTitle || ""}
@@ -40,8 +40,8 @@ const t = useTranslations(currentLang);
   data-enter-draft-name={t("app.enterDraftName")}
   data-no-drafts={t("app.noDrafts")}
 >
-  <!-- Left Column: Inputs & Controls (7 Cols on desktop) -->
-  <div class="lg:col-span-7 flex flex-col gap-6 order-2 lg:order-1">
+  <!-- Left Column: Inputs & Controls (6 Cols on desktop) -->
+  <div class="lg:col-span-6 flex flex-col gap-6 order-2 lg:order-1">
     <!-- Data Input Mode Panel -->
     <div
       class="bg-canvas rounded-md border border-hairline shadow-lvl2 overflow-hidden"
@@ -572,11 +572,11 @@ const t = useTranslations(currentLang);
     </div>
   </div>
 
-  <!-- Right Column: Sticky Preview & Export Panel (5 Cols on desktop) -->
-  <div class="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-20 order-1 lg:order-2">
+  <!-- Right Column: Sticky Preview & Export Panel (6 Cols on desktop) -->
+  <div class="lg:col-span-6 flex flex-col gap-6 lg:sticky lg:top-20 order-1 lg:order-2">
     <!-- Chart Preview Card -->
     <div
-      class="bg-canvas p-6 rounded-md border border-hairline shadow-lvl3 flex flex-col items-center gap-6"
+      class="bg-canvas p-6 md:p-7 rounded-md border border-hairline shadow-lvl3 flex flex-col items-center gap-6"
     >
       <div
         class="w-full flex items-center justify-between border-b border-hairline pb-3"
@@ -639,8 +639,19 @@ const t = useTranslations(currentLang);
 
       <!-- SVG Drawing viewport wrapper -->
       <div
-        class="w-full aspect-[13/9] max-w-[480px] bg-canvas-soft border border-hairline rounded-sm flex items-center justify-center relative overflow-hidden"
+        id="chart-viewport-wrapper"
+        class="w-full aspect-[720/520] max-w-[760px] bg-canvas-soft border border-hairline rounded-sm flex items-center justify-center relative overflow-hidden"
       >
+        <!-- Three.js 3D canvas container (Layer 1: Behind) -->
+        <div
+          id="three-container"
+          class="absolute inset-0 hidden"
+          style="touch-action: none;"
+        >
+          <!-- Three.js canvas will be injected here -->
+        </div>
+
+        <!-- SVG Viewport (Layer 2: Overlay on top) -->
         <svg
           id="chart-viewport"
           class="w-full h-full select-none"
@@ -789,6 +800,7 @@ const t = useTranslations(currentLang);
 <script>
   // @ts-nocheck
   import { renderChart } from "./chart-renderer.js";
+  import { render3DChart } from "./chart-renderer-3d.js";
 
   // --- Dynamic Default Color Palette ---
   const DEFAULT_PALETTE = [
@@ -873,6 +885,11 @@ const t = useTranslations(currentLang);
 
   // --- DOM Elements ---
   const svgViewport = document.getElementById("chart-viewport");
+  const threeContainer = document.getElementById("three-container");
+  const viewportWrapper = document.getElementById("chart-viewport-wrapper");
+
+  // Active Three.js instance (null when in 2D mode)
+  let three3DInstance = null;
 
   // Headers
   const previewTitle = document.getElementById("preview-title");
@@ -1383,8 +1400,47 @@ const t = useTranslations(currentLang);
   function triggerRender() {
     if (!svgViewport) return;
 
-    // Render the SVG graph
-    renderChart(svgViewport, chartData, chartConfig);
+    if (chartConfig.is3D) {
+      // --- Three.js 3D mode ---
+      // Show Three.js container
+      threeContainer.classList.remove('hidden');
+
+      // Position SVG viewport as a transparent overlay on top of 3D canvas
+      svgViewport.style.display = '';
+      svgViewport.style.pointerEvents = 'none';
+      svgViewport.classList.add('absolute', 'inset-0', 'z-10');
+
+      // Apply background color to the viewport wrapper behind everything
+      const bg = chartConfig.backgroundColor || '#ffffff';
+      viewportWrapper.style.background = bg === 'transparent' ? 'transparent' : bg;
+      threeContainer.style.background = 'transparent';
+
+      // Render the SVG overlay: Title, Subtitle, Legend, Source
+      renderChart(svgViewport, chartData, { ...chartConfig, isWebGL3D: true });
+
+      // Initialize or update the 3D chart, attaching dynamic real-time projected labels to svgViewport
+      if (!three3DInstance) {
+        three3DInstance = render3DChart(threeContainer, chartData, chartConfig, svgViewport);
+      } else {
+        three3DInstance.update(chartData, chartConfig, svgViewport);
+      }
+    } else {
+      // --- SVG 2D mode ---
+      threeContainer.classList.add('hidden');
+      svgViewport.style.display = '';
+      svgViewport.style.pointerEvents = 'auto';
+      svgViewport.classList.remove('absolute', 'inset-0', 'z-10');
+      viewportWrapper.style.background = '';
+
+      // Dispose Three.js instance
+      if (three3DInstance) {
+        three3DInstance.dispose();
+        three3DInstance = null;
+      }
+
+      // Render full 2D SVG graph
+      renderChart(svgViewport, chartData, { ...chartConfig, isWebGL3D: false });
+    }
 
     // Update headers and side legend lists
     updateHeaders();
@@ -1618,10 +1674,22 @@ const t = useTranslations(currentLang);
     validData.forEach((row) => {
       const percent = total > 0 ? (row.value / total) * 100 : 0;
 
+      const idx = chartData.indexOf(row);
       const rowDiv = document.createElement("div");
       rowDiv.className =
-        "legend-item flex items-center justify-between py-1.5 px-2.5 rounded-sm border border-transparent font-sans text-xs hover:bg-canvas-soft-2 hover:border-hairline transition-all";
-      rowDiv.dataset.index = chartData.indexOf(row);
+        "legend-item flex items-center justify-between py-1.5 px-2.5 rounded-sm border border-transparent font-sans text-xs hover:bg-canvas-soft-2 hover:border-hairline transition-all cursor-pointer";
+      rowDiv.dataset.index = idx;
+
+      rowDiv.addEventListener("mouseenter", () => {
+        if (chartConfig.is3D && three3DInstance && three3DInstance.highlightByIndex) {
+          three3DInstance.highlightByIndex(idx);
+        }
+      });
+      rowDiv.addEventListener("mouseleave", () => {
+        if (chartConfig.is3D && three3DInstance && three3DInstance.clearHighlight) {
+          three3DInstance.clearHighlight();
+        }
+      });
 
       rowDiv.innerHTML = `
         <div class="flex items-center gap-2 min-w-0">
@@ -1859,22 +1927,16 @@ const t = useTranslations(currentLang);
 
   // --- Exports (SVG, PNG, PDF) ---
 
-  function prepareSvgForExport() {
+  function serializeSvg(svgEl) {
     const serializer = new XMLSerializer();
-    
-    // Clone the viewport SVG node to modify attributes for export
-    const svgClone = svgViewport.cloneNode(true);
-    
-    // Set explicit width and height attributes matching the viewBox for canvas rendering
-    const vw = svgViewport.viewBox.baseVal.width || 520;
-    const vh = svgViewport.viewBox.baseVal.height || 360;
+    const svgClone = svgEl.cloneNode(true);
+    const vw = svgEl.viewBox?.baseVal?.width || 720;
+    const vh = svgEl.viewBox?.baseVal?.height || 520;
     svgClone.setAttribute("width", vw.toString());
     svgClone.setAttribute("height", vh.toString());
     
     let svgString = serializer.serializeToString(svgClone);
     
-    // CSS variables don't resolve when SVG is used standalone (blob/image),
-    // so replace them with computed values from the inline SVG element.
     const style = getComputedStyle(svgViewport);
     const resolveFont = (varName, fallback) => {
       const val = style.getPropertyValue(varName).trim();
@@ -1882,11 +1944,24 @@ const t = useTranslations(currentLang);
       return val.replace(/"([^"]+)"/g, '$1');
     };
     svgString = svgString.replace(/var\(--font-sans\)/g, resolveFont("--font-sans", "Inter, system-ui, sans-serif"));
-    
-    // Escape raw ampersands in stylesheets (like Google Fonts URLs) to be XML compliant
     svgString = svgString.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
-    
     return svgString;
+  }
+
+  function prepareSvgForExport(keepOverlayOnly = false) {
+    if (chartConfig.is3D && !keepOverlayOnly) {
+      // Standalone vector SVG export in 3D mode: render full standalone vector SVG with faux-3D slices
+      const tempSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      tempSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      tempSvg.style.position = "absolute";
+      tempSvg.style.left = "-9999px";
+      document.body.appendChild(tempSvg);
+      renderChart(tempSvg, chartData, { ...chartConfig, isWebGL3D: false });
+      const res = serializeSvg(tempSvg);
+      document.body.removeChild(tempSvg);
+      return res;
+    }
+    return serializeSvg(svgViewport);
   }
 
   function svgToCanvas(svgString) {
@@ -1900,8 +1975,8 @@ const t = useTranslations(currentLang);
 
       const img = new Image();
       img.onload = () => {
-        const vw = svgViewport.viewBox.baseVal.width || 520;
-        const vh = svgViewport.viewBox.baseVal.height || 360;
+        const vw = svgViewport.viewBox.baseVal.width || 720;
+        const vh = svgViewport.viewBox.baseVal.height || 520;
         const scale = 2;
 
         const canvas = document.createElement("canvas");
@@ -1910,7 +1985,8 @@ const t = useTranslations(currentLang);
         const ctx = canvas.getContext("2d");
         ctx.scale(scale, scale);
 
-        const isBgTransparent = chartConfig.backgroundColor === 'transparent';
+        // In 3D overlay mode or transparent bg, keep canvas transparent
+        const isBgTransparent = chartConfig.backgroundColor === 'transparent' || chartConfig.is3D;
         if (!isBgTransparent) {
           const canvasBg = chartConfig.backgroundColor.includes('linear-gradient') ? '#ffffff' : (chartConfig.backgroundColor || '#ffffff');
           ctx.fillStyle = canvasBg;
@@ -1930,7 +2006,7 @@ const t = useTranslations(currentLang);
 
   function downloadSvg() {
     try {
-      const svgString = prepareSvgForExport();
+      const svgString = prepareSvgForExport(false);
       const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
       const url = URL.createObjectURL(blob);
 
@@ -1952,18 +2028,61 @@ const t = useTranslations(currentLang);
   async function downloadPng() {
     try {
       showToast("Rendering PNG…");
-      const svgString = prepareSvgForExport();
-      const { canvas } = await svgToCanvas(svgString);
+      
+      if (chartConfig.is3D && three3DInstance) {
+        // Capture from Three.js WebGL canvas (high-res 1440x1040 at 2x)
+        const exportW = 1440;
+        const exportH = 1040;
+        const dataUrl = three3DInstance.captureImage(exportW, exportH);
+        
+        // Capture the SVG overlay (with Title, Subtitle, Labels, Legend, Source)
+        const svgString = prepareSvgForExport(true);
+        const { canvas: svgCanvas } = await svgToCanvas(svgString);
+        
+        const img = new Image();
+        img.onload = () => {
+          const exportCanvas = document.createElement('canvas');
+          exportCanvas.width = exportW;
+          exportCanvas.height = exportH;
+          const ctx = exportCanvas.getContext('2d');
+          
+          // Draw background
+          const bg = chartConfig.backgroundColor || '#ffffff';
+          if (bg !== 'transparent') {
+            ctx.fillStyle = bg.includes('linear-gradient') ? '#ffffff' : bg;
+            ctx.fillRect(0, 0, exportW, exportH);
+          }
+          
+          // 1. Draw 3D chart
+          ctx.drawImage(img, 0, 0, exportW, exportH);
+          
+          // 2. Draw SVG overlay (Title, Subtitle, Labels, Legend, Source)
+          ctx.drawImage(svgCanvas, 0, 0, exportW, exportH);
+          
+          const pngURL = exportCanvas.toDataURL("image/png");
+          const a = document.createElement("a");
+          a.href = pngURL;
+          a.download = `${chartConfig.title || "pie-chart"}-3d.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          showToast("PNG downloaded!");
+        };
+        img.src = dataUrl;
+      } else {
+        const svgString = prepareSvgForExport(false);
+        const { canvas } = await svgToCanvas(svgString);
 
-      const pngURL = canvas.toDataURL("image/png");
-      const a = document.createElement("a");
-      a.href = pngURL;
-      a.download = `${chartConfig.title || "pie-chart"}.png`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+        const pngURL = canvas.toDataURL("image/png");
+        const a = document.createElement("a");
+        a.href = pngURL;
+        a.download = `${chartConfig.title || "pie-chart"}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
-      showToast("PNG downloaded!");
+        showToast("PNG downloaded!");
+      }
     } catch (err) {
       console.error("PNG export error:", err);
       showToast("PNG render failed: " + (err.message || "unknown error"));
@@ -1972,8 +2091,7 @@ const t = useTranslations(currentLang);
 
   async function copySvgToClipboard() {
     try {
-      const serializer = new XMLSerializer();
-      const svgString = serializer.serializeToString(svgViewport);
+      const svgString = prepareSvgForExport(false);
       await navigator.clipboard.writeText(svgString);
       showToast("SVG code copied to clipboard!");
     } catch (err) {
@@ -1997,10 +2115,47 @@ const t = useTranslations(currentLang);
       }
 
       const { jsPDF } = window.jspdf;
-      const svgString = prepareSvgForExport();
-      const { canvas, vw, vh } = await svgToCanvas(svgString);
+      
+      let imgData, vw, vh;
+      
+      if (chartConfig.is3D && three3DInstance) {
+        vw = 1440;
+        vh = 1040;
+        const dataUrl = three3DInstance.captureImage(vw, vh);
+        
+        // Capture SVG overlay
+        const svgString = prepareSvgForExport(true);
+        const { canvas: svgCanvas } = await svgToCanvas(svgString);
 
-      const imgData = canvas.toDataURL("image/png");
+        const img = new Image();
+        await new Promise((resolve) => {
+          img.onload = resolve;
+          img.src = dataUrl;
+        });
+        
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = vw;
+        exportCanvas.height = vh;
+        const ctx = exportCanvas.getContext('2d');
+        
+        const bg = chartConfig.backgroundColor || '#ffffff';
+        if (bg !== 'transparent') {
+          ctx.fillStyle = bg.includes('linear-gradient') ? '#ffffff' : bg;
+          ctx.fillRect(0, 0, vw, vh);
+        }
+        
+        // Composite 3D chart + SVG overlay
+        ctx.drawImage(img, 0, 0, vw, vh);
+        ctx.drawImage(svgCanvas, 0, 0, vw, vh);
+        
+        imgData = exportCanvas.toDataURL("image/png");
+      } else {
+        const svgString = prepareSvgForExport(false);
+        const result = await svgToCanvas(svgString);
+        imgData = result.canvas.toDataURL("image/png");
+        vw = result.vw;
+        vh = result.vh;
+      }
 
       // Determine best orientation for A4
       const isLandscape = vw > vh;
@@ -2225,6 +2380,11 @@ const t = useTranslations(currentLang);
       const event = new MouseEvent("mouseleave");
       slice.dispatchEvent(event);
     });
+
+    // 3. Reset Three.js camera if in 3D mode
+    if (three3DInstance && three3DInstance.resetCamera) {
+      three3DInstance.resetCamera();
+    }
 
     showToast("Chart views restored!");
   }

@@ -38,6 +38,7 @@ export function renderChart(svg, data, config) {
   // Configuration defaults
   const isDonut = !!config.isDonut;
   const is3D = !!config.is3D;
+  const isWebGL3D = !!config.isWebGL3D;
   const donutHole = isDonut ? Math.max(0.1, Math.min(0.8, config.donutHoleRadius ?? 0.5)) : 0;
   
   // 3D Parameters
@@ -45,10 +46,10 @@ export function renderChart(svg, data, config) {
   const height3D = is3D ? Math.max(0, Math.min(100, config.height3D ?? 30)) : 0;
   
   // Size & Center (Fixed landscape coordinates for responsive SVG scaling with built-in legend)
-  const width = 520;
-  const height = 360;
+  const width = 720;
+  const height = 520;
   
-  const cx = 260;
+  const cx = 360;
 
   // Dynamically calculate the space needed for the bottom legend
   const rowSpacing = validData.length > 10 ? 16 : 22;
@@ -69,12 +70,12 @@ export function renderChart(svg, data, config) {
   const legendAreaHeight = 15 + legendRowsCount * rowSpacing;
   
   // Calculate top offset dynamically for SVG Title & Subtitle
-  let topOffset = 10;
+  let topOffset = 12;
   if (config.title) {
-    topOffset += (config.titleFontSize || 15) + 9;
+    topOffset += (config.titleFontSize || 15) + 10;
   }
   if (config.subtitle) {
-    topOffset += (config.subtitleFontSize || 10.5) + 6;
+    topOffset += (config.subtitleFontSize || 10.5) + 8;
   }
 
   // Radius & Placement parameters (calculated dynamically to prevent overlap with title and legend)
@@ -86,14 +87,14 @@ export function renderChart(svg, data, config) {
   // If 3D, offset center Y slightly upwards to account for the extrusion thickness
   const cy = chartAreaTop + (is3D ? (availableChartHeight - height3D) / 2 + 5 : availableChartHeight / 2);
 
-  const extendRadiusX = 12;
-  const extendRadiusY = 10;
-  const elbowLength = 8;
+  const extendRadiusX = 14;
+  const extendRadiusY = 12;
+  const elbowLength = 10;
   const fontSize = (config.labelFontSize || 9.5).toString();
 
   // Margins for labels & lines
-  const verticalMargin = is3D ? 32 : 24; // 3D needs slightly more space for vertical extrusion rendering
-  const horizontalMargin = 95; // safe margin for horizontal labels text
+  const verticalMargin = is3D ? 32 : 26; // 3D needs slightly more space for vertical extrusion rendering
+  const horizontalMargin = 160; // safe margin for horizontal labels text
 
   // Calculate maximum allowed ry based on available vertical space and margins
   const ryMax = (availableChartHeight / 2) - (is3D ? height3D / 2 : 0) - verticalMargin;
@@ -170,39 +171,41 @@ export function renderChart(svg, data, config) {
     defs.appendChild(sideDepth);
   }
 
-  // Draw background rect
-  const bg = config.backgroundColor !== undefined ? config.backgroundColor : '#ffffff';
-  if (bg && bg.includes('linear-gradient')) {
-    const matches = bg.match(/#[0-9a-fA-F]{3,8}/g);
-    if (matches && matches.length >= 2) {
-      const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-      grad.setAttribute('id', 'chart-bg-gradient');
-      grad.setAttribute('x1', '0%');
-      grad.setAttribute('y1', '0%');
-      grad.setAttribute('x2', '100%');
-      grad.setAttribute('y2', '100%');
-      
-      matches.forEach((color, i) => {
-        const stop = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        const offset = i === 0 ? '0%' : i === matches.length - 1 ? '100%' : `${(i / (matches.length - 1)) * 100}%`;
-        stop.setAttribute('offset', offset);
-        stop.setAttribute('stop-color', color);
-        grad.appendChild(stop);
-      });
-      defs.appendChild(grad);
-      
+  // Draw background rect (skipped when rendering overlay over WebGL 3D canvas)
+  if (!isWebGL3D) {
+    const bg = config.backgroundColor !== undefined ? config.backgroundColor : '#ffffff';
+    if (bg && bg.includes('linear-gradient')) {
+      const matches = bg.match(/#[0-9a-fA-F]{3,8}/g);
+      if (matches && matches.length >= 2) {
+        const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        grad.setAttribute('id', 'chart-bg-gradient');
+        grad.setAttribute('x1', '0%');
+        grad.setAttribute('y1', '0%');
+        grad.setAttribute('x2', '100%');
+        grad.setAttribute('y2', '100%');
+        
+        matches.forEach((color, i) => {
+          const stop = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+          const offset = i === 0 ? '0%' : i === matches.length - 1 ? '100%' : `${(i / (matches.length - 1)) * 100}%`;
+          stop.setAttribute('offset', offset);
+          stop.setAttribute('stop-color', color);
+          grad.appendChild(stop);
+        });
+        defs.appendChild(grad);
+        
+        const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        bgRect.setAttribute('width', '100%');
+        bgRect.setAttribute('height', '100%');
+        bgRect.setAttribute('fill', 'url(#chart-bg-gradient)');
+        svg.appendChild(bgRect);
+      }
+    } else if (bg && bg !== 'transparent') {
       const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
       bgRect.setAttribute('width', '100%');
       bgRect.setAttribute('height', '100%');
-      bgRect.setAttribute('fill', 'url(#chart-bg-gradient)');
+      bgRect.setAttribute('fill', bg);
       svg.appendChild(bgRect);
     }
-  } else if (bg && bg !== 'transparent') {
-    const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    bgRect.setAttribute('width', '100%');
-    bgRect.setAttribute('height', '100%');
-    bgRect.setAttribute('fill', bg);
-    svg.appendChild(bgRect);
   }
 
   // Render Title & Subtitle inside SVG for exports & unified WYSIWYG
@@ -211,7 +214,7 @@ export function renderChart(svg, data, config) {
 
   if (config.title) {
     const titleText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    titleText.setAttribute('x', '260');
+    titleText.setAttribute('x', cx.toString());
     titleText.setAttribute('y', '25');
     titleText.setAttribute('text-anchor', 'middle');
     titleText.setAttribute('fill', config.titleColor || inkColor);
@@ -223,8 +226,8 @@ export function renderChart(svg, data, config) {
   }
   if (config.subtitle) {
     const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    subText.setAttribute('x', '260');
-    subText.setAttribute('y', config.title ? (25 + titleFontSize + 2).toString() : '25');
+    subText.setAttribute('x', cx.toString());
+    subText.setAttribute('y', config.title ? (25 + titleFontSize + 3).toString() : '25');
     subText.setAttribute('text-anchor', 'middle');
     subText.setAttribute('fill', config.subtitleColor || muteColor);
     subText.setAttribute('font-family', config.fontFamily || 'var(--font-sans)');
@@ -328,8 +331,8 @@ export function renderChart(svg, data, config) {
     renderSlices.sort((a, b) => Math.sin(a.mid) - Math.sin(b.mid));
   }
 
-  // Soft Ambient Floor Shadow under 3D extruded chart to ground solid pieces
-  if (is3D) {
+  // Soft Ambient Floor Shadow under 3D extruded chart to ground solid pieces (skipped when WebGL 3D renders)
+  if (is3D && !isWebGL3D) {
     const shadowEllipse = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
     shadowEllipse.setAttribute('cx', cx.toString());
     shadowEllipse.setAttribute('cy', (cy + height3D + 6).toFixed(1));
@@ -352,194 +355,196 @@ export function renderChart(svg, data, config) {
   // Keep track of slice group nodes for hover tracking
   const sliceNodes = [];
 
-  // 3. Draw Slices as Solid 3D Pieces
-  renderSlices.forEach((slice, renderIndex) => {
-    const sliceG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    sliceG.setAttribute('class', 'slice-group cursor-pointer transition-transform duration-200 ease-out');
-    sliceG.dataset.index = slice.originalIndex;
-    sliceG.dataset.renderIndex = renderIndex;
-    sliceG.dataset.label = slice.label;
-    sliceG.dataset.value = slice.value.toLocaleString();
-    sliceG.dataset.percent = slice.percent.toFixed(1);
-    sliceG.dataset.color = slice.color;
-    
-    // Calculate translation vector for hover effect (using original slice mid-angle so all segments translate together)
-    const hoverOffsetEnabled = !config.disableHoverOffset;
-    const hoverDist = hoverOffsetEnabled ? 12 : 0;
-    const hx = hoverDist * Math.cos(slice.originalMidAngle);
-    const hy = hoverDist * Math.sin(slice.originalMidAngle) * tilt;
-    sliceG.dataset.hoverTransform = `translate(${hx}px, ${hy}px)`;
+  // 3. Draw Slices as Solid 3D Pieces (skipped when WebGL 3D handles rendering)
+  if (!isWebGL3D) {
+    renderSlices.forEach((slice, renderIndex) => {
+      const sliceG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      sliceG.setAttribute('class', 'slice-group cursor-pointer transition-transform duration-200 ease-out');
+      sliceG.dataset.index = slice.originalIndex;
+      sliceG.dataset.renderIndex = renderIndex;
+      sliceG.dataset.label = slice.label;
+      sliceG.dataset.value = slice.value.toLocaleString();
+      sliceG.dataset.percent = slice.percent.toFixed(1);
+      sliceG.dataset.color = slice.color;
+      
+      // Calculate translation vector for hover effect (using original slice mid-angle so all segments translate together)
+      const hoverOffsetEnabled = !config.disableHoverOffset;
+      const hoverDist = hoverOffsetEnabled ? 12 : 0;
+      const hx = hoverDist * Math.cos(slice.originalMidAngle);
+      const hy = hoverDist * Math.sin(slice.originalMidAngle) * tilt;
+      sliceG.dataset.hoverTransform = `translate(${hx}px, ${hy}px)`;
 
-    const pStart = polarToCartesian(cx, cy, rx, ry, slice.start);
-    const pEnd = polarToCartesian(cx, cy, rx, ry, slice.end);
-    const largeArcFlag = (slice.end - slice.start) > Math.PI ? 1 : 0;
+      const pStart = polarToCartesian(cx, cy, rx, ry, slice.start);
+      const pEnd = polarToCartesian(cx, cy, rx, ry, slice.end);
+      const largeArcFlag = (slice.end - slice.start) > Math.PI ? 1 : 0;
 
-    // 1. Draw Outer Side Curved Wall (Only front-facing arcs [0, PI] to prevent hanging back-wall artifacts)
-    if (is3D) {
-      const visibleOuter = getVisibleOuterIntervals(slice.start, slice.end);
-      visibleOuter.forEach(([arcStart, arcEnd]) => {
-        const p1 = polarToCartesian(cx, cy, rx, ry, arcStart);
-        const p2 = polarToCartesian(cx, cy, rx, ry, arcEnd);
-        const arcLarge = (arcEnd - arcStart) > Math.PI ? 1 : 0;
-        const arcMid = (arcStart + arcEnd) / 2;
+      // 1. Draw Outer Side Curved Wall (Only front-facing arcs [0, PI] to prevent hanging back-wall artifacts)
+      if (is3D) {
+        const visibleOuter = getVisibleOuterIntervals(slice.start, slice.end);
+        visibleOuter.forEach(([arcStart, arcEnd]) => {
+          const p1 = polarToCartesian(cx, cy, rx, ry, arcStart);
+          const p2 = polarToCartesian(cx, cy, rx, ry, arcEnd);
+          const arcLarge = (arcEnd - arcStart) > Math.PI ? 1 : 0;
+          const arcMid = (arcStart + arcEnd) / 2;
 
-        const dWall = `M ${p1.x} ${p1.y} 
-                       A ${rx} ${ry} 0 ${arcLarge} 1 ${p2.x} ${p2.y} 
-                       L ${p2.x} ${p2.y + height3D} 
-                       A ${rx} ${ry} 0 ${arcLarge} 0 ${p1.x} ${p1.y + height3D} 
-                       Z`;
+          const dWall = `M ${p1.x} ${p1.y} 
+                         A ${rx} ${ry} 0 ${arcLarge} 1 ${p2.x} ${p2.y} 
+                         L ${p2.x} ${p2.y + height3D} 
+                         A ${rx} ${ry} 0 ${arcLarge} 0 ${p1.x} ${p1.y + height3D} 
+                         Z`;
 
-        // Base solid body color
-        const outerWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        outerWall.setAttribute('d', dWall);
-        outerWall.setAttribute('fill', slice.color);
-        sliceG.appendChild(outerWall);
+          // Base solid body color
+          const outerWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          outerWall.setAttribute('d', dWall);
+          outerWall.setAttribute('fill', slice.color);
+          sliceG.appendChild(outerWall);
 
-        // Directional shading overlay (subtle, keeps rich solid slice color)
-        const cosDiff = Math.cos(arcMid - lightAngle);
-        const shadowFactor = 0.08 + 0.20 * (1 - cosDiff) / 2;
-        const outerShade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        outerShade.setAttribute('d', dWall);
-        outerShade.setAttribute('fill', 'black');
-        outerShade.setAttribute('opacity', shadowFactor.toFixed(3));
-        sliceG.appendChild(outerShade);
+          // Directional shading overlay (subtle, keeps rich solid slice color)
+          const cosDiff = Math.cos(arcMid - lightAngle);
+          const shadowFactor = 0.08 + 0.20 * (1 - cosDiff) / 2;
+          const outerShade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          outerShade.setAttribute('d', dWall);
+          outerShade.setAttribute('fill', 'black');
+          outerShade.setAttribute('opacity', shadowFactor.toFixed(3));
+          sliceG.appendChild(outerShade);
 
-        // Vertical cylindrical depth gradient
-        const outerDepth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        outerDepth.setAttribute('d', dWall);
-        outerDepth.setAttribute('fill', 'url(#chart-3d-side-depth)');
-        sliceG.appendChild(outerDepth);
+          // Vertical cylindrical depth gradient
+          const outerDepth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          outerDepth.setAttribute('d', dWall);
+          outerDepth.setAttribute('fill', 'url(#chart-3d-side-depth)');
+          sliceG.appendChild(outerDepth);
 
-        // Subtle bottom contour edge to ground the slice rim
-        const bottomEdge = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        bottomEdge.setAttribute('d', `M ${p1.x} ${p1.y + height3D} A ${rx} ${ry} 0 ${arcLarge} 1 ${p2.x} ${p2.y + height3D}`);
-        bottomEdge.setAttribute('fill', 'none');
-        bottomEdge.setAttribute('stroke', 'rgba(0, 0, 0, 0.22)');
-        bottomEdge.setAttribute('stroke-width', '0.75');
-        sliceG.appendChild(bottomEdge);
-      });
-    }
-
-    // 2. Draw Inner Side Curved Wall (Visible in 3D Donut hole [PI, 2PI])
-    if (is3D && donutHole > 0) {
-      const visibleInner = getVisibleInnerIntervals(slice.start, slice.end);
-      visibleInner.forEach(([arcStart, arcEnd]) => {
-        const i1 = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, arcStart);
-        const i2 = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, arcEnd);
-        const arcLarge = (arcEnd - arcStart) > Math.PI ? 1 : 0;
-        const arcMid = (arcStart + arcEnd) / 2;
-
-        const dInner = `M ${i1.x} ${i1.y} 
-                        A ${rx * donutHole} ${ry * donutHole} 0 ${arcLarge} 1 ${i2.x} ${i2.y} 
-                        L ${i2.x} ${i2.y + height3D} 
-                        A ${rx * donutHole} ${ry * donutHole} 0 ${arcLarge} 0 ${i1.x} ${i1.y + height3D} 
-                        Z`;
-
-        const innerWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        innerWall.setAttribute('d', dInner);
-        innerWall.setAttribute('fill', slice.color);
-        sliceG.appendChild(innerWall);
-
-        // Internal cavity shading
-        const cosDiff = Math.cos(arcMid - lightAngle);
-        const shadowFactor = 0.16 + 0.18 * (1 + cosDiff) / 2;
-        const innerShade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        innerShade.setAttribute('d', dInner);
-        innerShade.setAttribute('fill', 'black');
-        innerShade.setAttribute('opacity', shadowFactor.toFixed(3));
-        sliceG.appendChild(innerShade);
-
-        const innerDepth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        innerDepth.setAttribute('d', dInner);
-        innerDepth.setAttribute('fill', 'url(#chart-3d-side-depth)');
-        sliceG.appendChild(innerDepth);
-      });
-    }
-
-    // 3. Draw Radial Flat Cut Walls (Only front-facing cuts so pieces look solid when popped or viewed from sides)
-    if (is3D) {
-      // Start Wall (Front-facing on left side: cos(start) < 0)
-      if (slice.isFirstSub && Math.cos(slice.start) < -0.01) {
-        let dStart = '';
-        if (donutHole > 0) {
-          const iStart = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, slice.start);
-          dStart = `M ${iStart.x} ${iStart.y} L ${pStart.x} ${pStart.y} L ${pStart.x} ${pStart.y + height3D} L ${iStart.x} ${iStart.y + height3D} Z`;
-        } else {
-          dStart = `M ${cx} ${cy} L ${pStart.x} ${pStart.y} L ${pStart.x} ${pStart.y + height3D} L ${cx} ${cy + height3D} Z`;
-        }
-        const startWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        startWall.setAttribute('d', dStart);
-        startWall.setAttribute('fill', slice.color);
-        sliceG.appendChild(startWall);
-
-        const startNormal = slice.start - Math.PI / 2;
-        const cosDiff = Math.cos(startNormal - lightAngle);
-        const startShadow = 0.10 + 0.16 * (1 - cosDiff) / 2;
-        const startShade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        startShade.setAttribute('d', dStart);
-        startShade.setAttribute('fill', 'black');
-        startShade.setAttribute('opacity', startShadow.toFixed(3));
-        sliceG.appendChild(startShade);
-
-        const startDepth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        startDepth.setAttribute('d', dStart);
-        startDepth.setAttribute('fill', 'url(#chart-3d-side-depth)');
-        sliceG.appendChild(startDepth);
+          // Subtle bottom contour edge to ground the slice rim
+          const bottomEdge = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          bottomEdge.setAttribute('d', `M ${p1.x} ${p1.y + height3D} A ${rx} ${ry} 0 ${arcLarge} 1 ${p2.x} ${p2.y + height3D}`);
+          bottomEdge.setAttribute('fill', 'none');
+          bottomEdge.setAttribute('stroke', 'rgba(0, 0, 0, 0.22)');
+          bottomEdge.setAttribute('stroke-width', '0.75');
+          sliceG.appendChild(bottomEdge);
+        });
       }
 
-      // End Wall (Front-facing on right side: cos(end) > 0)
-      if (slice.isLastSub && Math.cos(slice.end) > 0.01) {
-        let dEnd = '';
-        if (donutHole > 0) {
-          const iEnd = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, slice.end);
-          dEnd = `M ${iEnd.x} ${iEnd.y} L ${pEnd.x} ${pEnd.y} L ${pEnd.x} ${pEnd.y + height3D} L ${iEnd.x} ${iEnd.y + height3D} Z`;
-        } else {
-          dEnd = `M ${cx} ${cy} L ${pEnd.x} ${pEnd.y} L ${pEnd.x} ${pEnd.y + height3D} L ${cx} ${cy + height3D} Z`;
-        }
-        const endWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        endWall.setAttribute('d', dEnd);
-        endWall.setAttribute('fill', slice.color);
-        sliceG.appendChild(endWall);
+      // 2. Draw Inner Side Curved Wall (Visible in 3D Donut hole [PI, 2PI])
+      if (is3D && donutHole > 0) {
+        const visibleInner = getVisibleInnerIntervals(slice.start, slice.end);
+        visibleInner.forEach(([arcStart, arcEnd]) => {
+          const i1 = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, arcStart);
+          const i2 = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, arcEnd);
+          const arcLarge = (arcEnd - arcStart) > Math.PI ? 1 : 0;
+          const arcMid = (arcStart + arcEnd) / 2;
 
-        const endNormal = slice.end + Math.PI / 2;
-        const cosDiff = Math.cos(endNormal - lightAngle);
-        const endShadow = 0.14 + 0.18 * (1 - cosDiff) / 2;
-        const endShade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        endShade.setAttribute('d', dEnd);
-        endShade.setAttribute('fill', 'black');
-        endShade.setAttribute('opacity', endShadow.toFixed(3));
-        sliceG.appendChild(endShade);
+          const dInner = `M ${i1.x} ${i1.y} 
+                          A ${rx * donutHole} ${ry * donutHole} 0 ${arcLarge} 1 ${i2.x} ${i2.y} 
+                          L ${i2.x} ${i2.y + height3D} 
+                          A ${rx * donutHole} ${ry * donutHole} 0 ${arcLarge} 0 ${i1.x} ${i1.y + height3D} 
+                          Z`;
 
-        const endDepth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        endDepth.setAttribute('d', dEnd);
-        endDepth.setAttribute('fill', 'url(#chart-3d-side-depth)');
-        sliceG.appendChild(endDepth);
+          const innerWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          innerWall.setAttribute('d', dInner);
+          innerWall.setAttribute('fill', slice.color);
+          sliceG.appendChild(innerWall);
+
+          // Internal cavity shading
+          const cosDiff = Math.cos(arcMid - lightAngle);
+          const shadowFactor = 0.16 + 0.18 * (1 + cosDiff) / 2;
+          const innerShade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          innerShade.setAttribute('d', dInner);
+          innerShade.setAttribute('fill', 'black');
+          innerShade.setAttribute('opacity', shadowFactor.toFixed(3));
+          sliceG.appendChild(innerShade);
+
+          const innerDepth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          innerDepth.setAttribute('d', dInner);
+          innerDepth.setAttribute('fill', 'url(#chart-3d-side-depth)');
+          sliceG.appendChild(innerDepth);
+        });
       }
-    }
 
-    // 4. Draw Top Face (With crisp bevel stroke for defined, physical piece edges)
-    const topFace = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    let dTop = '';
-    if (donutHole > 0) {
-      const iStart = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, slice.start);
-      const iEnd = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, slice.end);
-      dTop = `M ${iStart.x} ${iStart.y} L ${pStart.x} ${pStart.y} A ${rx} ${ry} 0 ${largeArcFlag} 1 ${pEnd.x} ${pEnd.y} L ${iEnd.x} ${iEnd.y} A ${rx * donutHole} ${ry * donutHole} 0 ${largeArcFlag} 0 ${iStart.x} ${iStart.y} Z`;
-    } else {
-      dTop = `M ${cx} ${cy} L ${pStart.x} ${pStart.y} A ${rx} ${ry} 0 ${largeArcFlag} 1 ${pEnd.x} ${pEnd.y} Z`;
-    }
-    topFace.setAttribute('d', dTop);
-    topFace.setAttribute('fill', slice.color);
-    if (is3D) {
-      topFace.setAttribute('stroke', 'rgba(255, 255, 255, 0.45)');
-      topFace.setAttribute('stroke-width', '1');
-      topFace.setAttribute('stroke-linejoin', 'round');
-    }
-    sliceG.appendChild(topFace);
+      // 3. Draw Radial Flat Cut Walls (Only front-facing cuts so pieces look solid when popped or viewed from sides)
+      if (is3D) {
+        // Start Wall (Front-facing on left side: cos(start) < 0)
+        if (slice.isFirstSub && Math.cos(slice.start) < -0.01) {
+          let dStart = '';
+          if (donutHole > 0) {
+            const iStart = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, slice.start);
+            dStart = `M ${iStart.x} ${iStart.y} L ${pStart.x} ${pStart.y} L ${pStart.x} ${pStart.y + height3D} L ${iStart.x} ${iStart.y + height3D} Z`;
+          } else {
+            dStart = `M ${cx} ${cy} L ${pStart.x} ${pStart.y} L ${pStart.x} ${pStart.y + height3D} L ${cx} ${cy + height3D} Z`;
+          }
+          const startWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          startWall.setAttribute('d', dStart);
+          startWall.setAttribute('fill', slice.color);
+          sliceG.appendChild(startWall);
 
-    // Append to group container
-    chartGroup.appendChild(sliceG);
-    sliceNodes.push(sliceG);
-  });
+          const startNormal = slice.start - Math.PI / 2;
+          const cosDiff = Math.cos(startNormal - lightAngle);
+          const startShadow = 0.10 + 0.16 * (1 - cosDiff) / 2;
+          const startShade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          startShade.setAttribute('d', dStart);
+          startShade.setAttribute('fill', 'black');
+          startShade.setAttribute('opacity', startShadow.toFixed(3));
+          sliceG.appendChild(startShade);
+
+          const startDepth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          startDepth.setAttribute('d', dStart);
+          startDepth.setAttribute('fill', 'url(#chart-3d-side-depth)');
+          sliceG.appendChild(startDepth);
+        }
+
+        // End Wall (Front-facing on right side: cos(end) > 0)
+        if (slice.isLastSub && Math.cos(slice.end) > 0.01) {
+          let dEnd = '';
+          if (donutHole > 0) {
+            const iEnd = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, slice.end);
+            dEnd = `M ${iEnd.x} ${iEnd.y} L ${pEnd.x} ${pEnd.y} L ${pEnd.x} ${pEnd.y + height3D} L ${iEnd.x} ${iEnd.y + height3D} Z`;
+          } else {
+            dEnd = `M ${cx} ${cy} L ${pEnd.x} ${pEnd.y} L ${pEnd.x} ${pEnd.y + height3D} L ${cx} ${cy + height3D} Z`;
+          }
+          const endWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          endWall.setAttribute('d', dEnd);
+          endWall.setAttribute('fill', slice.color);
+          sliceG.appendChild(endWall);
+
+          const endNormal = slice.end + Math.PI / 2;
+          const cosDiff = Math.cos(endNormal - lightAngle);
+          const endShadow = 0.14 + 0.18 * (1 - cosDiff) / 2;
+          const endShade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          endShade.setAttribute('d', dEnd);
+          endShade.setAttribute('fill', 'black');
+          endShade.setAttribute('opacity', endShadow.toFixed(3));
+          sliceG.appendChild(endShade);
+
+          const endDepth = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          endDepth.setAttribute('d', dEnd);
+          endDepth.setAttribute('fill', 'url(#chart-3d-side-depth)');
+          sliceG.appendChild(endDepth);
+        }
+      }
+
+      // 4. Draw Top Face (With crisp bevel stroke for defined, physical piece edges)
+      const topFace = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      let dTop = '';
+      if (donutHole > 0) {
+        const iStart = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, slice.start);
+        const iEnd = polarToCartesian(cx, cy, rx * donutHole, ry * donutHole, slice.end);
+        dTop = `M ${iStart.x} ${iStart.y} L ${pStart.x} ${pStart.y} A ${rx} ${ry} 0 ${largeArcFlag} 1 ${pEnd.x} ${pEnd.y} L ${iEnd.x} ${iEnd.y} A ${rx * donutHole} ${ry * donutHole} 0 ${largeArcFlag} 0 ${iStart.x} ${iStart.y} Z`;
+      } else {
+        dTop = `M ${cx} ${cy} L ${pStart.x} ${pStart.y} A ${rx} ${ry} 0 ${largeArcFlag} 1 ${pEnd.x} ${pEnd.y} Z`;
+      }
+      topFace.setAttribute('d', dTop);
+      topFace.setAttribute('fill', slice.color);
+      if (is3D) {
+        topFace.setAttribute('stroke', 'rgba(255, 255, 255, 0.45)');
+        topFace.setAttribute('stroke-width', '1');
+        topFace.setAttribute('stroke-linejoin', 'round');
+      }
+      sliceG.appendChild(topFace);
+
+      // Append to group container
+      chartGroup.appendChild(sliceG);
+      sliceNodes.push(sliceG);
+    });
+  }
 
   // 4. Interactive Event Observers (Hover Translate & Tooltip)
   let activeIndex = -1;
@@ -603,32 +608,34 @@ export function renderChart(svg, data, config) {
     }
   }
 
-  sliceNodes.forEach((node) => {
-    node.addEventListener('mouseenter', (e) => {
-      activateSlice(node.dataset.index, e);
+  if (!isWebGL3D) {
+    sliceNodes.forEach((node) => {
+      node.addEventListener('mouseenter', (e) => {
+        activateSlice(node.dataset.index, e);
+      });
+
+      node.addEventListener('mouseleave', (e) => {
+        // Only deactivate if the cursor is moving to an element that is NOT
+        // a sub-segment of the same logical slice. This prevents flicker when
+        // the cursor moves between sub-segments of the same slice.
+        const related = e.relatedTarget;
+        const sameSliceNodes = nodesByIndex[node.dataset.index] || [];
+        const isStillInSameSlice = related && sameSliceNodes.some(n => n === related || n.contains(related));
+        if (!isStillInSameSlice) {
+          deactivateSlice();
+        }
+      });
+
+      node.addEventListener('mousemove', (e) => {
+        updateTooltipPosition(e);
+      });
     });
 
-    node.addEventListener('mouseleave', (e) => {
-      // Only deactivate if the cursor is moving to an element that is NOT
-      // a sub-segment of the same logical slice. This prevents flicker when
-      // the cursor moves between sub-segments of the same slice.
-      const related = e.relatedTarget;
-      const sameSliceNodes = nodesByIndex[node.dataset.index] || [];
-      const isStillInSameSlice = related && sameSliceNodes.some(n => n === related || n.contains(related));
-      if (!isStillInSameSlice) {
-        deactivateSlice();
-      }
+    // Safety net: if the cursor leaves the entire SVG element, always hide
+    svg.addEventListener('mouseleave', () => {
+      deactivateSlice();
     });
-
-    node.addEventListener('mousemove', (e) => {
-      updateTooltipPosition(e);
-    });
-  });
-
-  // Safety net: if the cursor leaves the entire SVG element, always hide
-  svg.addEventListener('mouseleave', () => {
-    deactivateSlice();
-  });
+  }
 
   // Tooltip UI Drawing Functions
   let tooltipBg, tooltipTextName, tooltipTextVal, tooltipRect;
@@ -794,7 +801,9 @@ export function renderChart(svg, data, config) {
   let currentStartAngle = -Math.PI / 2;
   const labelMode = config.labelMode || 'label-percent';
 
-  if (labelMode !== 'none') {
+  // In WebGL 3D mode, static labels are skipped here because dynamic 3D-projected labels
+  // are rendered and animated in real-time by chart-renderer-3d.js to move with the slices.
+  if (labelMode !== 'none' && !isWebGL3D) {
     validData.forEach((item, index) => {
       const sliceAngle = (item.value / total) * 2 * Math.PI;
       const midAngle = currentStartAngle + sliceAngle / 2;
@@ -923,7 +932,7 @@ export function renderChart(svg, data, config) {
   // 7. Draw Source Citation at bottom-right corner of SVG if provided
   if (config.source) {
     const srcText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    srcText.setAttribute('x', '500'); // bottom-right with margin
+    srcText.setAttribute('x', (width - 20).toString()); // bottom-right with margin
     srcText.setAttribute('y', (height - 6).toString());
     srcText.setAttribute('text-anchor', 'end');
     srcText.setAttribute('fill', config.sourceColor || muteColor);
