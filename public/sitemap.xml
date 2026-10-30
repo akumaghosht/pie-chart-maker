@@ -184,4 +184,35 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/terms/" />
     <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/terms/" />
   </url>
+  <!-- Programmatic SEO Landing Page Templates -->
+  <url>
+    <loc>https://piechartmakerfree.com/templates/budget-breakdown</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/templates/survey-results</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/templates/demographic-distribution</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/templates/portfolio-allocation</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://piechartmakerfree.com/templates/time-management-breakdown</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

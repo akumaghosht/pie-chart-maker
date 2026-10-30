@@ -1,0 +1,92 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title: string;
+  metaDescription: string;
+  slug: string;
+  faqs: FAQItem[];
+  canonicalUrl?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  metaDescription,
+  slug,
+  faqs,
+  canonicalUrl = `https://piechartmakerfree.com/templates/${slug}`,
+  ogImage = "https://piechartmakerfree.com/web-app-manifest-512x512.png",
+} = Astro.props;
+
+// Minified JSON-LD Structured Data containing WebApplication and FAQPage
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${canonicalUrl}#webapp`,
+      "name": title,
+      "url": canonicalUrl,
+      "description": metaDescription,
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+      },
+      "featureList": [
+        "Instant PNG and SVG export",
+        "Interactive slice editing and color customization",
+        "Zero server upload / 100% private in-browser editing",
+        "2D and 3D pie and donut chart generation",
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer,
+        },
+      })),
+    },
+  ],
+};
+
+const jsonLd = JSON.stringify(schemaData);
+---
+
+<!-- Primary SEO Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={metaDescription} />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={metaDescription} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content="Pie Chart Maker" />
+
+<!-- Twitter Card -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalUrl} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={metaDescription} />
+<meta property="twitter:image" content={ogImage} />
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json" is:inline set:html={jsonLd} />
+

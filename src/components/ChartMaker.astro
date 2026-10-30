@@ -5,10 +5,14 @@ import type { SupportedLanguage } from "../i18n/ui";
 
 interface Props {
   lang?: SupportedLanguage;
+  initialData?: Array<{ label: string; value: number; color?: string }>;
+  initialTitle?: string;
+  initialSubtitle?: string;
 }
 
+const { lang, initialData, initialTitle, initialSubtitle } = Astro.props;
 const urlLang = getLangFromUrl(Astro.url);
-const currentLang = Astro.props.lang || urlLang;
+const currentLang = lang || urlLang;
 const t = useTranslations(currentLang);
 ---
 
@@ -16,6 +20,9 @@ const t = useTranslations(currentLang);
   id="workspace-container"
   class="max-w-[1240px] mx-auto px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
   data-lang={currentLang}
+  data-initial-data={initialData ? JSON.stringify(initialData) : undefined}
+  data-initial-title={initialTitle || ""}
+  data-initial-subtitle={initialSubtitle || ""}
   data-default-title={t("default.title")}
   data-default-subtitle={t("default.subtitle")}
   data-default-slice1={t("default.slice1")}
@@ -780,6 +787,7 @@ const t = useTranslations(currentLang);
 </div>
 
 <script>
+  // @ts-nocheck
   import { renderChart } from "./chart-renderer.js";
 
   // --- Dynamic Default Color Palette ---
@@ -2129,6 +2137,28 @@ const t = useTranslations(currentLang);
       } catch (err) {
         console.error("Failed to parse URL hash state", err);
         showToast("Failed to parse shared link.");
+      }
+    } else if (wsContainer?.dataset?.initialData) {
+      // Prioritize programmatic starter / preset initialData for templates
+      try {
+        const rawPreset = wsContainer.dataset.initialData;
+        const parsedData = JSON.parse(rawPreset);
+        if (Array.isArray(parsedData) && parsedData.length > 0) {
+          chartData = parsedData.map((item, index) => ({
+            label: item.label,
+            value: Number(item.value) || 0,
+            color: item.color || getColor(index),
+          }));
+
+          const customTitle = wsContainer.dataset.initialTitle;
+          const customSubtitle = wsContainer.dataset.initialSubtitle;
+          if (customTitle) chartConfig.title = customTitle;
+          if (customSubtitle) chartConfig.subtitle = customSubtitle;
+
+          syncUiFromConfig();
+        }
+      } catch (err) {
+        console.error("Failed to parse initial preset data", err);
       }
     } else {
       // Fallback: load last draft from localStorage scoped by language

@@ -63,7 +63,7 @@ const schemaJson = JSON.stringify({
 
     <div class="flex flex-col gap-4">
       {
-        faqItems.map((item, index) => (
+        faqItems.map((item) => (
           <details class="group bg-canvas border border-hairline rounded-md overflow-hidden transition-all duration-200 open:shadow-lvl2">
             <summary class="flex justify-between items-center p-5 font-sans font-medium text-ink hover:text-primary cursor-pointer list-none focus-visible:outline-2 focus-visible:outline-primary select-none [&::-webkit-details-marker]:hidden">
               <span class="text-sm md:text-base">{item.q}</span>

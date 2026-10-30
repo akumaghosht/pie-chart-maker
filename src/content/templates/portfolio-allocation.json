@@ -1,0 +1,28 @@
+{
+  "title": "Investment Portfolio Pie Chart Free | Asset Allocator",
+  "metaDescription": "Create your free investment portfolio pie chart. Track stocks, bonds, crypto, and cash allocation with interactive slices. Export PNG and SVG now!",
+  "h1": "Free Investment Portfolio Allocation Pie Chart",
+  "category": "Investing & Wealth",
+  "presetData": [
+    { "label": "US Large-Cap Equities", "value": 40, "color": "#0070f3" },
+    { "label": "International Developed Equities", "value": 20, "color": "#50e3c2" },
+    { "label": "Government & Corporate Bonds", "value": 20, "color": "#7928ca" },
+    { "label": "Real Estate (REITs)", "value": 10, "color": "#f5a623" },
+    { "label": "Cash & Short-Term Treasuries", "value": 10, "color": "#29bc9b" }
+  ],
+  "descriptionMarkdown": "Prudent wealth management relies on disciplined asset allocation to balance capital appreciation against market volatility. This investment portfolio pie chart template models a classic diversified growth-and-income strategy across multiple uncorrelated asset classes.\n\nEquities form the primary growth engine, divided between US large-cap stocks at 40 percent and international developed markets at 20 percent. Fixed-income securities represent 20 percent through high-grade government and corporate bonds, delivering yield stability and defensive downside protection. Real estate investment trusts provide a 10 percent inflation-hedged income stream, while the remaining 10 percent in cash and short-term treasuries preserves liquidity for opportunistic market rebalancing.\n\nVisualizing your portfolio weights highlights asset drift before risk exposures become dangerous during economic downturns. By reviewing slice proportions annually, investors know exactly which asset classes require trimming or funding. You can fine-tune every allocation to mirror your personal brokerage holdings, whether you hold individual stocks, index ETFs, or alternative assets like commodities and cryptocurrencies. Customize your labels, reorder slices by value, and download high-resolution charts for client reviews or personal net worth tracking.",
+  "faqs": [
+    {
+      "question": "Do the portfolio asset slices have to add up to exactly 100?",
+      "answer": "No. Our chart tool accepts raw dollar holdings (e.g., $45,000 stocks, $15,000 bonds) or percentage shares. The engine calculates correct fractional percentages automatically regardless of the total sum."
+    },
+    {
+      "question": "Can I add cryptocurrency or venture investments to this allocation chart?",
+      "answer": "Yes. Simply click '+ Add Slice' to introduce new asset classes like Bitcoin, gold, private equity, or commodities, and choose dedicated colors to highlight each allocation."
+    },
+    {
+      "question": "Can I save my portfolio chart and update it later during periodic rebalancing?",
+      "answer": "Yes. You can use the 'Save Draft' button to preserve your portfolio state in your browser or generate an encoded share link that bookmarks your complete chart configuration."
+    }
+  ]
+}

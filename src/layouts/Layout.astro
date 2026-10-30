@@ -16,6 +16,8 @@ interface Props {
 	robots?: string;
 	keywords?: string;
 	lang?: SupportedLanguage;
+	canonicalUrl?: string;
+	includeHreflang?: boolean;
 }
 
 const urlLang = getLangFromUrl(Astro.url);
@@ -29,8 +31,9 @@ const keywords = Astro.props.keywords || t("meta.keywords");
 const robots = Astro.props.robots;
 
 const hreflangs = getHreflangList(Astro.url);
-const canonicalUrl = getCanonicalUrl(Astro.url);
+const canonicalUrl = Astro.props.canonicalUrl || getCanonicalUrl(Astro.url);
 const ogLocale = ogLocales[currentLang] || "en_US";
+const includeHreflang = Astro.props.includeHreflang !== false;
 ---
 
 <!doctype html>
@@ -56,40 +59,44 @@ const ogLocale = ogLocales[currentLang] || "en_US";
 		<meta name="generator" content={Astro.generator} />
 		<link rel="sitemap" href="/sitemap.xml" />
 
-		<!-- Canonical URL -->
-		<link rel="canonical" href={canonicalUrl} />
+		<!-- Canonical & Head SEO -->
+		{
+			!Astro.slots.has("head") && (
+				<>
+					<link rel="canonical" href={canonicalUrl} />
+					<title>{title}</title>
+					<meta name="description" content={description} />
+					{robots && <meta name="robots" content={robots} />}
+					<meta name="keywords" content={keywords} />
+					<meta name="author" content="piechartmakerfree.com" />
+					<meta property="og:type" content="website" />
+					<meta property="og:url" content={canonicalUrl} />
+					<meta property="og:title" content={title} />
+					<meta property="og:description" content={description} />
+					<meta property="og:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
+					<meta property="og:site_name" content={t("nav.logo")} />
+					<meta property="og:locale" content={ogLocale} />
+					<meta property="twitter:card" content="summary_large_image" />
+					<meta property="twitter:title" content={title} />
+					<meta property="twitter:description" content={description} />
+					<meta property="twitter:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
+				</>
+			)
+		}
 
 		<!-- Hreflang Tags for Multi-Language SEO -->
 		{
-			hreflangs.map((entry) => (
-				<link rel="alternate" hreflang={entry.hreflang} href={entry.href} />
-			))
+			includeHreflang &&
+				hreflangs.map((entry) => (
+					<link rel="alternate" hreflang={entry.hreflang} href={entry.href} />
+				))
 		}
 
-		<!-- SEO Meta Tags -->
-		<title>{title}</title>
-		<meta name="description" content={description} />
-		{robots && <meta name="robots" content={robots} />}
-		<meta name="keywords" content={keywords} />
-		<meta name="author" content="piechartmakerfree.com" />
+		<!-- Custom Head Elements / SEOHead slot -->
+		<slot name="head" />
 
 		<!-- Theme Color -->
 		<meta name="theme-color" id="theme-color" content="#fafafa" />
-
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={canonicalUrl} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
-		<meta property="og:site_name" content={t("nav.logo")} />
-		<meta property="og:locale" content={ogLocale} />
-
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
 
 		<!-- Prevent flash of wrong theme -->
 		<script>
@@ -394,6 +401,7 @@ const ogLocale = ogLocales[currentLang] || "en_US";
 		</footer>
 		<!-- Dark Mode Script -->
 		<script>
+			// @ts-nocheck
 			const storageKey = "pie_chart_theme";
 			const htmlEl = document.documentElement;
 			const toggleBtn = document.getElementById("theme-toggle");

@@ -1,0 +1,29 @@
+{
+  "title": "Survey Results Pie Chart Generator | Free Online Maker",
+  "metaDescription": "Generate high-converting survey results pie charts online for free. Input survey responses, customize colors, and download presentation-ready charts now!",
+  "h1": "Survey Results Pie Chart Generator",
+  "category": "Research & Analytics",
+  "presetData": [
+    { "label": "Strongly Agree", "value": 42, "color": "#0070f3" },
+    { "label": "Somewhat Agree", "value": 28, "color": "#50e3c2" },
+    { "label": "Neutral / Undecided", "value": 15, "color": "#f5a623" },
+    { "label": "Somewhat Disagree", "value": 10, "color": "#ff4d4d" },
+    { "label": "Strongly Disagree", "value": 5, "color": "#7928ca" }
+  ],
+  "descriptionMarkdown": "Communicating quantitative survey data demands visual clarity that executive stakeholders and research clients can comprehend at a glance. This survey results pie chart template models a standard five-point Likert scale response distribution from a customer satisfaction or employee engagement inquiry.\n\nThe primary sentiment leans strongly positive, with 42 respondents indicating 'Strongly Agree' and 28 marking 'Somewhat Agree'. Combined, favorable responses constitute seventy percent of the total sample. A neutral contingent of 15 respondents represents a critical retention opportunity, while negative sentiment remains contained between 'Somewhat Disagree' (10) and 'Strongly Disagree' (5).\n\nWhen presenting feedback data, visual hierarchy is paramount. The distinct chromatic palette immediately distinguishes satisfaction tiers without overwhelming the audience. Notice how percentages automatically rebalance when values shift. You can paste your own raw survey tallies directly into the paste box or type frequencies into the manual editor above. Switch to donut mode or activate 3D perspective to produce compelling slides, and export crisp, high-resolution graphics ready for board decks, research papers, or client deliverables.",
+  "faqs": [
+    {
+      "question": "Can I use this chart maker for 3-point or 7-point Likert scales?",
+      "answer": "Yes. You can add or delete slices using the workspace controls above to match any scale format, whether you are analyzing Net Promoter Scores (NPS), binary yes/no polls, or 7-point research surveys."
+    },
+    {
+      "question": "Does the pie chart automatically compute percentage shares?",
+      "answer": "Yes. Our rendering engine automatically tallies total response counts and displays accurate relative percentages on both slice callouts and the interactive legend in real time."
+    },
+    {
+      "question": "Is my survey respondent data kept private and secure?",
+      "answer": "Completely. All data processing occurs entirely within your local web browser. No survey entries, respondent counts, or proprietary findings are ever uploaded or transmitted to external servers."
+    }
+  ]
+}
+

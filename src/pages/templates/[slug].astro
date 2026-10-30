@@ -1,0 +1,239 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import { micromark } from "micromark";
+import Layout from "../../layouts/Layout.astro";
+import SEOHead from "../../components/SEOHead.astro";
+import ChartMaker from "../../components/ChartMaker.astro";
+import TemplateFAQ from "../../components/TemplateFAQ.astro";
+
+export async function getStaticPaths() {
+  const templates = await getCollection("templates");
+  return templates.map((entry) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      allTemplates: templates.map((t) => ({
+        id: t.id,
+        title: t.data.title,
+        h1: t.data.h1,
+        category: t.data.category,
+        slicesCount: t.data.presetData.length,
+      })),
+    },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"templates">;
+  allTemplates: Array<{
+    id: string;
+    title: string;
+    h1: string;
+    category: string;
+    slicesCount: number;
+  }>;
+}
+
+const { entry, allTemplates } = Astro.props;
+const { slug } = Astro.params;
+
+const canonicalUrl = `https://piechartmakerfree.com/templates/${slug}`;
+const descriptionHtml = micromark(entry.data.descriptionMarkdown);
+const otherTemplates = allTemplates.filter((t) => t.id !== entry.id);
+---
+
+<Layout
+  title={entry.data.title}
+  description={entry.data.metaDescription}
+  canonicalUrl={canonicalUrl}
+  lang="en"
+  includeHreflang={false}
+>
+  <SEOHead
+    slot="head"
+    title={entry.data.title}
+    metaDescription={entry.data.metaDescription}
+    slug={slug!}
+    faqs={entry.data.faqs}
+    canonicalUrl={canonicalUrl}
+  />
+
+  <!-- Page Header & Hero Intro -->
+  <header class="relative w-full mesh-gradient-bg border-b border-hairline py-12 md:py-16 overflow-hidden">
+    <div class="absolute -top-[20%] left-[30%] w-[50%] h-[350px] bg-radial from-color-link/5 via-color-violet/5 to-transparent blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+    <div class="max-w-[1240px] mx-auto px-6 relative z-10">
+      <!-- Breadcrumb Navigation -->
+      <nav aria-label="Breadcrumbs" class="mb-4">
+        <ol class="flex items-center gap-2 text-xs font-sans text-mute">
+          <li>
+            <a href="/" class="hover:text-ink transition-colors focus-visible:outline-2 focus-visible:outline-primary">Home</a>
+          </li>
+          <li aria-hidden="true" class="text-hairline-strong">/</li>
+          <li>
+            <span class="text-mute">Templates</span>
+          </li>
+          <li aria-hidden="true" class="text-hairline-strong">/</li>
+          <li>
+            <span class="text-ink font-medium" aria-current="page">{entry.data.category}</span>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Category & Status Badge -->
+      <div class="flex items-center gap-2 mb-3">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-pill text-[11px] font-mono font-medium bg-canvas border border-hairline text-ink">
+          {entry.data.category}
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-pill text-[11px] font-mono font-medium bg-canvas text-body border border-hairline">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          Pre-populated Starter
+        </span>
+      </div>
+
+      <!-- H1 Page Heading -->
+      <h1 class="font-sans text-[28px] sm:text-[34px] md:text-[46px] font-semibold tracking-[-1px] text-ink leading-tight text-balance max-w-[900px]">
+        {entry.data.h1}
+      </h1>
+
+      <!-- Introductory Context -->
+      <p class="font-sans text-sm md:text-base text-body leading-relaxed max-w-[720px] mt-3 text-balance">
+        This template comes pre-loaded with verified starter data for instant visualization. Adjust numbers, modify slice colors, toggle 3D or Donut views, and export publication-ready PNG or SVG graphics directly in your browser.
+      </p>
+
+      <!-- Fast Actions Header Bar -->
+      <div class="flex flex-wrap items-center gap-3 mt-6">
+        <a
+          href="#editor-workspace"
+          class="inline-flex items-center justify-center h-9 px-4 bg-primary text-on-primary text-xs font-sans font-medium rounded-pill hover:bg-primary/90 transition-colors shadow-lvl1 focus-visible:outline-2 focus-visible:outline-primary"
+        >
+          Customize This Template
+        </a>
+        <a
+          href="/"
+          class="inline-flex items-center justify-center h-9 px-4 bg-canvas text-ink border border-hairline text-xs font-sans font-medium rounded-pill hover:bg-canvas-soft transition-colors focus-visible:outline-2 focus-visible:outline-primary"
+        >
+          Create Custom Blank Chart
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Interactive Editor Workspace with Pre-loaded Initial Data -->
+  <section id="editor-workspace" class="w-full bg-canvas-soft border-b border-hairline py-4" aria-label="Interactive Chart Editor">
+    <ChartMaker
+      lang="en"
+      initialData={entry.data.presetData}
+      initialTitle={entry.data.h1}
+      initialSubtitle={entry.data.category}
+    />
+  </section>
+
+  <!-- Template Guide & Deep-Dive Content (Markdown Render) -->
+  <section class="w-full bg-canvas border-b border-hairline py-16 md:py-20" aria-labelledby="guide-heading">
+    <div class="max-w-[840px] mx-auto px-6">
+      <div class="mb-8">
+        <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">
+          Data Guide & Analysis
+        </span>
+        <h2 id="guide-heading" class="font-sans text-[24px] md:text-[30px] font-semibold tracking-[-0.8px] text-ink mt-2 text-balance">
+          Understanding the {entry.data.category} Data Breakdown
+        </h2>
+      </div>
+
+      <!-- Rendered Markdown Description -->
+      <div class="prose prose-neutral dark:prose-invert max-w-none font-sans text-sm md:text-base text-body leading-relaxed space-y-4">
+        <div set:html={descriptionHtml} />
+      </div>
+
+      <!-- Quick Template Highlights Callout -->
+      <div class="mt-10 p-6 bg-canvas-soft-2 rounded-md border border-hairline grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <span class="block font-mono text-[11px] text-mute uppercase tracking-wider">Initial Slices</span>
+          <span class="block font-sans text-lg font-semibold text-ink mt-0.5">{entry.data.presetData.length} Categories</span>
+        </div>
+        <div>
+          <span class="block font-mono text-[11px] text-mute uppercase tracking-wider">Export Formats</span>
+          <span class="block font-sans text-lg font-semibold text-ink mt-0.5">PNG, SVG & PDF</span>
+        </div>
+        <div>
+          <span class="block font-mono text-[11px] text-mute uppercase tracking-wider">Privacy</span>
+          <span class="block font-sans text-lg font-semibold text-ink mt-0.5">100% Client-Side</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collapsible Semantic FAQ Section -->
+  <TemplateFAQ
+    faqs={entry.data.faqs}
+    title={`Frequently Asked Questions: ${entry.data.h1}`}
+    subtitle={`Common inquiries regarding data editing, percentage calculation, and graphic export for this ${entry.data.category.toLowerCase()} template.`}
+  />
+
+  <!-- Bottom CTA: Blank Chart or Browse More Templates -->
+  <section class="w-full bg-canvas border-b border-hairline py-16 md:py-20">
+    <div class="max-w-[1000px] mx-auto px-6 text-center flex flex-col items-center gap-4">
+      <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">
+        Start Fresh
+      </span>
+      <h2 class="font-sans text-[26px] md:text-[34px] font-semibold tracking-[-0.8px] text-ink text-balance max-w-[600px]">
+        Need a different data structure?
+      </h2>
+      <p class="font-sans text-sm text-body leading-relaxed max-w-[540px] text-balance">
+        Create a custom chart from scratch with zero boilerplate. Enter custom values, paste CSV data, or load spreadsheet tables in seconds.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center gap-3 mt-2">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center h-10 px-6 bg-primary text-on-primary text-xs font-sans font-medium rounded-pill hover:bg-primary/90 transition-colors shadow-lvl2 focus-visible:outline-2 focus-visible:outline-primary"
+        >
+          Create Custom Blank Chart
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Internal Linking Grid: Explore Related Templates -->
+  {
+    otherTemplates.length > 0 && (
+      <section class="w-full bg-canvas-soft-2 border-b border-hairline py-16 md:py-20" aria-labelledby="other-templates-heading">
+        <div class="max-w-[1240px] mx-auto px-6">
+          <div class="mb-10 text-center md:text-left">
+            <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">
+              Template Library
+            </span>
+            <h2 id="other-templates-heading" class="font-sans text-[24px] md:text-[30px] font-semibold tracking-[-0.8px] text-ink mt-2">
+              Explore More Pre-Made Pie Chart Templates
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {otherTemplates.map((t) => (
+              <a
+                href={`/templates/${t.id}`}
+                class="group bg-canvas p-6 rounded-md border border-hairline hover:border-hairline-strong hover:-translate-y-0.5 hover:shadow-lvl2 transition-all duration-200 flex flex-col justify-between focus-visible:outline-2 focus-visible:outline-primary"
+              >
+                <div>
+                  <span class="font-mono text-[10px] text-mute uppercase tracking-wider block mb-2">
+                    {t.category}
+                  </span>
+                  <h3 class="font-sans text-[15px] font-semibold text-ink group-hover:text-primary transition-colors leading-snug">
+                    {t.h1}
+                  </h3>
+                </div>
+                <div class="mt-6 pt-4 border-t border-hairline/60 flex items-center justify-between text-xs font-sans text-mute">
+                  <span>{t.slicesCount} Categories</span>
+                  <span class="text-primary font-medium group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
+                    Open &rarr;
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Layout>
+

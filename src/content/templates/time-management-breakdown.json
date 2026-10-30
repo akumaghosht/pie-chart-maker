@@ -1,0 +1,29 @@
+{
+  "title": "Daily Routine Time Tracker Pie Chart | Free Time Maker",
+  "metaDescription": "Track daily routines and work-life balance with our free time tracker pie chart maker. Enter hours, customize colors, and download your schedule today!",
+  "h1": "Daily Routine & Time Management Pie Chart",
+  "category": "Productivity & Lifestyle",
+  "presetData": [
+    { "label": "Sleep & Rest", "value": 8, "color": "#0070f3" },
+    { "label": "Deep Work & Career", "value": 7.5, "color": "#7928ca" },
+    { "label": "Family, Leisure & Hobbies", "value": 3.5, "color": "#29bc9b" },
+    { "label": "Meals & Nutrition", "value": 2, "color": "#50e3c2" },
+    { "label": "Commute & Errands", "value": 1.5, "color": "#f5a623" },
+    { "label": "Exercise & Wellness", "value": 1.5, "color": "#ff0080" }
+  ],
+  "descriptionMarkdown": "Time is a strictly non-renewable resource, making conscious daily routine auditing one of the most effective habits for personal productivity and sustainable work-life balance. This 24-hour daily time management pie chart visually diagrams where your daily hours actually flow across key life domains.\n\nThe baseline schedule prioritizes physiological recovery with an 8-hour sleep block, representing one-third of the total daily pie. Professional responsibilities are concentrated into 7.5 hours of dedicated focus and career execution. To sustain vitality and mental sharpness, the remaining routine incorporates 2 hours for mindful meal preparation and dining, 1.5 hours for physical exercise and active recovery, and 1.5 hours for daily transit and logistical errands. Finally, 3.5 hours are reserved exclusively for family connection, hobbies, and relaxation.\n\nVisualizing your schedule on a circular 24-hour dial immediately exposes time drains and chronic imbalances before burnout develops. Compare your ideal day against actual calendar entries to identify opportunities for boundary setting. Use our interactive editor above to customize activity durations, recolor routine blocks, and export printable visual charts for your desk, habit tracker, or coaching journal.",
+  "faqs": [
+    {
+      "question": "Can I configure this time tracker for a 168-hour weekly breakdown instead of daily hours?",
+      "answer": "Yes. You can input weekly hours (totaling 168) or daily hours (totaling 24). The chart calculates the precise percentage of time spent on each activity automatically."
+    },
+    {
+      "question": "How do I display percentages alongside time labels on the chart?",
+      "answer": "In the chart options panel, select 'Label & Percentage' or 'Percentage Only' under the Slice Label Style dropdown to display calculated proportions directly on the chart."
+    },
+    {
+      "question": "Can I print my daily routine pie chart or save it to my tablet notes?",
+      "answer": "Yes. Export your completed routine as a vector SVG or high-resolution PNG image, which you can easily insert into digital planners like GoodNotes, Notion, or physical journal printouts."
+    }
+  ]
+}

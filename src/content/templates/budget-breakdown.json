@@ -1,0 +1,30 @@
+{
+  "title": "Monthly Budget Pie Chart Maker | Free Budgeting Tool",
+  "metaDescription": "Create a free monthly budget pie chart in seconds. Visualize expenses like housing, food, and savings. Customize slices and export PNG/SVG instantly!",
+  "h1": "Monthly Budget Breakdown Pie Chart Maker",
+  "category": "Finance & Budgeting",
+  "presetData": [
+    { "label": "Housing & Rent", "value": 1450, "color": "#0070f3" },
+    { "label": "Groceries & Food", "value": 550, "color": "#50e3c2" },
+    { "label": "Savings & Investments", "value": 500, "color": "#29bc9b" },
+    { "label": "Transportation & Gas", "value": 350, "color": "#7928ca" },
+    { "label": "Utilities & Internet", "value": 250, "color": "#f5a623" },
+    { "label": "Entertainment & Dining", "value": 200, "color": "#ff0080" }
+  ],
+  "descriptionMarkdown": "Managing personal finances requires a clear view of how every dollar is allocated each month. This monthly budget breakdown template gives you a realistic starting baseline based on the popular 50-30-20 budgeting principle, dividing income across essential needs, personal discretionary spending, and long-term financial goals.\n\nHousing represents the anchor expense at $1,450, capturing rent or mortgage commitments. Everyday necessities including groceries ($550), transportation ($350), and utility services ($250) form the remainder of essential obligations. Strategic wealth accumulation is represented by a dedicated $500 allocation toward emergency savings and retirement investing, while entertainment ($200) allows for guilt-free leisure.\n\nWhen interpreting this chart, examine the proportions between fixed obligations and flexible outlays. If fixed expenses exceed fifty percent of your overall monthly income, look for opportunities to optimize utility tariffs or meal planning. You can immediately customize every slice in our interactive workspace above: modify dollar values to reflect your paystubs, add custom categories like student loans or childcare, and download high-resolution PNG or vector SVG charts for spreadsheets, reports, or financial planning meetings.",
+  "faqs": [
+    {
+      "question": "How do I customize this budget pie chart with my own monthly numbers?",
+      "answer": "Simply click on any category in the data table above to edit the label, change the dollar amount, or choose a custom slice color. You can also click '+ Add Slice' to track additional expenses like childcare or student loans."
+    },
+    {
+      "question": "What budgeting framework does this template follow?",
+      "answer": "This template aligns closely with the balanced 50/30/20 budget framework, allotting roughly 50% of take-home pay to essential needs, 20% to savings or debt reduction, and the remaining portion to personal wants and lifestyle."
+    },
+    {
+      "question": "Can I export my budget pie chart for Google Sheets or Excel reports?",
+      "answer": "Yes! You can download your chart as a clean, watermark-free PNG image for presentations or an SVG vector graphic that scales crisply into spreadsheet dashboards and printable PDF documents."
+    }
+  ]
+}
+
