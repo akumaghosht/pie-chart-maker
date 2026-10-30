@@ -1,4 +1,11 @@
 ---
+import {
+  getHreflangList,
+  getCanonicalUrl,
+  getLangFromUrl,
+} from "../i18n/utils";
+import { ogLocales, type SupportedLanguage } from "../i18n/ui";
+
 interface FAQItem {
   question: string;
   answer: string;
@@ -7,41 +14,70 @@ interface FAQItem {
 interface Props {
   title: string;
   metaDescription: string;
-  slug: string;
-  faqs: FAQItem[];
   canonicalUrl?: string;
+  keywords?: string;
+  robots?: string;
+  lang?: SupportedLanguage | string;
+  includeHreflang?: boolean;
   ogImage?: string;
+  slug?: string;
+  faqs?: FAQItem[];
+  schemas?: Array<Record<string, any>> | Record<string, any>;
 }
 
 const {
   title,
   metaDescription,
   slug,
-  faqs,
-  canonicalUrl = `https://piechartmakerfree.com/templates/${slug}`,
+  faqs = [],
+  keywords,
+  robots,
+  lang,
+  includeHreflang = true,
+  canonicalUrl = slug
+    ? `https://piechartmakerfree.com/templates/${slug}`
+    : getCanonicalUrl(Astro.url),
   ogImage = "https://piechartmakerfree.com/web-app-manifest-512x512.png",
+  schemas,
 } = Astro.props;
 
-// Minified JSON-LD Structured Data containing WebApplication and FAQPage
-const schemaData = {
-  "@context": "https://schema.org",
-  "@graph": [
+const currentLang = (lang as SupportedLanguage) || getLangFromUrl(Astro.url);
+const ogLocale = ogLocales[currentLang as SupportedLanguage] || "en_US";
+
+// Compute hreflangs
+const hreflangs = includeHreflang ? getHreflangList(Astro.url) : [];
+
+// Build schemas if provided or default FAQ / WebApp schema
+let finalJsonLd: string | null = null;
+
+if (schemas) {
+  const schemaList = Array.isArray(schemas) ? schemas : [schemas];
+  finalJsonLd = JSON.stringify(
+    schemaList.length === 1
+      ? schemaList[0]
+      : {
+          "@context": "https://schema.org",
+          "@graph": schemaList,
+        },
+  );
+} else if (faqs && faqs.length > 0) {
+  const schemaGraph: any[] = [
     {
       "@type": "WebApplication",
       "@id": `${canonicalUrl}#webapp`,
-      "name": title,
-      "url": canonicalUrl,
-      "description": metaDescription,
-      "applicationCategory": "DesignApplication",
-      "operatingSystem": "All",
-      "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "isAccessibleForFree": true,
-      "offers": {
+      name: title,
+      url: canonicalUrl,
+      description: metaDescription,
+      applicationCategory: "DesignApplication",
+      operatingSystem: "All",
+      browserRequirements: "Requires JavaScript. Requires HTML5.",
+      isAccessibleForFree: true,
+      offers: {
         "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
+        price: "0",
+        priceCurrency: "USD",
       },
-      "featureList": [
+      featureList: [
         "Instant PNG and SVG export",
         "Interactive slice editing and color customization",
         "Zero server upload / 100% private in-browser editing",
@@ -51,26 +87,38 @@ const schemaData = {
     {
       "@type": "FAQPage",
       "@id": `${canonicalUrl}#faq`,
-      "mainEntity": faqs.map((faq) => ({
+      mainEntity: faqs.map((faq) => ({
         "@type": "Question",
-        "name": faq.question,
-        "acceptedAnswer": {
+        name: faq.question,
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": faq.answer,
+          text: faq.answer,
         },
       })),
     },
-  ],
-};
-
-const jsonLd = JSON.stringify(schemaData);
+  ];
+  finalJsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": schemaGraph,
+  });
+}
 ---
 
 <!-- Primary SEO Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={metaDescription} />
+{keywords && <meta name="keywords" content={keywords} />}
+{robots && <meta name="robots" content={robots} />}
 <link rel="canonical" href={canonicalUrl} />
+
+<!-- Reciprocal Hreflang Tags for Multi-Language SEO -->
+{
+  includeHreflang &&
+    hreflangs.map((entry) => (
+      <link rel="alternate" hreflang={entry.hreflang} href={entry.href} />
+    ))
+}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
@@ -79,6 +127,7 @@ const jsonLd = JSON.stringify(schemaData);
 <meta property="og:description" content={metaDescription} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:site_name" content="Pie Chart Maker" />
+<meta property="og:locale" content={ogLocale} />
 
 <!-- Twitter Card -->
 <meta property="twitter:card" content="summary_large_image" />
@@ -88,5 +137,8 @@ const jsonLd = JSON.stringify(schemaData);
 <meta property="twitter:image" content={ogImage} />
 
 <!-- Structured Data (JSON-LD) -->
-<script type="application/ld+json" is:inline set:html={jsonLd} />
-
+{
+  finalJsonLd && (
+    <script type="application/ld+json" is:inline set:html={finalJsonLd} />
+  )
+}

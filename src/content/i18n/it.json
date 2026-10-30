@@ -1,0 +1,49 @@
+{
+  "title": "Crea Grafico a Torta Gratis Online - Esporta in PNG e SVG",
+  "metaDescription": "Crea un grafico a torta online gratis in pochi secondi. Personalizza colori, percentuali ed esporta senza registrazione né filigrane.",
+  "h1": "Crea Grafico a Torta Online Gratis",
+  "secondaryKeywords": [
+    "creatore di grafici a torta",
+    "grafico a ciambella online",
+    "diagramma a torta"
+  ],
+  "heroSubtitle": "Crea facilmente grafici a torta e ciambella 2D e 3D personalizzati con percentuali automatiche. Importa tabelle, personalizza stili ed esporta subito in PNG o SVG.",
+  "ui": {
+    "app.addSlice": "Aggiungi fetta",
+    "app.downloadPng": "Scarica PNG",
+    "app.downloadSvg": "Scarica SVG",
+    "app.downloadPdf": "Scarica PDF",
+    "app.copySvg": "Copia Codice SVG",
+    "app.labels": "Etichette",
+    "app.values": "Valori",
+    "app.slicePlaceholder": "Nome fetta…",
+    "app.valPlaceholder": "Valore",
+    "app.dataFields": "Campi Dati",
+    "app.sortByValue": "Ordina per Valore",
+    "app.tabManual": "Manuale",
+    "app.tabPaste": "Incolla Testo",
+    "app.tabUpload": "Carica File",
+    "app.pieChart": "Grafico a Torta",
+    "app.donutChart": "Grafico a Ciambella",
+    "app.toggle3D": "Vista Isometrica 3D",
+    "app.showLabels": "Mostra Etichette",
+    "app.resetView": "Ripristina Vista",
+    "app.saveDraft": "Salva Bozza",
+    "app.copyLink": "Copia Link"
+  },
+  "faqs": [
+    {
+      "question": "Come creare un grafico a torta online gratis?",
+      "answer": "Inserisci le categorie e i rispettivi valori numerici nella tabella manuale, oppure incolla direttamente testo formattato o trascina un foglio CSV/Excel. Il grafico a torta si genera in tempo reale all'istante nel tuo browser senza bisogno di registrazione."
+    },
+    {
+      "question": "Come formattare e personalizzare colori, etichette e percentuali?",
+      "answer": "Nel pannello di configurazione puoi attivare la visualizzazione di etichette con percentuali calcolate automaticamente, scegliere palette di colori personalizzate per ogni fetta, modificare i caratteri tipografici o trasformare il diagramma in un grafico a ciambella (donut)."
+    },
+    {
+      "question": "Come salvare ed esportare il grafico senza filigrana?",
+      "answer": "Clicca su 'Scarica PNG' per ottenere un'immagine raster ad alta risoluzione o su 'Scarica SVG' per una grafica vettoriale nitida e scalabile all'infinito. Entrambi i formati vengono esportati istantaneamente senza costi né filigrane."
+    }
+  ]
+}
+

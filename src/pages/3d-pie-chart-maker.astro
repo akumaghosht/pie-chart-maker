@@ -1,0 +1,173 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SEOHead from "../components/SEOHead.astro";
+import ChartMaker from "../components/ChartMaker.astro";
+
+const pageTitle = "3D Pie Graph Maker — Free 3D Pie Chart Generator Online";
+const metaDescription =
+  "Create customizable 3D pie charts online for free. Adjust depth, tilt, labels, and colors with instant high-resolution PNG & SVG export. No sign-up required.";
+const canonicalUrl = "https://piechartmakerfree.com/3d-pie-chart-maker/";
+const keywords =
+  "3D Pie Graph Maker, 3D Pie Chart Generator Free, 3d pie chart online, transparent 3d pie chart, 3d donut chart generator, 3d pie chart maker";
+
+const webAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": `${canonicalUrl}#webapp`,
+  "name": "3D Pie Graph Maker",
+  "url": canonicalUrl,
+  "description": metaDescription,
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires WebGL / HTML5.",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+  },
+  "featureList": [
+    "Interactive 3D isometric extrusion with customizable height and tilt angle",
+    "Real-time screen-projected callout labels with automatic percentage calculations",
+    "Transparent background presets for pitch decks and slides",
+    "High-resolution PNG and scalable vector SVG exports",
+    "Zero-server architecture with 100% in-browser privacy",
+  ],
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "@id": `${canonicalUrl}#howto`,
+  "name": "How to Create and Export a Transparent 3D Pie Chart",
+  "description":
+    "Step-by-step instructions to create, format, adjust 3D extrusion, and export a high-resolution transparent 3D pie chart online.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Input Your Slice Data",
+      "text": "Add categories and numerical values into the editor, paste raw tabular text, or upload a CSV file.",
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Adjust Extrusion Depth and Tilt Angle",
+      "text": "Enable the 3D Isometric View toggle and use the interactive sliders to dial in your preferred tilt and extrusion thickness.",
+    },
+    {
+      "@type": "HowToStep",
+      "position": 3,
+      "name": "Select Transparent Background Preset",
+      "text": "Under Chart Background controls, click the transparent preset icon to strip solid canvas fills.",
+    },
+    {
+      "@type": "HowToStep",
+      "position": 4,
+      "name": "Export High-Resolution PNG or SVG",
+      "text": "Click Download PNG for a transparent alpha-channel image or Download SVG for vector graphics.",
+    },
+  ],
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={metaDescription}
+  canonicalUrl={canonicalUrl}
+  keywords={keywords}
+  lang="en"
+  includeHreflang={false}
+>
+  <SEOHead
+    slot="head"
+    title={pageTitle}
+    metaDescription={metaDescription}
+    canonicalUrl={canonicalUrl}
+    keywords={keywords}
+    lang="en"
+    includeHreflang={false}
+    schemas={[webAppSchema, howToSchema]}
+  />
+
+  <!-- Hero Header -->
+  <section class="relative w-full mesh-gradient-bg border-b border-hairline py-14 md:py-20 overflow-hidden">
+    <div class="absolute -top-[25%] left-[25%] w-[55%] h-[320px] bg-radial from-color-link/5 via-color-violet/5 to-transparent blur-3xl pointer-events-none"></div>
+    <div class="max-w-[1200px] mx-auto px-6 text-center flex flex-col items-center gap-4 relative z-10">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-pill text-[11px] font-mono font-medium bg-canvas border border-hairline text-ink shadow-lvl1 uppercase tracking-wider">
+        WebGL 3D Render Engine
+      </span>
+      <h1 class="font-sans text-[32px] sm:text-[40px] md:text-[54px] font-semibold tracking-[-1.5px] sm:tracking-[-2px] text-ink leading-tight md:leading-[1.08] max-w-[850px] text-balance">
+        3D Pie Graph Maker
+      </h1>
+      <p class="font-sans text-[15px] md:text-[18px] text-body leading-relaxed max-w-[680px] text-balance">
+        Create customizable 3D pie charts online for free. Adjust depth, tilt, labels, and colors with instant high-resolution PNG &amp; SVG export. No sign-up required.
+      </p>
+    </div>
+  </section>
+
+  <!-- Interactive 3D Chart Maker Workspace -->
+  <section id="editor-workspace" class="w-full bg-canvas-soft border-b border-hairline py-4">
+    <ChartMaker
+      lang="en"
+      initial3D={true}
+      initialTitle="3D Market Share Breakdown"
+      initialSubtitle="Interactive Volumetric Projection"
+    />
+  </section>
+
+  <!-- On-Page Technical Guide (200-300 words) -->
+  <section class="w-full bg-canvas border-b border-hairline py-16 md:py-24">
+    <div class="max-w-[840px] mx-auto px-6">
+      <div class="mb-10 text-center md:text-left">
+        <span class="font-mono text-[11px] font-semibold text-hairline-strong uppercase tracking-wider select-none">
+          User Guide &amp; Best Practices
+        </span>
+        <h2 class="font-sans text-[26px] md:text-[34px] font-semibold tracking-[-1px] text-ink mt-2 text-balance">
+          Mastering 3D Pie Charts for Presentations &amp; Reports
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Question 1 -->
+        <article class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline shadow-lvl1 flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-sm bg-canvas border border-hairline flex items-center justify-center text-primary mb-4 shadow-lvl1">
+              <svg class="w-5 h-5 stroke-current" fill="none" stroke-width="1.75" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.25 2.25L18 6" />
+              </svg>
+            </div>
+            <h3 class="font-sans text-[17px] font-semibold text-ink mb-3 leading-snug">
+              When to Use a 3D Pie Chart vs. a Standard 2D Chart
+            </h3>
+            <p class="font-sans text-xs sm:text-sm text-body leading-relaxed">
+              Standard 2D flat pie and donut charts excel in analytical dashboards where precise angle and area comparisons are essential for rapid scanning. In contrast, a <strong>3D pie graph</strong> shines in executive storytelling, investor pitch decks, marketing collateral, and keynote presentations where visual impact and audience retention are paramount. Extrusion depth and isometric tilt create an elevated focal point that emphasizes high-performing divisions or dominant market shares. When displaying under seven categories, 3D visualizations deliver striking aesthetic polish without compromising cognitive clarity, especially when paired with projected callout percentage labels.
+            </p>
+          </div>
+        </article>
+
+        <!-- Question 2 -->
+        <article class="bg-canvas-soft-2 p-6 md:p-8 rounded-md border border-hairline shadow-lvl1 flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-sm bg-canvas border border-hairline flex items-center justify-center text-primary mb-4 shadow-lvl1">
+              <svg class="w-5 h-5 stroke-current" fill="none" stroke-width="1.75" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </div>
+            <h3 class="font-sans text-[17px] font-semibold text-ink mb-3 leading-snug">
+              How to Export Transparent 3D Pie Charts
+            </h3>
+            <p class="font-sans text-xs sm:text-sm text-body leading-relaxed mb-3">
+              Exporting a 3D pie chart with a transparent alpha channel allows seamless placement directly into keynote slides, Figma UI mockups, and corporate dark-mode websites without awkward white borders:
+            </p>
+            <ol class="list-decimal list-outside ml-4 font-sans text-xs sm:text-sm text-body leading-relaxed space-y-1.5">
+              <li><strong>Configure 3D Geometry:</strong> Dial in your extrusion thickness, isometric tilt angle, and slice colors using the real-time sliders and color swatches.</li>
+              <li><strong>Activate Transparent Canvas:</strong> Under 'Chart Background', click the transparent checkerboard preset to strip solid background fills while preserving extruded geometry and callouts.</li>
+              <li><strong>Export High-Resolution Assets:</strong> Click <em>Download PNG</em> to obtain a crisp, transparent raster asset, or <em>Download SVG</em> for scalable vector output. All computations run 100% client-side in milliseconds—free, private, and watermark-free.</li>
+            </ol>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>

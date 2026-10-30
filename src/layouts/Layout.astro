@@ -4,11 +4,11 @@ import {
 	getLangFromUrl,
 	useTranslations,
 	useTranslatedPath,
-	getHreflangList,
 	getCanonicalUrl,
 } from "../i18n/utils";
-import { ogLocales, type SupportedLanguage } from "../i18n/ui";
+import type { SupportedLanguage } from "../i18n/ui";
 import LanguagePicker from "../components/LanguagePicker.astro";
+import SEOHead from "../components/SEOHead.astro";
 
 interface Props {
 	title?: string;
@@ -29,10 +29,7 @@ const title = Astro.props.title || t("meta.title");
 const description = Astro.props.description || t("meta.description");
 const keywords = Astro.props.keywords || t("meta.keywords");
 const robots = Astro.props.robots;
-
-const hreflangs = getHreflangList(Astro.url);
 const canonicalUrl = Astro.props.canonicalUrl || getCanonicalUrl(Astro.url);
-const ogLocale = ogLocales[currentLang] || "en_US";
 const includeHreflang = Astro.props.includeHreflang !== false;
 ---
 
@@ -57,43 +54,25 @@ const includeHreflang = Astro.props.includeHreflang !== false;
 		<meta name="apple-mobile-web-app-title" content="Pie Chart" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<link rel="sitemap" href="/sitemap.xml" />
 
-		<!-- Canonical & Head SEO -->
+		<!-- Canonical, Hreflang & Head SEO -->
 		{
-			!Astro.slots.has("head") && (
-				<>
-					<link rel="canonical" href={canonicalUrl} />
-					<title>{title}</title>
-					<meta name="description" content={description} />
-					{robots && <meta name="robots" content={robots} />}
-					<meta name="keywords" content={keywords} />
-					<meta name="author" content="piechartmakerfree.com" />
-					<meta property="og:type" content="website" />
-					<meta property="og:url" content={canonicalUrl} />
-					<meta property="og:title" content={title} />
-					<meta property="og:description" content={description} />
-					<meta property="og:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
-					<meta property="og:site_name" content={t("nav.logo")} />
-					<meta property="og:locale" content={ogLocale} />
-					<meta property="twitter:card" content="summary_large_image" />
-					<meta property="twitter:title" content={title} />
-					<meta property="twitter:description" content={description} />
-					<meta property="twitter:image" content="https://piechartmakerfree.com/web-app-manifest-512x512.png" />
-				</>
+			!Astro.slots.has("head") ? (
+				<SEOHead
+					title={title}
+					metaDescription={description}
+					canonicalUrl={canonicalUrl}
+					keywords={keywords}
+					robots={robots}
+					lang={currentLang}
+					includeHreflang={includeHreflang}
+				/>
+			) : (
+				<slot name="head" />
 			)
 		}
-
-		<!-- Hreflang Tags for Multi-Language SEO -->
-		{
-			includeHreflang &&
-				hreflangs.map((entry) => (
-					<link rel="alternate" hreflang={entry.hreflang} href={entry.href} />
-				))
-		}
-
-		<!-- Custom Head Elements / SEOHead slot -->
-		<slot name="head" />
 
 		<!-- Theme Color -->
 		<meta name="theme-color" id="theme-color" content="#fafafa" />

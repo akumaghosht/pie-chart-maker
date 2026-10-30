@@ -32,5 +32,29 @@ const templates = defineCollection({
   }),
 });
 
-export const collections = { templates };
+const i18n = defineCollection({
+  loader: glob({
+    pattern: '**/*.json',
+    base: './src/content/i18n',
+    generateId: ({ entry }) => entry.replace(/\.json$/, ''),
+  }),
+  schema: z.object({
+    title: z.string(),
+    metaDescription: z.string(),
+    h1: z.string(),
+    secondaryKeywords: z.array(z.string()),
+    heroSubtitle: z.string().optional(),
+    ui: z.record(z.string(), z.string()).optional(),
+    faqs: z
+      .array(
+        z.object({
+          question: z.string(),
+          answer: z.string(),
+        })
+      )
+      .optional(),
+  }),
+});
+
+export const collections = { templates, i18n };
 

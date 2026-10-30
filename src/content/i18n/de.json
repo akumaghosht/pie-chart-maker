@@ -1,0 +1,49 @@
+{
+  "title": "Kreisdiagramm Erstellen Kostenlos - Kuchendiagramm Online",
+  "metaDescription": "Online Kreisdiagramm und Kuchendiagramm kostenlos erstellen. Individuelle Farben, Beschriftungen und direkter Download als PNG oder SVG ohne Anmeldung.",
+  "h1": "Kreisdiagramm & Kuchendiagramm Online Erstellen",
+  "secondaryKeywords": [
+    "kuchendiagramm erstellen",
+    "tortendiagramm online",
+    "donutchart erstellen kostenlos"
+  ],
+  "heroSubtitle": "Erstellen Sie im Handumdrehen professionelle 2D- und 3D-Kreis- und Kuchendiagramme. Passen Sie Werte, Farben und Prozentangaben an und exportieren Sie gestochen scharfe Grafiken.",
+  "ui": {
+    "app.addSlice": "Segment hinzufügen",
+    "app.downloadPng": "PNG herunterladen",
+    "app.downloadSvg": "SVG herunterladen",
+    "app.downloadPdf": "PDF herunterladen",
+    "app.copySvg": "SVG-Code kopieren",
+    "app.labels": "Beschriftungen",
+    "app.values": "Werte",
+    "app.slicePlaceholder": "Segment-Name…",
+    "app.valPlaceholder": "Wert",
+    "app.dataFields": "Datenfelder",
+    "app.sortByValue": "Nach Wert sortieren",
+    "app.tabManual": "Manuell",
+    "app.tabPaste": "Text einfügen",
+    "app.tabUpload": "Datei hochladen",
+    "app.pieChart": "Kreisdiagramm",
+    "app.donutChart": "Donut-Diagramm",
+    "app.toggle3D": "3D-Isometrische Ansicht",
+    "app.showLabels": "Beschriftungen anzeigen",
+    "app.resetView": "Ansicht zurücksetzen",
+    "app.saveDraft": "Entwurf speichern",
+    "app.copyLink": "Link kopieren"
+  },
+  "faqs": [
+    {
+      "question": "Wie erstelle ich online ein kostenloses Kreisdiagramm oder Kuchendiagramm?",
+      "answer": "Tragen Sie Ihre Kategorien und Zahlenwerte einfach in die Datentabelle ein oder laden Sie eine CSV-/Excel-Tabelle hoch. Das Kreisdiagramm oder Kuchendiagramm wird sofort in Echtzeit im Browser berechnet – völlig ohne Anmeldung."
+    },
+    {
+      "question": "Kann ich Beschriftungen, Prozentwerte und Farben individuell formatieren?",
+      "answer": "Ja! Sie können einstellen, ob Kategorienamen, Werte oder exakt berechnete Prozentzahlen eingeblendet werden, moderne Schriftarten auswählen und jedem Kreissegment eine eigene Farbe zuweisen."
+    },
+    {
+      "question": "Wie speichere und exportiere ich das Diagramm ohne Wasserzeichen?",
+      "answer": "Klicken Sie auf 'PNG herunterladen' für hochauflösende Rastergrafiken oder auf 'SVG herunterladen' für verlustfreie Vektordateien. Alle Downloads sind dauerhaft kostenlos und frei von Wasserzeichen."
+    }
+  ]
+}
+

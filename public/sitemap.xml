@@ -184,6 +184,13 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://piechartmakerfree.com/ko/terms/" />
     <xhtml:link rel="alternate" hreflang="it" href="https://piechartmakerfree.com/it/terms/" />
   </url>
+  <!-- High-Intent Feature Landing Page -->
+  <url>
+    <loc>https://piechartmakerfree.com/3d-pie-chart-maker/</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
   <!-- Programmatic SEO Landing Page Templates -->
   <url>
     <loc>https://piechartmakerfree.com/templates/budget-breakdown</loc>

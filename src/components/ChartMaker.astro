@@ -8,18 +8,30 @@ interface Props {
   initialData?: Array<{ label: string; value: number; color?: string }>;
   initialTitle?: string;
   initialSubtitle?: string;
+  initial3D?: boolean;
+  translations?: Record<string, string>;
 }
 
-const { lang, initialData, initialTitle, initialSubtitle } = Astro.props;
+const {
+  lang,
+  initialData,
+  initialTitle,
+  initialSubtitle,
+  initial3D,
+  translations = {},
+} = Astro.props;
+
 const urlLang = getLangFromUrl(Astro.url);
 const currentLang = lang || urlLang;
-const t = useTranslations(currentLang);
+const defaultT = useTranslations(currentLang);
+const t = (key: string) => translations[key] ?? defaultT(key as any);
 ---
 
 <div
   id="workspace-container"
   class="max-w-[1400px] mx-auto px-4 sm:px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
   data-lang={currentLang}
+  data-initial-3d={initial3D ? "true" : undefined}
   data-initial-data={initialData ? JSON.stringify(initialData) : undefined}
   data-initial-title={initialTitle || ""}
   data-initial-subtitle={initialSubtitle || ""}
@@ -2520,6 +2532,14 @@ const t = useTranslations(currentLang);
           syncUiFromConfig();
         }
       } catch (e) {}
+    }
+
+    // If initial3D was preset on container (and not overridden by shared hash), enforce 3D isometric mode
+    if (wsContainer?.dataset?.initial3d === "true" && (!hash || !hash.startsWith("#state="))) {
+      chartConfig.is3D = true;
+      chartConfig.tilt = chartConfig.tilt ?? 0.6;
+      chartConfig.height3D = chartConfig.height3D ?? 35;
+      syncUiFromConfig();
     }
 
     // Auto save last state before unloading page (scoped by language)

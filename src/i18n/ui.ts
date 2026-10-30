@@ -663,9 +663,9 @@ export const ui = {
 
   fr: {
     // Meta & SEO
-    "meta.title": "Créateur de Camembert Graphique en Ligne Gratuit",
-    "meta.description": "Créez un camembert graphique en ligne gratuitement et sans inscription. Personnalisez vos données, styles et exportez vos visuels en PNG, SVG ou PDF.",
-    "meta.keywords": "camembert graphique en ligne, créateur de graphique camembert, faire un camembert en ligne gratuit, diagramme circulaire en ligne, générateur de graphique camembert, graphique camembert gratuit, faire un camembert graphique, graphique circulaire gratuit, camembert 3d en ligne",
+    "meta.title": "Créer un Graphique Camembert en Ligne Gratuit (PNG/SVG)",
+    "meta.description": "Créer un graphique camembert ou donut facilement et gratuitement. Générateur sans inscription avec téléchargement instantané en haute résolution.",
+    "meta.keywords": "créer un graphique camembert, générateur graphique camembert, faire un camembert graphique, diagramme circulaire gratuit, graphique camembert gratuit, camembert 3d en ligne",
 
     // Navigation
     "nav.logo": "Créateur de Camembert Graphique",
@@ -814,7 +814,7 @@ export const ui = {
 
     "app.dataFields": "Champs de Données",
     "app.sortByValue": "Trier par Valeur",
-    "app.addSlice": "+ Ajouter une Tranche",
+    "app.addSlice": "+ Ajouter une tranche",
     "app.pasteLabel": "Coller des données textuelles (un élément par ligne, séparé par des virgules, tabulations, espaces ou deux-points) :",
     "app.pastePlaceholder": "Pommes, 45\nBananes: 80\nCerises 120\nOranges 25",
     "app.extractUpdate": "Extraire et Mettre à Jour",
@@ -874,9 +874,9 @@ export const ui = {
 
   de: {
     // Meta & SEO
-    "meta.title": "Kreisdiagramm Erstellen — Kostenloser Online 2D/3D Donut- & Tortendiagramm Generator",
-    "meta.description": "Nutzen Sie den besten kostenlosen Online-Kreisdiagramm- und Donut-Diagramm-Generator. Erstellen Sie ansprechende 2D- oder 3D-Diagramme mit Prozentangaben. Importieren Sie CSV/Excel-Dateien und exportieren Sie in SVG, PDF oder PNG. 100% privat & serverlos.",
-    "meta.keywords": "kreisdiagramm erstellen, tortendiagramm erstellen kostenlos, donut diagramm generator, 3d tortendiagramm online, kreisdiagramm prozentangaben, kreisdiagramm online zeichnen",
+    "meta.title": "Kreisdiagramm Erstellen Kostenlos - Kuchendiagramm Online",
+    "meta.description": "Online Kreisdiagramm und Kuchendiagramm kostenlos erstellen. Individuelle Farben, Beschriftungen und direkter Download als PNG oder SVG ohne Anmeldung.",
+    "meta.keywords": "kreisdiagramm erstellen, kuchendiagramm erstellen, tortendiagramm online, donutchart erstellen kostenlos, donut diagramm generator, 3d tortendiagramm online",
 
     // Navigation
     "nav.logo": "Kreisdiagramm Generator",
@@ -1501,9 +1501,9 @@ export const ui = {
 
   it: {
     // Meta & SEO
-    "meta.title": "Creatore di Grafici a Torta — Generatore di Grafici a Ciambella e a Torta 2D/3D Gratis",
-    "meta.description": "Usa il miglior creatore di grafici a torta e ciambella online gratuito per creare splendidi diagrammi 2D e 3D con percentuali. Importa fogli Excel/CSV o testo e scarica in formato SVG vettoriale, PDF o PNG. 100% privato e senza server.",
-    "meta.keywords": "creatore grafici a torta, crea grafico a torta gratis, diagramma a torta online, grafico a ciambella gratis, grafico a torta con percentuali, diagramma a torta 3d, generatore grafici a torta",
+    "meta.title": "Crea Grafico a Torta Gratis Online - Esporta in PNG e SVG",
+    "meta.description": "Crea un grafico a torta online gratis in pochi secondi. Personalizza colori, percentuali ed esporta senza registrazione né filigrane.",
+    "meta.keywords": "creatore di grafici a torta, crea grafico a torta, grafico a ciambella online, diagramma a torta, grafico a torta con percentuali, diagramma a torta 3d",
 
     // Navigation
     "nav.logo": "Creatore di Grafici a Torta",
@@ -1650,7 +1650,7 @@ export const ui = {
 
     "app.dataFields": "Campi Dati",
     "app.sortByValue": "Ordina per Valore",
-    "app.addSlice": "+ Aggiungi Spicchio",
+    "app.addSlice": "+ Aggiungi fetta",
     "app.pasteLabel": "Incolla dati di testo (un elemento per riga, separati da virgole, tabulazioni, spazi o due punti):",
     "app.pastePlaceholder": "Mele, 45\nBanane: 80\nCiliegie 120\nArance 25",
     "app.extractUpdate": "Estrai e Aggiorna",

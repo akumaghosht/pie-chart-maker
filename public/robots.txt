@@ -4,4 +4,5 @@ Allow: /
 Disallow: /404
 Disallow: /500
 
+Sitemap: https://piechartmakerfree.com/sitemap-index.xml
 Sitemap: https://piechartmakerfree.com/sitemap.xml

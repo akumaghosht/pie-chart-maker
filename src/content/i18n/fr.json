@@ -1,0 +1,49 @@
+{
+  "title": "Créer un Graphique Camembert en Ligne Gratuit (PNG/SVG)",
+  "metaDescription": "Créer un graphique camembert ou donut facilement et gratuitement. Générateur sans inscription avec téléchargement instantané en haute résolution.",
+  "h1": "Créer un Graphique Camembert en Ligne",
+  "secondaryKeywords": [
+    "générateur graphique camembert",
+    "faire un camembert graphique",
+    "diagramme circulaire gratuit"
+  ],
+  "heroSubtitle": "Générez instantanément des graphiques camembert et donut en 2D ou 3D. Personnalisez tranches, couleurs et pourcentages, puis exportez en haute résolution sans inscription.",
+  "ui": {
+    "app.addSlice": "Ajouter une tranche",
+    "app.downloadPng": "Télécharger PNG",
+    "app.downloadSvg": "Télécharger SVG",
+    "app.downloadPdf": "Télécharger PDF",
+    "app.copySvg": "Copier le Code SVG",
+    "app.labels": "Étiquettes",
+    "app.values": "Valeurs",
+    "app.slicePlaceholder": "Nom de tranche…",
+    "app.valPlaceholder": "Valeur",
+    "app.dataFields": "Champs de Données",
+    "app.sortByValue": "Trier par Valeur",
+    "app.tabManual": "Manuel",
+    "app.tabPaste": "Coller Texte",
+    "app.tabUpload": "Téléverser Fichier",
+    "app.pieChart": "Camembert",
+    "app.donutChart": "Anneau (Donut)",
+    "app.toggle3D": "Vue Isométrique 3D",
+    "app.showLabels": "Afficher les Étiquettes",
+    "app.resetView": "Réinitialiser",
+    "app.saveDraft": "Sauvegarder Brouillon",
+    "app.copyLink": "Copier Lien"
+  },
+  "faqs": [
+    {
+      "question": "Comment créer un graphique camembert en ligne gratuitement ?",
+      "answer": "Saisissez simplement vos catégories et leurs valeurs dans l'éditeur, ou glissez-déposez un fichier CSV/Excel. Votre camembert graphique ou diagramme circulaire se met à jour en temps réel sans inscription."
+    },
+    {
+      "question": "Comment formater et personnaliser les étiquettes et pourcentages ?",
+      "answer": "Accédez aux réglages pour afficher automatiquement les étiquettes avec pourcentages calculés, sélectionner votre police de caractères préférée et attribuer des teintes sur mesure à chaque tranche."
+    },
+    {
+      "question": "Comment exporter et sauvegarder le graphique sans filigrane ?",
+      "answer": "Cliquez sur 'Télécharger PNG' pour une image haute résolution idéale pour vos documents, ou sur 'Télécharger SVG' pour un fichier vectoriel net et infiniment agrandissable, 100% gratuit et sans aucune marque d'eau."
+    }
+  ]
+}
+
