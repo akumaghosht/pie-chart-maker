@@ -32,6 +32,7 @@ const t = (key: string) => translations[key] ?? defaultT(key as any);
   class="max-w-[1400px] mx-auto px-4 sm:px-6 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
   data-lang={currentLang}
   data-initial-3d={initial3D ? "true" : undefined}
+  data-initial-is-3d={initial3D ? "true" : undefined}
   data-initial-data={initialData ? JSON.stringify(initialData) : undefined}
   data-initial-title={initialTitle || ""}
   data-initial-subtitle={initialSubtitle || ""}
@@ -2090,14 +2091,8 @@ const t = (key: string) => translations[key] ?? defaultT(key as any);
 
   // --- Exports (SVG, PNG, PDF) ---
 
-  function serializeSvg(svgEl) {
+  function serializeSvgElement(svgClone) {
     const serializer = new XMLSerializer();
-    const svgClone = svgEl.cloneNode(true);
-    const vw = svgEl.viewBox?.baseVal?.width || 720;
-    const vh = svgEl.viewBox?.baseVal?.height || 520;
-    svgClone.setAttribute("width", vw.toString());
-    svgClone.setAttribute("height", vh.toString());
-    
     let svgString = serializer.serializeToString(svgClone);
     
     const style = getComputedStyle(svgViewport);
@@ -2107,17 +2102,112 @@ const t = (key: string) => translations[key] ?? defaultT(key as any);
       return val.replace(/"([^"]+)"/g, '$1');
     };
     svgString = svgString.replace(/var\(--font-sans\)/g, resolveFont("--font-sans", "Inter, system-ui, sans-serif"));
-    svgString = svgString.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
+    svgString = svgString.replace(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/g, "&amp;");
     return svgString;
   }
 
+  function serializeSvg(svgEl) {
+    const svgClone = svgEl.cloneNode(true);
+    const vw = svgEl.viewBox?.baseVal?.width || 720;
+    const vh = svgEl.viewBox?.baseVal?.height || 520;
+    svgClone.setAttribute("width", vw.toString());
+    svgClone.setAttribute("height", vh.toString());
+    
+    // Clean root attributes for standalone SVG export (removes overlay/off-screen positioning)
+    svgClone.removeAttribute("style");
+    svgClone.removeAttribute("class");
+    svgClone.removeAttribute("id");
+    svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+    return serializeSvgElement(svgClone);
+  }
+
   function prepareSvgForExport(keepOverlayOnly = false) {
-    if (chartConfig.is3D && !keepOverlayOnly) {
-      // Standalone vector SVG export in 3D mode: render full standalone vector SVG with faux-3D slices
+    if (chartConfig.is3D && three3DInstance && !keepOverlayOnly) {
+      // 1. High-resolution capture (1440x1040 at 2x) from Three.js WebGL canvas matching current camera position, rotation, and angle
+      const exportW = 1440;
+      const exportH = 1040;
+      const dataUrl = three3DInstance.captureImage(exportW, exportH);
+
+      // 2. Clone the live SVG viewport (which already contains Title, Subtitle, Legend, Source,
+      // and dynamic 3D-projected labels at the exact matching positions)
+      const svgClone = svgViewport.cloneNode(true);
+      const vw = svgViewport.viewBox?.baseVal?.width || 720;
+      const vh = svgViewport.viewBox?.baseVal?.height || 520;
+      svgClone.setAttribute("width", vw.toString());
+      svgClone.setAttribute("height", vh.toString());
+      svgClone.removeAttribute("style");
+      svgClone.removeAttribute("class");
+      svgClone.removeAttribute("id");
+      svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      svgClone.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+
+      // 3. Ensure defs block exists
+      let defs = svgClone.querySelector("defs");
+      if (!defs) {
+        defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        svgClone.insertBefore(defs, svgClone.firstChild);
+      }
+
+      // 4. Background rect (if not transparent)
+      const bg = chartConfig.backgroundColor !== undefined ? chartConfig.backgroundColor : "#ffffff";
+      let bgRect = null;
+      if (bg && bg.includes("linear-gradient")) {
+        const matches = bg.match(/#[0-9a-fA-F]{3,8}/g);
+        if (matches && matches.length >= 2) {
+          const grad = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+          grad.setAttribute("id", "chart-export-bg-gradient");
+          grad.setAttribute("x1", "0%");
+          grad.setAttribute("y1", "0%");
+          grad.setAttribute("x2", "100%");
+          grad.setAttribute("y2", "100%");
+          matches.forEach((color, i) => {
+            const stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            const offset = i === 0 ? "0%" : i === matches.length - 1 ? "100%" : `${(i / (matches.length - 1)) * 100}%`;
+            stop.setAttribute("offset", offset);
+            stop.setAttribute("stop-color", color);
+            grad.appendChild(stop);
+          });
+          defs.appendChild(grad);
+          bgRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          bgRect.setAttribute("width", "100%");
+          bgRect.setAttribute("height", "100%");
+          bgRect.setAttribute("fill", "url(#chart-export-bg-gradient)");
+        }
+      } else if (bg && bg !== "transparent") {
+        bgRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        bgRect.setAttribute("width", "100%");
+        bgRect.setAttribute("height", "100%");
+        bgRect.setAttribute("fill", bg);
+      }
+
+      // 5. Embedded 3D render image element (positioned behind text & labels)
+      const imgEl = document.createElementNS("http://www.w3.org/2000/svg", "image");
+      imgEl.setAttribute("href", dataUrl);
+      imgEl.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", dataUrl);
+      imgEl.setAttribute("x", "0");
+      imgEl.setAttribute("y", "0");
+      imgEl.setAttribute("width", vw.toString());
+      imgEl.setAttribute("height", vh.toString());
+      imgEl.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+      // Insert background and 3D image right after defs (before titles, labels, and legends)
+      const insertTarget = defs.nextSibling;
+      if (bgRect) {
+        svgClone.insertBefore(bgRect, insertTarget);
+      }
+      svgClone.insertBefore(imgEl, insertTarget);
+
+      return serializeSvgElement(svgClone);
+    } else if (chartConfig.is3D && !three3DInstance && !keepOverlayOnly) {
+      // Fallback if WebGL 3D instance is not available
       const tempSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       tempSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
       tempSvg.style.position = "absolute";
       tempSvg.style.left = "-9999px";
+      tempSvg.style.top = "0";
+      tempSvg.style.width = "720px";
+      tempSvg.style.height = "520px";
       document.body.appendChild(tempSvg);
       renderChart(tempSvg, chartData, { ...chartConfig, isWebGL3D: false });
       const res = serializeSvg(tempSvg);
@@ -2535,7 +2625,8 @@ const t = (key: string) => translations[key] ?? defaultT(key as any);
     }
 
     // If initial3D was preset on container (and not overridden by shared hash), enforce 3D isometric mode
-    if (wsContainer?.dataset?.initial3d === "true" && (!hash || !hash.startsWith("#state="))) {
+    const isPreset3D = wsContainer?.dataset?.initial3d === "true" || wsContainer?.dataset?.["initial-3d"] === "true" || wsContainer?.dataset?.initialIs3d === "true" || wsContainer?.getAttribute("data-initial-3d") === "true";
+    if (isPreset3D && (!hash || !hash.startsWith("#state="))) {
       chartConfig.is3D = true;
       chartConfig.tilt = chartConfig.tilt ?? 0.6;
       chartConfig.height3D = chartConfig.height3D ?? 35;

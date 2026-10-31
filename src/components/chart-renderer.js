@@ -31,7 +31,7 @@ export function renderChart(svg, data, config) {
   const total = validData.reduce((sum, d) => sum + d.value, 0);
 
   if (total === 0) {
-    renderEmptyState(svg);
+    renderEmptyState(svg, config);
     return;
   }
 
@@ -402,11 +402,7 @@ export function renderChart(svg, data, config) {
           const arcLarge = (arcEnd - arcStart) > Math.PI ? 1 : 0;
           const arcMid = (arcStart + arcEnd) / 2;
 
-          const dWall = `M ${p1.x} ${p1.y} 
-                         A ${rx} ${ry} 0 ${arcLarge} 1 ${p2.x} ${p2.y} 
-                         L ${p2.x} ${p2.y + height3D} 
-                         A ${rx} ${ry} 0 ${arcLarge} 0 ${p1.x} ${p1.y + height3D} 
-                         Z`;
+          const dWall = `M ${p1.x} ${p1.y} A ${rx} ${ry} 0 ${arcLarge} 1 ${p2.x} ${p2.y} L ${p2.x} ${p2.y + height3D} A ${rx} ${ry} 0 ${arcLarge} 0 ${p1.x} ${p1.y + height3D} Z`;
 
           // Base solid body color
           const outerWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -448,11 +444,7 @@ export function renderChart(svg, data, config) {
           const arcLarge = (arcEnd - arcStart) > Math.PI ? 1 : 0;
           const arcMid = (arcStart + arcEnd) / 2;
 
-          const dInner = `M ${i1.x} ${i1.y} 
-                          A ${rx * donutHole} ${ry * donutHole} 0 ${arcLarge} 1 ${i2.x} ${i2.y} 
-                          L ${i2.x} ${i2.y + height3D} 
-                          A ${rx * donutHole} ${ry * donutHole} 0 ${arcLarge} 0 ${i1.x} ${i1.y + height3D} 
-                          Z`;
+          const dInner = `M ${i1.x} ${i1.y} A ${rx * donutHole} ${ry * donutHole} 0 ${arcLarge} 1 ${i2.x} ${i2.y} L ${i2.x} ${i2.y + height3D} A ${rx * donutHole} ${ry * donutHole} 0 ${arcLarge} 0 ${i1.x} ${i1.y + height3D} Z`;
 
           const innerWall = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           innerWall.setAttribute('d', dInner);
@@ -961,7 +953,7 @@ export function renderChart(svg, data, config) {
   }
 }
 
-function renderEmptyState(svg) {
+function renderEmptyState(svg, config = {}) {
   const inkColor = getCSSVar(svg, "--cl-ink");
   const muteColor = getCSSVar(svg, "--cl-mute");
   const hairlineColor = getCSSVar(svg, "--cl-hairline");
